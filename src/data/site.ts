@@ -2,27 +2,32 @@
 // Los valores entre corchetes son marcadores: sustitúyelos por los reales antes de publicar.
 export const company = {
   name: "Aerovantia",
-  legalName: "[Razón social S.L.]",
-  cif: "[B-00000000]",
-  address: "[Domicilio social]",
-  registry: "[provincia]",
-  phone: "[+34 600 000 000]",
-  email: "[hola@aerovantia.es]",
-  hours: "L–V 9:00–19:00 · S 10:00–14:00",
+  legalName: "Euforico Equilibrio S.L.",
+  cif: "B45917622",
+  founded: "2019-11-15",
+  foundedYear: 2019,
+  locality: "Olías del Rey",
+  region: "Toledo",
+  address: "Olías del Rey (Toledo)",
+  registry: "[datos de inscripción en el Registro Mercantil]",
+  phones: [
+    { display: "689 042 717", tel: "+34689042717" },
+    { display: "626 731 467", tel: "+34626731467" },
+  ],
+  email: "info@aerovantia.es",
 };
 
+export const phone = company.phones[0];
+
 export const services = [
-  { href: "/aerotermia/", label: "Aerotermia" },
-  { href: "/placas-solares/", label: "Placas solares" },
   { href: "/reformas-de-lujo/", label: "Reformas" },
   { href: "/obra-nueva/", label: "Obra nueva" },
+  { href: "/interiorismo/", label: "Interiorismo" },
+  { href: "/aerotermia/", label: "Aerotermia" },
+  { href: "/placas-solares/", label: "Placas solares" },
 ];
 
-export const nav = [
-  ...services,
-  { href: "/#calculadoras", label: "Calculadoras" },
-  { href: "/#ayudas", label: "Ayudas" },
-];
+export const nav = [...services, { href: "/#calculadoras", label: "Calculadoras" }];
 
 export const legal = [
   { href: "/aviso-legal/", label: "Aviso legal" },

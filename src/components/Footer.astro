@@ -6,9 +6,14 @@ import { company, legal, services } from "../data/site";
   <div class="wrap">
     <div>
       <a class="logo" href="/">AEROVANTIA<span>.</span></a>
-      <p style="margin-top:10px;max-width:40ch">
-        {company.legalName} · CIF {company.cif} · {company.address} · Inscrita en el Registro Mercantil de {company.registry}.
+      <p style="margin-top:10px;max-width:42ch">
+        Reformas, obra nueva, interiorismo, aerotermia y placas solares en Toledo y el sur de Madrid desde {company.foundedYear}.
       </p>
+      <p style="margin-top:10px">
+        {company.phones.map((p, i) => <>{i > 0 && " · "}<a href={`tel:${p.tel}`}>{p.display}</a></>)}<br />
+        <a href={`mailto:${company.email}`}>{company.email}</a>
+      </p>
+      <p style="margin-top:10px;font-size:.8rem">{company.name} es una marca de {company.legalName} · NIF {company.cif} · {company.address}</p>
     </div>
     <div>
       <strong>Servicios</strong>
@@ -18,7 +23,7 @@ import { company, legal, services } from "../data/site";
       <strong>Aerovantia</strong>
       <ul>
         <li><a href="/#calculadoras">Calculadoras</a></li>
-        <li><a href="/#ayudas">Ayudas</a></li>
+        <li><a href="/#ayudas">Ayudas y subvenciones</a></li>
         <li><a href="/#zona">Zona de trabajo</a></li>
         <li><a href="/#contacto">Contacto</a></li>
       </ul>

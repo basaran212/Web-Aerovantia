@@ -1,1 +1,5 @@
-<div class="mbar"><a class="btn btn-ghost" href="/#calculadoras">Calcular</a><a class="btn btn-primary" href="/#contacto">Estudio gratis</a></div>
+---
+import { phone } from "../data/site";
+---
+
+<div class="mbar"><a class="btn btn-ghost" href={`tel:${phone.tel}`}>Llamar</a><a class="btn btn-primary" href="/#contacto">Estudio gratis</a></div>

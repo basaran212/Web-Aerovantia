@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { services } from "../data/site";
+import { phone, services } from "../data/site";
 
 export interface Faq {
   q: string;
@@ -68,6 +68,7 @@ const schema = [
         <div class="hero-ctas">
           <a class="btn btn-primary" href="/#contacto">Pedir estudio gratuito</a>
           {p.calc && <a class="btn btn-ghost" href={`/?calc=${p.calc}#calculadoras`}>Calcular mi proyecto</a>}
+          <a class="btn btn-ghost" href={`tel:${phone.tel}`}>Llamar al {phone.display}</a>
         </div>
       </div>
     </section>
@@ -108,16 +109,19 @@ const schema = [
     <section class="cta-band">
       <div class="wrap">
         <div class="sec-head" style="margin:0">
-          <h2>Estudio técnico gratuito en 48 h.</h2>
-          <p>Visitamos tu casa, revisamos tus facturas y te damos un precio cerrado con las ayudas calculadas.</p>
+          <h2>Estudio gratuito y sin compromiso.</h2>
+          <p>Visitamos tu casa, revisamos tu proyecto y te damos un precio cerrado con las ayudas calculadas.</p>
         </div>
-        <a class="btn btn-primary" href="/#contacto" style="background:#F3F6F6;color:#0E1C22">Pedir estudio gratuito</a>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="/#contacto" style="background:#F3F6F6;color:#0E1C22">Pedir estudio gratuito</a>
+          <a class="btn btn-ghost" href={`tel:${phone.tel}`} style="color:#F3F6F6;border-color:rgba(243,246,246,.4)">Llamar al {phone.display}</a>
+        </div>
       </div>
     </section>
 
     <section>
       <div class="wrap">
-        <div class="sec-head"><p class="eyebrow">Otros servicios</p><h2>Energía y diseño, en una sola obra.</h2></div>
+        <div class="sec-head"><p class="eyebrow">Otros servicios</p><h2>Reformas, obra nueva y energía, en una sola obra.</h2></div>
         <div class="cards">
           {services.filter((s) => s.href !== path).map((s) => (
             <a class="card" href={s.href} style="text-decoration:none"><h3>{s.label}</h3><span class="more" style="color:var(--accent)">Ver {s.label.toLowerCase()} <span aria-hidden="true">→</span></span></a>

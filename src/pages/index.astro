@@ -3,6 +3,9 @@ import Layout from "../layouts/Layout.astro";
 import { company } from "../data/site";
 
 const faqs = [
+  { q: "¿Hacéis reformas, obra nueva e interiorismo, o solo instalaciones?", a: "Las tres cosas. Hacemos reformas integrales, obra nueva e interiorismo, y además integramos la aerotermia, el suelo radiante y las placas solares en la misma obra, con un único responsable y un único presupuesto." },
+  { q: "¿En qué zonas trabajáis?", a: "Tenemos la oficina en Olías del Rey (Toledo) y trabajamos en Toledo, La Sagra (Illescas, Seseña, Yuncos, Esquivias…) y el sur y oeste de Madrid (Getafe, Leganés, Móstoles, Boadilla, Villaviciosa de Odón…). Si tu municipio no está en la lista, pregúntanos." },
+  { q: "¿Cuánto cuesta el estudio?", a: "Nada. La visita técnica y la propuesta con precio cerrado son gratuitas y sin compromiso." },
   { q: "¿La aerotermia funciona con mis radiadores?", a: "Con radiadores de baja temperatura o sobredimensionados, sí. Con radiadores convencionales a veces hay que cambiar algunos. Si reformas, lo ideal es suelo radiante." },
   { q: "¿Cuánto dura una reforma integral?", a: "Entre 3 y 6 meses según superficie y nivel de acabados. Te damos un calendario por fases y penalizaciones por retraso en el contrato." },
   { q: "¿Puedo vivir en la casa durante la obra?", a: "En cocinas, baños o instalaciones energéticas, normalmente sí. En una reforma integral recomendamos no hacerlo; planificamos fases si no hay alternativa." },
@@ -34,9 +37,9 @@ const schema = [
       </div>
       <div class="intro" id="intro">
         <div class="wrap"><div class="inner">
-          <p class="eyebrow">Sur de Madrid · La Sagra · Toledo</p>
-          <h1>Tu casa, más eficiente y más bella.</h1>
-          <p class="lede">Aerotermia, placas solares y reformas de lujo para chalets. Un solo equipo diseña la energía y los espacios a la vez, con precio cerrado y las ayudas tramitadas.</p>
+          <p class="eyebrow">Toledo · La Sagra · Madrid sur · Desde 2019</p>
+          <h1>Reformas, obra nueva y aerotermia en Toledo y Madrid&nbsp;sur.</h1>
+          <p class="lede">Tu casa, más eficiente y más bella. Reformas integrales, obra nueva, interiorismo, aerotermia y placas solares con un solo equipo, precio cerrado y las ayudas tramitadas.</p>
           <div class="hero-ctas"><a class="btn btn-primary" href="#contacto">Pedir estudio gratuito</a><a class="btn btn-ghost" href="#calculadoras">Calcular mi proyecto</a></div>
         </div></div>
       </div>
@@ -54,7 +57,7 @@ const schema = [
   </section>
 
   <div class="marquee" aria-hidden="true"><div class="track" id="mq">
-    <span>Aerotermia R290</span><span>Placas solares N-type</span><span>Reformas integrales</span><span>Baterías</span><span>Cocinas a medida</span><span>Suelo radiante</span><span>Recarga VE</span><span>Baños de piedra natural</span><span>Interiorismo</span>
+    <span>Reformas integrales</span><span>Obra nueva</span><span>Interiorismo</span><span>Aerotermia</span><span>Placas solares</span><span>Cocinas a medida</span><span>Suelo radiante</span><span>Baños de piedra natural</span><span>Baterías y recarga VE</span>
   </div></div>
 
   <div class="deadline">
@@ -68,29 +71,37 @@ const schema = [
   <section id="servicios">
     <div class="wrap">
       <div class="sec-head reveal">
-        <p class="eyebrow">Servicios</p>
-        <h2>Energía y diseño, proyectados juntos.</h2>
-        <p class="lede">Cuando reformas, es el momento de esconder el suelo radiante, colocar la aerotermia y preparar la cubierta para las placas. Lo hacemos en una sola obra.</p>
+        <p class="eyebrow">Qué hacemos</p>
+        <h2>Construimos, reformamos y hacemos eficiente tu casa. Todo en una sola obra.</h2>
+        <p class="lede">Reformas integrales, obra nueva e interiorismo con la aerotermia y las placas solares ya integradas. Un único responsable, un único presupuesto y una casa que gasta menos desde el primer día.</p>
       </div>
       <div class="lines">
-        <article class="line reveal"><canvas data-scene="heat"></canvas><div class="body"><span class="tag">AEROTERMIA</span><h3>Calefacción, frío y agua caliente</h3><p>Bomba de calor R290 que sustituye la caldera y reduce la factura hasta un 70&nbsp;%.</p><ul><li>Daikin · Vaillant · Bosch · BAXI</li><li>Suelo radiante o fancoils</li></ul><a class="more" href="/aerotermia/">Ver aerotermia <span aria-hidden="true">→</span></a></div></article>
-        <article class="line reveal"><canvas data-scene="sun"></canvas><div class="body"><span class="tag">SOLAR + BATERÍA + VE</span><h3>Tu propia energía</h3><p>Placas de alta eficiencia, batería y cargador del coche, calculados con tu consumo real.</p><ul><li>Huawei · SolarEdge · Fronius</li><li>BYD · Tesla Powerwall · Wallbox</li></ul><a class="more" href="/placas-solares/">Ver placas solares <span aria-hidden="true">→</span></a></div></article>
-        <article class="line reveal"><canvas data-scene="lux"></canvas><div class="body"><span class="tag">REFORMAS DE LUJO</span><h3>Espacios a medida</h3><p>Reformas integrales, cocinas, baños e interiorismo con materiales nobles y dirección de obra propia.</p><ul><li>Piedra natural · roble · latón</li><li>Proyecto, licencia y llave en mano</li></ul><a class="more" href="/reformas-de-lujo/">Ver reformas <span aria-hidden="true">→</span></a></div></article>
+        <article class="line reveal"><canvas data-scene="lux"></canvas><div class="body"><span class="tag">REFORMAS INTEGRALES</span><h3>Reformas de lujo, llave en mano</h3><p>Reformas integrales de chalets y viviendas: cocinas, baños y distribución, con materiales nobles y dirección de obra propia.</p><ul><li>Piedra natural · roble · latón</li><li>Proyecto, licencia y llave en mano</li></ul><a class="more" href="/reformas-de-lujo/">Ver reformas <span aria-hidden="true">→</span></a></div></article>
+        <article class="line reveal"><canvas data-scene="heat"></canvas><div class="body"><span class="tag">AEROTERMIA</span><h3>Calefacción, frío y agua caliente</h3><p>Sustituye tu caldera por una bomba de calor R290 y ahorra hasta un 70&nbsp;% en climatización.</p><ul><li>Daikin · Vaillant · Bosch · BAXI</li><li>Suelo radiante o fancoils</li></ul><a class="more" href="/aerotermia/">Ver aerotermia <span aria-hidden="true">→</span></a></div></article>
+        <article class="line reveal"><canvas data-scene="sun"></canvas><div class="body"><span class="tag">PLACAS SOLARES + BATERÍA + VE</span><h3>Produce tu propia energía</h3><p>Placas de alta eficiencia, batería y cargador del coche, calculados con tu consumo real.</p><ul><li>Huawei · SolarEdge · Fronius</li><li>BYD · Tesla Powerwall · Wallbox</li></ul><a class="more" href="/placas-solares/">Ver placas solares <span aria-hidden="true">→</span></a></div></article>
       </div>
-      <a class="newbuild reveal" href="/obra-nueva/">
-        <div><span class="tag">OBRA NUEVA Y PROMOTORES</span><h3>Viviendas nuevas, eficientes desde el plano.</h3></div>
-        <p>Aerotermia, suelo radiante, fotovoltaica y recarga diseñados junto al proyecto de arquitectura, para chalets y promociones de nueva construcción.</p>
-        <span class="more">Ver obra nueva <span aria-hidden="true">→</span></span>
-      </a>
+      <div class="bands">
+        <a class="newbuild reveal" href="/obra-nueva/">
+          <div><span class="tag">OBRA NUEVA Y PROMOTORES</span><h3>Tu casa nueva, eficiente desde el plano.</h3></div>
+          <p>Construcción de chalets y viviendas unifamiliares con aerotermia, suelo radiante y fotovoltaica diseñados junto al proyecto. También para promotores.</p>
+          <span class="more">Ver obra nueva <span aria-hidden="true">→</span></span>
+        </a>
+        <a class="newbuild reveal" href="/interiorismo/">
+          <div><span class="tag">INTERIORISMO</span><h3>Diseño interior con proyecto 3D.</h3></div>
+          <p>Distribución, materiales, iluminación y mobiliario a medida. Ves tu casa terminada antes de empezar la obra.</p>
+          <span class="more">Ver interiorismo <span aria-hidden="true">→</span></span>
+        </a>
+      </div>
     </div>
   </section>
 
   <section id="reformas" class="ref">
     <div class="wrap">
       <div class="sec-head reveal">
-        <p class="eyebrow">Reformas de lujo</p>
+        <p class="eyebrow">Reformas integrales e interiorismo</p>
         <h2>De casa anticuada a casa de revista.</h2>
         <p class="lede">Desliza para ver la diferencia. Quitamos radiadores y caldera, abrimos espacios, metemos suelo radiante bajo la madera y dejamos la casa lista para producir su propia energía.</p>
+        <p><a class="btn btn-ghost" href="/reformas-de-lujo/" style="color:var(--band-ink);border-color:color-mix(in srgb,var(--band-ink) 35%,transparent)">Ver reformas</a> <a class="btn btn-ghost" href="/interiorismo/" style="color:var(--band-ink);border-color:color-mix(in srgb,var(--band-ink) 35%,transparent)">Ver interiorismo</a></p>
       </div>
       <div class="ref-grid">
         <div class="ba reveal" id="ba">
@@ -251,7 +262,7 @@ const schema = [
 
   <section class="guar">
     <div class="wrap">
-      <div class="sec-head"><p class="eyebrow">Compromisos</p><h2>Lo que firmamos contigo.</h2></div>
+      <div class="sec-head"><p class="eyebrow">Compromisos</p><h2>Desde 2019, lo que firmamos contigo.</h2></div>
       <div class="guar-grid">
         <div><h3>Precio cerrado</h3><p>El precio de la propuesta es el que pagas. Sin extras al terminar.</p></div>
         <div><h3>Un único interlocutor</h3><p>Un responsable de proyecto de la visita a la entrega de llaves.</p></div>
@@ -263,7 +274,7 @@ const schema = [
 
   <section id="zona">
     <div class="wrap">
-      <div class="sec-head reveal"><p class="eyebrow">Zona de trabajo</p><h2>Trabajamos donde vives.</h2><p class="lede">Nuestros proveedores tienen almacén en Getafe, Leganés, Móstoles y Torrijos: respuesta rápida y repuestos cerca.</p></div>
+      <div class="sec-head reveal"><p class="eyebrow">Zona de trabajo</p><h2>Reformas y aerotermia en Toledo y el sur de Madrid.</h2><p class="lede">Con oficina en Olías del Rey (Toledo), trabajamos en toda La Sagra, Toledo y el sur y oeste de Madrid. Si tu municipio no aparece, pregúntanos.</p></div>
       <div class="zones">
         <div><h3>Madrid sur y oeste</h3><ul><li>Boadilla del Monte</li><li>Villaviciosa de Odón</li><li>Villanueva de la Cañada</li><li>Brunete</li><li>Alcorcón</li><li>Móstoles</li><li>Arroyomolinos</li><li>Navalcarnero</li><li>Fuenlabrada</li><li>Getafe</li><li>Leganés</li><li>Parla</li><li>Griñón</li><li>Valdemoro</li></ul></div>
         <div><h3>Toledo y La Sagra</h3><ul><li>Seseña</li><li>Illescas</li><li>Yeles</li><li>Esquivias</li><li>Ugena</li><li>Yuncos</li><li>Numancia de la Sagra</li><li>Cabañas de la Sagra</li><li>Bargas</li><li>Olías del Rey</li><li>Toledo</li><li>Torrijos</li></ul></div>
@@ -283,11 +294,11 @@ const schema = [
   <section id="contacto" class="calc">
     <div class="wrap contact-grid">
       <div>
-        <div class="sec-head" style="margin:0"><p class="eyebrow">Estudio gratuito</p><h2>Cuéntanos tu proyecto.</h2><p class="lede">Te llamamos en menos de 24 h laborables para concertar la visita. Sin compromiso.</p></div>
+        <div class="sec-head" style="margin:0"><p class="eyebrow">Estudio gratuito</p><h2>Pide tu estudio gratuito.</h2><p class="lede">Déjanos tus datos y te llamamos en menos de 24 h laborables para concertar la visita. O, si lo prefieres, llámanos ahora al <a href={`tel:${company.phones[0].tel}`}>{company.phones[0].display}</a>.</p></div>
         <div class="contact-points">
-          <div><span class="k">Teléfono y WhatsApp</span><span class="v">{company.phone}</span></div>
-          <div><span class="k">Email</span><span class="v">{company.email}</span></div>
-          <div><span class="k">Horario</span><span class="v">{company.hours}</span></div>
+          <div><span class="k">Teléfonos</span><span class="v">{company.phones.map((p, i) => <>{i > 0 && " · "}<a href={`tel:${p.tel}`}>{p.display}</a></>)}</span></div>
+          <div><span class="k">Email</span><span class="v"><a href={`mailto:${company.email}`}>{company.email}</a></span></div>
+          <div><span class="k">Oficina</span><span class="v">{company.address}</span></div>
         </div>
       </div>
       <form class="lead" id="leadForm" novalidate>
@@ -300,12 +311,13 @@ const schema = [
         <fieldset>
           <legend style="font-size:.88rem;font-weight:600">Me interesa</legend>
           <div class="pills">
-            <label><input type="checkbox" id="i-aero" checked> Aerotermia</label>
+            <label><input type="checkbox" id="i-ref"> Reforma</label>
+            <label><input type="checkbox" id="i-new"> Obra nueva</label>
+            <label><input type="checkbox" id="i-int"> Interiorismo</label>
+            <label><input type="checkbox" id="i-aero"> Aerotermia</label>
             <label><input type="checkbox" id="i-pv"> Placas solares</label>
             <label><input type="checkbox" id="i-bat"> Batería</label>
             <label><input type="checkbox" id="i-ev"> Cargador VE</label>
-            <label><input type="checkbox" id="i-ref"> Reforma</label>
-            <label><input type="checkbox" id="i-int"> Interiorismo</label>
           </div>
         </fieldset>
         <label class="chk" for="f-rgpd"><input type="checkbox" id="f-rgpd" required> <span>He leído la <a href="/privacidad/">política de privacidad</a> y acepto que Aerovantia me contacte para preparar el estudio.</span></label>

@@ -271,6 +271,8 @@ requestAnimationFrame(loop);
 
 /* ===== CALCULADORAS ===== */
 let lastCalc={tipo:'aero'};
+// Solo se adjunta al formulario el cálculo que el cliente ha decidido enviar.
+let calcShared=null;
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.tab').forEach(o=>{const on=o===b;o.setAttribute('aria-selected',on);$('p-'+o.dataset.k).hidden=!on});
 }));
@@ -337,21 +339,37 @@ calcA();calcS();calcR();calcA();
 // Pasar el cálculo al formulario
 document.querySelectorAll('[data-from]').forEach(a=>a.addEventListener('click',()=>{
   const k=a.dataset.from;({aero:calcA,solar:calcS,ref:calcR})[k]();
+  calcShared=lastCalc;
   $('f-calc').textContent='Tu cálculo: '+lastCalc.tipo+' — '+lastCalc.resumen+'. Lo usaremos para preparar tu estudio.';$('f-calc').hidden=false;
-  $('i-aero').checked=k==='aero';$('i-pv').checked=k==='solar';$('i-bat').checked=k==='solar'&&$('s-bat').checked;$('i-ref').checked=k==='ref';$('i-int').checked=k==='ref'&&$('r-proj').checked;
+  $('i-aero').checked=k==='aero';if($('i-new'))$('i-new').checked=false;$('i-pv').checked=k==='solar';$('i-bat').checked=k==='solar'&&$('s-bat').checked;$('i-ref').checked=k==='ref';$('i-int').checked=k==='ref'&&$('r-proj').checked;
 }));
 
-// Formulario: en producción, POST a webhook de Make -> CRM
+// Formulario: si hay webhook (PUBLIC_LEAD_WEBHOOK_URL) se envía por POST; si no, se abre el
+// correo del cliente con la solicitud ya redactada para que no se pierda ningún contacto.
 const WEBHOOK_URL=import.meta.env.PUBLIC_LEAD_WEBHOOK_URL||'';
+const LEAD_EMAIL='info@aerovantia.es';
+const INTEREST={aero:'Aerotermia',pv:'Placas solares',bat:'Batería',ev:'Cargador VE',ref:'Reforma',int:'Interiorismo',new:'Obra nueva'};
 $('leadForm').addEventListener('submit',async e=>{e.preventDefault();
-  const err=$('f-err'),ok=$('f-ok');err.hidden=true;ok.hidden=true;
+  const err=$('f-err'),ok=$('f-ok'),btn=e.submitter||$('leadForm').querySelector('button[type=submit]');err.hidden=true;ok.hidden=true;
   const name=$('f-name').value.trim(),phone=$('f-phone').value.replace(/\s/g,''),town=$('f-town').value.trim();
   if(!name||!town){err.textContent='Indica tu nombre y municipio.';err.hidden=false;return}
   if(!/^(\+34)?[6789]\d{8}$/.test(phone)){err.textContent='Revisa el teléfono: 9 cifras, empezando por 6, 7, 8 o 9.';err.hidden=false;return}
   if(!$('f-rgpd').checked){err.textContent='Necesitamos tu consentimiento para poder llamarte.';err.hidden=false;return}
-  const payload={name,phone,town,interest:['aero','pv','bat','ev','ref','int'].filter(k=>$('i-'+k).checked),calc:lastCalc,ts:new Date().toISOString()};
-  if(WEBHOOK_URL){try{await fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});ok.textContent='Gracias, '+name.split(' ')[0]+'. Te llamamos en menos de 24 h laborables.'}
-    catch(_){err.textContent='No se ha podido enviar. Escríbenos por WhatsApp.';err.hidden=false;return}}
-  else ok.textContent='Vista previa: el formulario está validado pero aún no conectado. En la web real, esta solicitud entraría en el CRM vía Make con el cálculo adjunto.';
+  const interest=Object.keys(INTEREST).filter(k=>$('i-'+k)?.checked);
+  const payload={name,phone,town,interest:interest.map(k=>INTEREST[k]),calc:calcShared,page:location.href,ts:new Date().toISOString()};
+  const first=name.split(' ')[0];
+  if(WEBHOOK_URL){
+    if(btn.disabled)return;btn.disabled=true;
+    try{const r=await fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});if(!r.ok)throw new Error(r.status);
+      ok.textContent='Gracias, '+first+'. Te llamamos en menos de 24 h laborables.';$('leadForm').reset()}
+    catch(_){err.textContent='No se ha podido enviar. Llámanos al 689 042 717 o escribe a '+LEAD_EMAIL+'.';err.hidden=false;btn.disabled=false;return}
+  }else{
+    const lines=['Nombre: '+name,'Teléfono: '+phone,'Municipio: '+town,'Me interesa: '+(payload.interest.join(', ')||'—')];
+    if(calcShared)lines.push('Mi cálculo: '+calcShared.tipo+' — '+calcShared.resumen);
+    lines.push('','Acepto la política de privacidad para que Aerovantia me contacte.');
+    const body=lines.join('\n');
+    location.href='mailto:'+LEAD_EMAIL+'?subject='+encodeURIComponent('Estudio gratuito — '+name+' ('+town+')')+'&body='+encodeURIComponent(body);
+    ok.textContent='Se ha abierto tu correo con la solicitud lista: solo tienes que enviarla. Si prefieres, llámanos al 689 042 717.';
+  }
   ok.hidden=false;});
 })();

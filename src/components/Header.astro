@@ -1,5 +1,5 @@
 ---
-import { nav } from "../data/site";
+import { nav, phone } from "../data/site";
 
 const path = Astro.url.pathname;
 ---
@@ -13,6 +13,7 @@ const path = Astro.url.pathname;
       ))}
     </nav>
     <div class="top-actions">
+      <a class="tel" href={`tel:${phone.tel}`} aria-label={`Llamar al ${phone.display}`}>{phone.display}</a>
       <a class="btn btn-primary" href="/#contacto">Estudio gratuito</a>
       <button class="burger" type="button" popovertarget="mnav" aria-label="Abrir menú">
         <span></span><span></span>
@@ -26,6 +27,7 @@ const path = Astro.url.pathname;
       <a href={item.href} aria-current={path === item.href ? "page" : undefined}>{item.label}</a>
     ))}
     <a class="btn btn-primary" href="/#contacto">Pedir estudio gratuito</a>
+    <a class="btn btn-ghost" href={`tel:${phone.tel}`}>Llamar al {phone.display}</a>
   </nav>
 </header>
 

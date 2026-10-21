@@ -34,6 +34,6 @@ Si está vacía, el formulario valida los datos pero no envía nada.
 
 ## Pendiente antes de publicar
 
-- Teléfono, email y datos legales: marcadores entre corchetes en `src/data/site.ts` (y algún dato más en las páginas legales).
+- Datos de inscripción en el Registro Mercantil (marcador en `src/data/site.ts`).
 - Revisión de las páginas legales por un asesor.
 - Conectar el formulario (ver arriba).

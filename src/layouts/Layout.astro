@@ -18,8 +18,8 @@ interface Props {
 }
 
 const {
-  title = "Aerovantia · Aerotermia, placas solares y reformas de lujo",
-  description = "Aerotermia, placas solares y reformas de lujo para chalets en el sur de Madrid y La Sagra (Toledo). Estudio gratuito en 48 h, precio cerrado y gestión de ayudas IRPF y CAE.",
+  title = "Reformas, obra nueva y aerotermia · Toledo y Madrid | Aerovantia",
+  description = "Reformas integrales, obra nueva, interiorismo, aerotermia y placas solares en Toledo y Madrid sur. Un solo equipo y precio cerrado. Estudio gratis.",
   schema = [],
   noindex = false,
 } = Astro.props;
@@ -27,8 +27,6 @@ const {
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL("/og.png", Astro.site);
 
-// Los marcadores entre corchetes no se publican como datos estructurados.
-const real = (value: string) => (value.startsWith("[") ? undefined : value);
 const business = {
   "@type": "HomeAndConstructionBusiness",
   "@id": new URL("/#empresa", Astro.site).href,
@@ -37,11 +35,20 @@ const business = {
   logo: new URL("/favicon.svg", Astro.site).href,
   image: ogImage.href,
   description:
-    "Aerotermia, placas solares, baterías, recarga de vehículo eléctrico y reformas de lujo para chalets.",
-  telephone: real(company.phone),
-  email: real(company.email),
+    "Reformas integrales, obra nueva, interiorismo, aerotermia y placas solares para chalets y viviendas en Toledo y el sur de Madrid.",
+  legalName: company.legalName,
+  taxID: company.cif,
+  foundingDate: company.founded,
+  telephone: company.phones.map((p) => p.tel),
+  email: company.email,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: company.locality,
+    addressRegion: company.region,
+    addressCountry: "ES",
+  },
   areaServed: Object.values(areas).flat().map((name) => ({ "@type": "City", name })),
-  knowsAbout: ["Aerotermia", "Energía solar fotovoltaica", "Baterías", "Suelo radiante", "Reformas integrales", "Interiorismo"],
+  knowsAbout: ["Reformas integrales", "Obra nueva", "Interiorismo", "Aerotermia", "Suelo radiante", "Energía solar fotovoltaica", "Baterías", "Recarga de vehículo eléctrico"],
 };
 const jsonLd = { "@context": "https://schema.org", "@graph": [business, ...schema] };
 ---
