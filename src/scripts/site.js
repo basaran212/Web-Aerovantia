@@ -274,6 +274,9 @@ let lastCalc={tipo:'aero'};
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.tab').forEach(o=>{const on=o===b;o.setAttribute('aria-selected',on);$('p-'+o.dataset.k).hidden=!on});
 }));
+// Las páginas de servicio enlazan a /?calc=solar#calculadoras para abrir su pestaña.
+const wantedTab=new URLSearchParams(location.search).get('calc');
+if(wantedTab)document.querySelector('.tab[data-k="'+wantedTab+'"]')?.click();
 
 // Aerotermia
 const UTIL={gasoleo:1.15/10/0.85,propano:0.15,gas:0.085,elec:0.17},SCOP={D3:3.6,C4:3.9},PK=0.17;

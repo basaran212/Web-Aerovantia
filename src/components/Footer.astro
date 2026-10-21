@@ -1,0 +1,31 @@
+---
+import { company, legal, services } from "../data/site";
+---
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="logo" href="/">AEROVANTIA<span>.</span></a>
+      <p style="margin-top:10px;max-width:40ch">
+        {company.legalName} · CIF {company.cif} · {company.address} · Inscrita en el Registro Mercantil de {company.registry}.
+      </p>
+    </div>
+    <div>
+      <strong>Servicios</strong>
+      <ul>{services.map((s) => <li><a href={s.href}>{s.label}</a></li>)}</ul>
+    </div>
+    <div>
+      <strong>Aerovantia</strong>
+      <ul>
+        <li><a href="/#calculadoras">Calculadoras</a></li>
+        <li><a href="/#ayudas">Ayudas</a></li>
+        <li><a href="/#zona">Zona de trabajo</a></li>
+        <li><a href="/#contacto">Contacto</a></li>
+      </ul>
+    </div>
+    <div>
+      <strong>Legal</strong>
+      <ul>{legal.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+    </div>
+  </div>
+</footer>

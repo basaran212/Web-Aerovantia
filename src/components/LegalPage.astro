@@ -1,0 +1,27 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<Layout title={`${title} · Aerovantia`} description={description}>
+  <main>
+    <section class="page-hero" style="--hue:var(--cold)">
+      <div class="wrap">
+        <nav class="crumbs" aria-label="Ruta"><a href="/">Inicio</a><span aria-hidden="true">/</span><span>{title}</span></nav>
+        <h1>{title}</h1>
+      </div>
+    </section>
+    <section>
+      <div class="wrap prose">
+        <p class="note">Texto base pendiente de revisión por vuestro asesor legal. Los datos entre corchetes deben sustituirse por los reales antes de publicar.</p>
+        <slot />
+      </div>
+    </section>
+  </main>
+</Layout>

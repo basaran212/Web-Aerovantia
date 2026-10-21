@@ -1,0 +1,20 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { services } from "../data/site";
+---
+
+<Layout title="Página no encontrada · Aerovantia" description="La página que buscas no existe." noindex>
+  <main>
+    <section class="page-hero" style="--hue:var(--warm)">
+      <div class="wrap">
+        <p class="eyebrow">Error 404</p>
+        <h1>Esta página no existe.</h1>
+        <p class="lede">Puede que el enlace haya cambiado. Estas son las secciones principales:</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="/" style="background:#F3F6F6;color:#0E1C22">Ir al inicio</a>
+          {services.map((s) => <a class="btn btn-ghost" href={s.href}>{s.label}</a>)}
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

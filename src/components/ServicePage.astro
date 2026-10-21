@@ -1,0 +1,129 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { services } from "../data/site";
+
+export interface Faq {
+  q: string;
+  a: string;
+}
+
+interface Props {
+  /** Color de acento de la página (variable CSS o color). */
+  hue: string;
+  seoTitle: string;
+  description: string;
+  eyebrow: string;
+  title: string;
+  lede: string;
+  /** Pestaña de la calculadora de la portada a la que lleva el segundo botón. */
+  calc?: "aero" | "solar" | "ref";
+  facts: { value: string; label: string }[];
+  includesTitle: string;
+  includesText: string;
+  includes: string[];
+  cardsTitle: string;
+  cards: { title: string; text: string }[];
+  faqs: Faq[];
+}
+
+const p = Astro.props;
+const path = Astro.url.pathname;
+const name = services.find((s) => s.href === path)?.label ?? p.eyebrow;
+
+const schema = [
+  {
+    "@type": "Service",
+    name: p.title,
+    serviceType: name,
+    description: p.description,
+    provider: { "@id": new URL("/#empresa", Astro.site).href },
+    url: new URL(path, Astro.site).href,
+  },
+  {
+    "@type": "FAQPage",
+    mainEntity: p.faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  },
+  {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: Astro.site?.href },
+      { "@type": "ListItem", position: 2, name, item: new URL(path, Astro.site).href },
+    ],
+  },
+];
+---
+
+<Layout title={p.seoTitle} description={p.description} schema={schema}>
+  <main style={`--hue:${p.hue}`}>
+    <section class="page-hero">
+      <div class="wrap">
+        <nav class="crumbs" aria-label="Ruta"><a href="/">Inicio</a><span aria-hidden="true">/</span><span>{name}</span></nav>
+        <p class="eyebrow">{p.eyebrow}</p>
+        <h1>{p.title}</h1>
+        <p class="lede">{p.lede}</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="/#contacto">Pedir estudio gratuito</a>
+          {p.calc && <a class="btn btn-ghost" href={`/?calc=${p.calc}#calculadoras`}>Calcular mi proyecto</a>}
+        </div>
+      </div>
+    </section>
+
+    <div class="facts">
+      {p.facts.map((f) => <div><b>{f.value}</b><span>{f.label}</span></div>)}
+    </div>
+
+    <section>
+      <div class="wrap split">
+        <div class="sec-head" style="margin:0">
+          <p class="eyebrow">Qué incluye</p>
+          <h2>{p.includesTitle}</h2>
+          <p class="lede">{p.includesText}</p>
+        </div>
+        <ul class="checks">{p.includes.map((item) => <li>{item}</li>)}</ul>
+      </div>
+    </section>
+
+    <section class="calc">
+      <div class="wrap">
+        <div class="sec-head"><p class="eyebrow">Por qué Aerovantia</p><h2>{p.cardsTitle}</h2></div>
+        <div class="cards">
+          {p.cards.map((c) => <article class="card"><h3>{c.title}</h3><p>{c.text}</p></article>)}
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="wrap">
+        <div class="sec-head"><p class="eyebrow">Preguntas frecuentes</p><h2>Lo que nos preguntan sobre {name.toLowerCase()}.</h2></div>
+        <div class="faq">
+          {p.faqs.map((f) => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-band">
+      <div class="wrap">
+        <div class="sec-head" style="margin:0">
+          <h2>Estudio técnico gratuito en 48 h.</h2>
+          <p>Visitamos tu casa, revisamos tus facturas y te damos un precio cerrado con las ayudas calculadas.</p>
+        </div>
+        <a class="btn btn-primary" href="/#contacto" style="background:#F3F6F6;color:#0E1C22">Pedir estudio gratuito</a>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="sec-head"><p class="eyebrow">Otros servicios</p><h2>Energía y diseño, en una sola obra.</h2></div>
+        <div class="cards">
+          {services.filter((s) => s.href !== path).map((s) => (
+            <a class="card" href={s.href} style="text-decoration:none"><h3>{s.label}</h3><span class="more" style="color:var(--accent)">Ver {s.label.toLowerCase()} <span aria-hidden="true">→</span></span></a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

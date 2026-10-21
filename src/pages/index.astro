@@ -1,22 +1,25 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { company } from "../data/site";
+
+const faqs = [
+  { q: "¿La aerotermia funciona con mis radiadores?", a: "Con radiadores de baja temperatura o sobredimensionados, sí. Con radiadores convencionales a veces hay que cambiar algunos. Si reformas, lo ideal es suelo radiante." },
+  { q: "¿Cuánto dura una reforma integral?", a: "Entre 3 y 6 meses según superficie y nivel de acabados. Te damos un calendario por fases y penalizaciones por retraso en el contrato." },
+  { q: "¿Puedo vivir en la casa durante la obra?", a: "En cocinas, baños o instalaciones energéticas, normalmente sí. En una reforma integral recomendamos no hacerlo; planificamos fases si no hay alternativa." },
+  { q: "¿Compensa combinar aerotermia y placas?", a: "En un chalet, normalmente sí: la aerotermia consume electricidad y las placas la producen en casa. Las calculamos juntas." },
+  { q: "¿Necesito licencia?", a: "Según el municipio, una comunicación previa, licencia de obra menor o mayor. La tramitamos nosotros." },
+  { q: "¿Qué pasa si hay una avería?", a: "Durante la garantía gestionamos la reparación con el fabricante. Con Care+ tienes revisión anual y atención prioritaria." },
+];
+
+const schema = [
+  {
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+  },
+];
 ---
 
-<Layout>
-<header class="top">
-  <div class="wrap">
-    <a class="logo" href="#inicio">AEROVANTIA<span>.</span></a>
-    <nav class="menu" aria-label="Principal">
-      <a href="#servicios">Servicios</a>
-      <a href="#reformas">Reformas</a>
-      <a href="#calculadoras">Calculadoras</a>
-      <a href="#ayudas">Ayudas</a>
-      <a href="#proceso">Cómo trabajamos</a>
-      <a href="#faq">Preguntas</a>
-    </nav>
-    <a class="btn btn-primary" href="#contacto">Estudio gratuito</a>
-  </div>
-</header>
+<Layout schema={schema}>
 
 <main id="inicio">
   <section class="film" id="film" aria-label="Un día en una casa Aerovantia">
@@ -70,10 +73,15 @@ import Layout from "../layouts/Layout.astro";
         <p class="lede">Cuando reformas, es el momento de esconder el suelo radiante, colocar la aerotermia y preparar la cubierta para las placas. Lo hacemos en una sola obra.</p>
       </div>
       <div class="lines">
-        <article class="line reveal"><canvas data-scene="heat"></canvas><div class="body"><span class="tag">AEROTERMIA</span><h3>Calefacción, frío y agua caliente</h3><p>Bomba de calor R290 que sustituye la caldera y reduce la factura hasta un 70&nbsp;%.</p><ul><li>Daikin · Vaillant · Bosch · BAXI</li><li>Suelo radiante o fancoils</li></ul></div></article>
-        <article class="line reveal"><canvas data-scene="sun"></canvas><div class="body"><span class="tag">SOLAR + BATERÍA + VE</span><h3>Tu propia energía</h3><p>Placas de alta eficiencia, batería y cargador del coche, calculados con tu consumo real.</p><ul><li>Huawei · SolarEdge · Fronius</li><li>BYD · Tesla Powerwall · Wallbox</li></ul></div></article>
-        <article class="line reveal"><canvas data-scene="lux"></canvas><div class="body"><span class="tag">REFORMAS DE LUJO</span><h3>Espacios a medida</h3><p>Reformas integrales, cocinas, baños e interiorismo con materiales nobles y dirección de obra propia.</p><ul><li>Piedra natural · roble · latón</li><li>Proyecto, licencia y llave en mano</li></ul></div></article>
+        <article class="line reveal"><canvas data-scene="heat"></canvas><div class="body"><span class="tag">AEROTERMIA</span><h3>Calefacción, frío y agua caliente</h3><p>Bomba de calor R290 que sustituye la caldera y reduce la factura hasta un 70&nbsp;%.</p><ul><li>Daikin · Vaillant · Bosch · BAXI</li><li>Suelo radiante o fancoils</li></ul><a class="more" href="/aerotermia/">Ver aerotermia <span aria-hidden="true">→</span></a></div></article>
+        <article class="line reveal"><canvas data-scene="sun"></canvas><div class="body"><span class="tag">SOLAR + BATERÍA + VE</span><h3>Tu propia energía</h3><p>Placas de alta eficiencia, batería y cargador del coche, calculados con tu consumo real.</p><ul><li>Huawei · SolarEdge · Fronius</li><li>BYD · Tesla Powerwall · Wallbox</li></ul><a class="more" href="/placas-solares/">Ver placas solares <span aria-hidden="true">→</span></a></div></article>
+        <article class="line reveal"><canvas data-scene="lux"></canvas><div class="body"><span class="tag">REFORMAS DE LUJO</span><h3>Espacios a medida</h3><p>Reformas integrales, cocinas, baños e interiorismo con materiales nobles y dirección de obra propia.</p><ul><li>Piedra natural · roble · latón</li><li>Proyecto, licencia y llave en mano</li></ul><a class="more" href="/reformas-de-lujo/">Ver reformas <span aria-hidden="true">→</span></a></div></article>
       </div>
+      <a class="newbuild reveal" href="/obra-nueva/">
+        <div><span class="tag">OBRA NUEVA Y PROMOTORES</span><h3>Viviendas nuevas, eficientes desde el plano.</h3></div>
+        <p>Aerotermia, suelo radiante, fotovoltaica y recarga diseñados junto al proyecto de arquitectura, para chalets y promociones de nueva construcción.</p>
+        <span class="more">Ver obra nueva <span aria-hidden="true">→</span></span>
+      </a>
     </div>
   </section>
 
@@ -267,13 +275,8 @@ import Layout from "../layouts/Layout.astro";
     <div class="wrap">
       <div class="sec-head"><p class="eyebrow">Preguntas frecuentes</p><h2>Lo que nos preguntan antes de decidir.</h2></div>
       <div class="faq">
-        <details><summary>¿La aerotermia funciona con mis radiadores?</summary><p>Con radiadores de baja temperatura o sobredimensionados, sí. Con radiadores convencionales a veces hay que cambiar algunos. Si reformas, lo ideal es suelo radiante.</p></details>
-        <details><summary>¿Cuánto dura una reforma integral?</summary><p>Entre 3 y 6 meses según superficie y nivel de acabados. Te damos un calendario por fases y penalizaciones por retraso en el contrato.</p></details>
-        <details><summary>¿Puedo vivir en la casa durante la obra?</summary><p>En cocinas, baños o instalaciones energéticas, normalmente sí. En una reforma integral recomendamos no hacerlo; planificamos fases si no hay alternativa.</p></details>
-        <details><summary>¿Compensa combinar aerotermia y placas?</summary><p>En un chalet, normalmente sí: la aerotermia consume electricidad y las placas la producen en casa. Las calculamos juntas.</p></details>
-        <details><summary>¿Necesito licencia?</summary><p>Según el municipio, una comunicación previa, licencia de obra menor o mayor. La tramitamos nosotros.</p></details>
-        <details><summary>¿Qué pasa si hay una avería?</summary><p>Durante la garantía gestionamos la reparación con el fabricante. Con Care+ tienes revisión anual y atención prioritaria.</p></details>
-      </div>
+          {faqs.map((f) => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}
+        </div>
     </div>
   </section>
 
@@ -282,9 +285,9 @@ import Layout from "../layouts/Layout.astro";
       <div>
         <div class="sec-head" style="margin:0"><p class="eyebrow">Estudio gratuito</p><h2>Cuéntanos tu proyecto.</h2><p class="lede">Te llamamos en menos de 24 h laborables para concertar la visita. Sin compromiso.</p></div>
         <div class="contact-points">
-          <div><span class="k">Teléfono y WhatsApp</span><span class="v">[+34 600 000 000]</span></div>
-          <div><span class="k">Email</span><span class="v">[hola@aerovantia.es]</span></div>
-          <div><span class="k">Horario</span><span class="v">L–V 9:00–19:00 · S 10:00–14:00</span></div>
+          <div><span class="k">Teléfono y WhatsApp</span><span class="v">{company.phone}</span></div>
+          <div><span class="k">Email</span><span class="v">{company.email}</span></div>
+          <div><span class="k">Horario</span><span class="v">{company.hours}</span></div>
         </div>
       </div>
       <form class="lead" id="leadForm" novalidate>
@@ -305,7 +308,7 @@ import Layout from "../layouts/Layout.astro";
             <label><input type="checkbox" id="i-int"> Interiorismo</label>
           </div>
         </fieldset>
-        <label class="chk" for="f-rgpd"><input type="checkbox" id="f-rgpd" required> <span>He leído la <a href="#legal">política de privacidad</a> y acepto que Aerovantia me contacte para preparar el estudio.</span></label>
+        <label class="chk" for="f-rgpd"><input type="checkbox" id="f-rgpd" required> <span>He leído la <a href="/privacidad/">política de privacidad</a> y acepto que Aerovantia me contacte para preparar el estudio.</span></label>
         <p class="err" id="f-err" hidden></p>
         <button class="btn btn-primary" type="submit">Solicitar estudio gratuito</button>
         <div class="ok-msg" id="f-ok" hidden></div>
@@ -314,16 +317,7 @@ import Layout from "../layouts/Layout.astro";
   </section>
 </main>
 
-<footer>
-  <div class="wrap">
-    <div><a class="logo" href="#inicio">AEROVANTIA<span>.</span></a><p style="margin-top:10px;max-width:40ch">[Razón social S.L.] · CIF [B-00000000] · [Domicilio social] · Inscrita en el Registro Mercantil de [provincia].</p></div>
-    <div><strong>Energía</strong><ul><li><a href="#servicios">Aerotermia</a></li><li><a href="#servicios">Placas solares</a></li><li><a href="#servicios">Baterías y recarga</a></li><li><a href="#servicios">Care+</a></li></ul></div>
-    <div><strong>Reformas</strong><ul><li><a href="#reformas">Reforma integral</a></li><li><a href="#reformas">Cocinas y baños</a></li><li><a href="#reformas">Interiorismo</a></li></ul></div>
-    <div id="legal"><strong>Legal</strong><ul><li><a href="#legal">Aviso legal</a></li><li><a href="#legal">Privacidad</a></li><li><a href="#legal">Cookies</a></li></ul></div>
-  </div>
-</footer>
 
-<div class="mbar"><a class="btn btn-ghost" href="#calculadoras">Calcular</a><a class="btn btn-primary" href="#contacto">Estudio gratis</a></div>
 </Layout>
 
 <script>

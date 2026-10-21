@@ -1,0 +1,38 @@
+---
+import { nav } from "../data/site";
+
+const path = Astro.url.pathname;
+---
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="/">AEROVANTIA<span>.</span></a>
+    <nav class="menu" aria-label="Principal">
+      {nav.map((item) => (
+        <a href={item.href} aria-current={path === item.href ? "page" : undefined}>{item.label}</a>
+      ))}
+    </nav>
+    <div class="top-actions">
+      <a class="btn btn-primary" href="/#contacto">Estudio gratuito</a>
+      <button class="burger" type="button" popovertarget="mnav" aria-label="Abrir menú">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <nav id="mnav" popover aria-label="Menú">
+    <button class="mnav-close" type="button" popovertarget="mnav" popovertargetaction="hide" aria-label="Cerrar menú">×</button>
+    <a href="/">Inicio</a>
+    {nav.map((item) => (
+      <a href={item.href} aria-current={path === item.href ? "page" : undefined}>{item.label}</a>
+    ))}
+    <a class="btn btn-primary" href="/#contacto">Pedir estudio gratuito</a>
+  </nav>
+</header>
+
+<script>
+  // Cerrar el menú móvil al elegir una sección de la misma página.
+  const menu = document.getElementById("mnav");
+  menu?.querySelectorAll("a").forEach((a) =>
+    a.addEventListener("click", () => menu.hidePopover?.())
+  );
+</script>
