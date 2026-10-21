@@ -1,0 +1,12 @@
+{
+  "_leeme": "Datos editables a mano. Nada se calcula solo. El despliegue a producción falla si queda algún [PENDIENTE: ...].",
+  "primerosClientes": {
+    "condicion": "[PENDIENTE: condición concreta para las primeras instalaciones]",
+    "plazasTotales": "[PENDIENTE: número de instalaciones del programa]",
+    "plazasDisponibles": "[PENDIENTE: plazas disponibles hoy]"
+  },
+  "garantiaPropia": null,
+  "marcasConfirmadas": [],
+  "analytics": { "ga4Id": "", "googleAdsId": "" },
+  "deduccionIrpf": { "fin": "2026-12-31T23:59:59+01:00", "porcentaje": 40, "baseMaxima": 7500, "deduccionMaxima": 3000 }
+}

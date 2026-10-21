@@ -1,11 +1,9 @@
 // Datos de empresa y navegación compartidos por todas las páginas.
-// Los valores entre corchetes son marcadores: sustitúyelos por los reales antes de publicar.
+// Los datos sin confirmar van como [PENDIENTE: ...]; el despliegue a producción falla mientras quede alguno.
 export const company = {
   name: "Aerovantia",
   legalName: "Euforico Equilibrio S.L.",
   cif: "B45917622",
-  founded: "2019-11-15",
-  foundedYear: 2019,
   locality: "Olías del Rey",
   region: "Toledo",
   address: "Olías del Rey (Toledo)",
@@ -26,15 +24,26 @@ export const whatsapp = {
   href: `https://wa.me/${company.phones[0].tel.replace("+", "")}?text=${encodeURIComponent("Hola, quiero pedir un estudio gratuito para mi casa.")}`,
 };
 
+// Líneas de servicio con página propia (menú, pie y datos estructurados).
 export const services = [
-  { href: "/reformas-de-lujo/", label: "Reformas" },
-  { href: "/obra-nueva/", label: "Obra nueva" },
-  { href: "/interiorismo/", label: "Interiorismo" },
   { href: "/aerotermia/", label: "Aerotermia" },
   { href: "/placas-solares/", label: "Placas solares" },
+  { href: "/aerotermia-y-placas-solares/", label: "Aerotermia + Solar" },
+  { href: "/reformas/", label: "Reformas con energía" },
 ];
 
-export const nav = [...services, { href: "/#calculadoras", label: "Calculadoras" }];
+export const nav = [
+  ...services,
+  { href: "/ayudas/", label: "Ayudas" },
+  { href: "/#calculadoras", label: "Calculadoras" },
+  { href: "/#contacto", label: "Contacto" },
+];
+
+export const guides = [
+  { href: "/guias/aerotermia-con-radiadores/", label: "¿Funciona la aerotermia con mis radiadores?" },
+  { href: "/guias/deduccion-irpf-40/", label: "Cómo conseguir la deducción del 40 % paso a paso" },
+  { href: "/guias/aerotermia-vs-caldera-de-gas/", label: "Aerotermia vs caldera de gas: números reales en Madrid y Toledo" },
+];
 
 export const legal = [
   { href: "/aviso-legal/", label: "Aviso legal" },
@@ -42,14 +51,17 @@ export const legal = [
   { href: "/cookies/", label: "Cookies" },
 ];
 
+// Zona de trabajo: dos bloques de igual peso. Los municipios con página propia están en municipios.ts.
 export const areas = {
   "Comunidad de Madrid": [
-    "Boadilla del Monte", "Villaviciosa de Odón", "Villanueva de la Cañada", "Brunete",
-    "Alcorcón", "Móstoles", "Arroyomolinos", "Navalcarnero", "Fuenlabrada", "Getafe",
-    "Leganés", "Parla", "Griñón", "Valdemoro",
+    "Madrid", "Boadilla del Monte", "Pozuelo de Alarcón", "Las Rozas", "Majadahonda", "Villaviciosa de Odón",
+    "Villanueva de la Cañada", "Brunete", "Alcorcón", "Móstoles", "Arroyomolinos", "Navalcarnero",
+    "Fuenlabrada", "Getafe", "Leganés", "Parla", "Griñón", "Valdemoro",
   ],
-  "Toledo y La Sagra": [
-    "Seseña", "Illescas", "Yeles", "Esquivias", "Ugena", "Yuncos", "Numancia de la Sagra",
-    "Cabañas de la Sagra", "Bargas", "Olías del Rey", "Toledo", "Torrijos",
+  "Provincia de Toledo": [
+    "Toledo", "Olías del Rey", "Bargas", "Illescas", "Seseña", "Yeles", "Esquivias", "Ugena", "Yuncos",
+    "Numancia de la Sagra", "Cabañas de la Sagra", "Torrijos", "Talavera de la Reina",
   ],
 };
+
+export const zoneLabel = "Comunidad de Madrid y provincia de Toledo";

@@ -5,8 +5,10 @@ import "../styles/global.css";
 
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
+import ChatLoader from "../components/ChatLoader.astro";
+import Consent from "../components/Consent.astro";
 import MobileBar from "../components/MobileBar.astro";
-import { areas, company } from "../data/site";
+import { company } from "../data/site";
 
 interface Props {
   title?: string;
@@ -17,8 +19,8 @@ interface Props {
 }
 
 const {
-  title = "Empresa de reformas y aerotermia en Toledo y Madrid | Aerovantia",
-  description = "Empresa de reformas integrales, obra nueva, aerotermia y placas solares en Toledo y Madrid. Precio cerrado, deducción del 40 % y visita técnica gratis en 48 h.",
+  title = "Aerotermia y placas solares en Madrid y Toledo | Aerovantia",
+  description = "Aerotermia, placas solares y baterías en la Comunidad de Madrid y la provincia de Toledo. Estudio gratuito, propuesta por escrito con el ahorro estimado y la deducción del 40 % tramitada.",
   schema = [],
   noindex = false,
 } = Astro.props;
@@ -27,18 +29,16 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL("/og.png", Astro.site);
 
 const business = {
-  "@type": "HomeAndConstructionBusiness",
+  "@type": "HVACBusiness",
   "@id": new URL("/#empresa", Astro.site).href,
   name: company.name,
   url: Astro.site?.href,
   logo: new URL("/favicon.svg", Astro.site).href,
   image: ogImage.href,
   description:
-    "Reformas integrales, obra nueva, interiorismo, aerotermia y placas solares para chalets y viviendas en Toledo y Madrid.",
-  slogan: "Reformas integrales y aerotermia en Toledo y Madrid, con un solo equipo y precio cerrado.",
+    "Aerotermia, placas solares, baterías y cargadores de coche eléctrico, y reformas con la energía integrada, en la Comunidad de Madrid y la provincia de Toledo.",
   legalName: company.legalName,
   taxID: company.cif,
-  foundingDate: company.founded,
   telephone: company.phones.map((p) => p.tel),
   email: company.email,
   address: {
@@ -48,8 +48,11 @@ const business = {
     addressRegion: company.region,
     addressCountry: "ES",
   },
-  areaServed: Object.values(areas).flat().map((name) => ({ "@type": "City", name })),
-  knowsAbout: ["Reformas integrales", "Obra nueva", "Interiorismo", "Aerotermia", "Suelo radiante", "Energía solar fotovoltaica", "Baterías", "Recarga de vehículo eléctrico"],
+  areaServed: [
+    { "@type": "AdministrativeArea", name: "Comunidad de Madrid" },
+    { "@type": "AdministrativeArea", name: "Provincia de Toledo" },
+  ],
+  knowsAbout: ["Aerotermia", "Bomba de calor", "Suelo radiante", "Energía solar fotovoltaica", "Baterías", "Recarga de vehículo eléctrico", "Reformas"],
 };
 const jsonLd = { "@context": "https://schema.org", "@graph": [business, ...schema] };
 ---
@@ -85,6 +88,8 @@ const jsonLd = { "@context": "https://schema.org", "@graph": [business, ...schem
     <slot />
     <Footer />
     <MobileBar />
+    <Consent />
+    <ChatLoader />
     <script>
       import "../scripts/motion.js";
     </script>
