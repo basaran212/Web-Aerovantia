@@ -1,8 +1,14 @@
 ---
 import ServicePage from "../components/ServicePage.astro";
+import exteriorNoon from "../assets/img/exterior-noon.jpg";
+import heatpump from "../assets/img/heatpump.jpg";
+import living from "../assets/img/living.jpg";
 ---
 
 <ServicePage
+  image={heatpump}
+  imageAlt="Unidad exterior de aerotermia instalada junto a la fachada de un chalet"
+  gallery={[{ img: exteriorNoon, alt: "Chalet con aerotermia y placas solares a mediodía" }, { img: living, alt: "Salón con suelo radiante bajo la madera" }]}
   hue="var(--cold)"
   calc="aero"
   seoTitle="Aerotermia en Toledo y Madrid sur | Aerovantia"

@@ -1,8 +1,14 @@
 ---
 import ServicePage from "../components/ServicePage.astro";
+import bath from "../assets/img/bath.jpg";
+import kitchen from "../assets/img/kitchen.jpg";
+import kitchenBefore from "../assets/img/kitchen-before.jpg";
 ---
 
 <ServicePage
+  image={kitchen}
+  imageAlt="Cocina reformada con isla de mármol Calacatta, roble natural y lámparas de latón"
+  gallery={[{ img: bath, alt: "Baño reformado en travertino con ducha a ras de suelo y grifería de latón" }, { img: kitchenBefore, alt: "La misma cocina antes de la reforma" }]}
   hue="var(--brass)"
   calc="ref"
   seoTitle="Reformas integrales en Toledo y Madrid sur | Aerovantia"

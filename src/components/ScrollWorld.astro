@@ -1,0 +1,108 @@
+---
+import { Picture } from "astro:assets";
+
+import { company } from "../data/site";
+import { stops } from "../data/paseo";
+---
+
+<section class="world" id="paseo" data-world data-live={JSON.stringify(stops.map(({ solar, ext }) => ({ solar, ext })))} aria-label="Un día en una casa Aerovantia" style="padding:0">
+  <!-- Escenario fijo: debajo, la imagen donde empieza cada clip; encima, los clips, que solo avanzan con el scroll. -->
+  <div class="stage" data-stage style={`--focus-x:${stops[0].focus}%`}>
+    <div aria-hidden="true">
+      {stops.map((stop, i) => (
+        <Picture
+          src={stop.poster}
+          alt=""
+          formats={["avif", "webp"]}
+          widths={[828, 1280, 1920]}
+          sizes="(min-aspect-ratio: 16/9) 100vw, 178vh"
+          loading={i === 0 ? "eager" : "lazy"}
+          fetchpriority={i === 0 ? "high" : "low"}
+          decoding="async"
+          class="frame"
+          data-frame
+          style={i === 0 ? undefined : "opacity:0"}
+        />
+      ))}
+      {stops.filter((s) => s.clip).map((stop) => (
+        <video class="clip" data-clip data-src={stop.clip} muted playsinline preload="none" disablepictureinpicture disableremoteplayback tabindex="-1"></video>
+      ))}
+    </div>
+    <div class="veil-top" aria-hidden="true"></div>
+    <div class="veil" aria-hidden="true"></div>
+
+    <div class="live" aria-hidden="true">
+      <span><i></i>Solar <b class="num" data-live-solar>0,3 kW</b></span>
+      <span>Exterior <b class="num" data-live-ext>9 °C</b></span>
+      <span>Salón <b class="num">21 °C</b></span>
+    </div>
+
+    <nav class="rail" aria-label="Paradas del paseo">
+      <ol>
+        <span class="bar" aria-hidden="true"><i data-rail-fill></i></span>
+        {stops.map((stop, i) => (
+          <li><a href={`#${stop.id}`} data-goto aria-current={i === 0 ? "true" : "false"}><span>{stop.label}</span><b></b></a></li>
+        ))}
+      </ol>
+    </nav>
+    <div class="hint" data-hint aria-hidden="true">Desliza</div>
+  </div>
+
+  <div class="stops">
+    <article class="stop is-current" id="casa" data-stop data-focus={stops[0].focus}>
+      <div class="wrap"><div class="inner">
+        <p class="when">Toledo · La Sagra · Madrid sur</p>
+        <h1 class="grad">Reformas, obra nueva<br /> y aerotermia en Toledo<br /> y Madrid sur.</h1>
+        <p class="body">Construimos, reformamos y hacemos eficiente tu casa con un solo equipo. Precio cerrado por escrito y las ayudas tramitadas.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#contacto">Pedir estudio gratuito</a>
+          <a class="btn btn-ghost" href="#calculadoras">Calcular mi precio</a>
+        </div>
+        <p class="proof">Desde {company.foundedYear} en Toledo y Madrid sur · Visita técnica en 48 h · Deducción IRPF del 40 % hasta el 31.12.2026</p>
+      </div></div>
+    </article>
+    <article class="stop" id="energia" data-stop data-focus={stops[1].focus}>
+      <div class="wrap"><div class="inner">
+        <p class="when">12:30 · Mediodía</p>
+        <h2>Tu cubierta produce<br /> tu propia energía.</h2>
+        <p class="body">Placas solares calculadas con tu consumo real. Lo que producen alimenta la casa, carga la batería y el sobrante se descuenta de tu factura.</p>
+        <a class="more" href="/placas-solares/">Ver placas solares <span aria-hidden="true">→</span></a>
+      </div></div>
+    </article>
+    <article class="stop" id="aerotermia" data-stop data-focus={stops[2].focus}>
+      <div class="wrap"><div class="inner">
+        <p class="when">15:00 · Aerotermia</p>
+        <h2>1 kWh de luz,<br /> 4 kWh de calor.</h2>
+        <p class="body">La bomba de calor toma la energía del aire para calefacción, frío y agua caliente. Sustituye tu caldera y ahorra hasta un 70 % en climatización.</p>
+        <a class="more" href="/aerotermia/">Ver aerotermia <span aria-hidden="true">→</span></a>
+      </div></div>
+    </article>
+    <article class="stop" id="reforma" data-stop data-focus={stops[3].focus}>
+      <div class="wrap"><div class="inner">
+        <p class="when">17:00 · Dentro</p>
+        <h2>Una reforma integral<br /> con la energía escondida.</h2>
+        <p class="body">Cocina de piedra natural, roble y latón, con el suelo radiante bajo la madera. Una sola obra, un solo responsable.</p>
+        <a class="more" href="/reformas-de-lujo/">Ver reformas <span aria-hidden="true">→</span></a>
+      </div></div>
+    </article>
+    <article class="stop" id="interiorismo" data-stop data-focus={stops[4].focus}>
+      <div class="wrap"><div class="inner">
+        <p class="when">19:00 · Interiorismo</p>
+        <h2>Ves tu casa terminada<br /> antes de empezar.</h2>
+        <p class="body">Proyecto 3D, materiales sobre muestras reales, iluminación y mobiliario a medida. Lo dibuja y lo construye el mismo equipo.</p>
+        <a class="more" href="/interiorismo/">Ver interiorismo <span aria-hidden="true">→</span></a>
+      </div></div>
+    </article>
+    <article class="stop" id="noche" data-stop data-focus={stops[5].focus}>
+      <div class="wrap"><div class="inner">
+        <p class="when">21:30 · Noche</p>
+        <h2>¿Empezamos<br /> por la tuya?</h2>
+        <p class="body">Visita técnica gratuita en 48 h y propuesta por escrito con precio cerrado y las ayudas calculadas.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#contacto">Pedir estudio gratuito</a>
+          <a class="btn btn-ghost" href="/obra-nueva/">Construir una casa nueva</a>
+        </div>
+      </div></div>
+    </article>
+  </div>
+</section>

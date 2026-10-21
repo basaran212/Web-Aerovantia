@@ -10,7 +10,7 @@ import { company } from "../data/site";
     <li>Razón social: {company.legalName}, sociedad española constituida el 15 de noviembre de 2019</li>
     <li>Nombre comercial: {company.name}</li>
     <li>NIF: {company.cif}</li>
-    <li>Domicilio social: {company.address}</li>
+    <li>Domicilio social: {company.street}, {company.address}</li>
     <li>Inscripción: {company.registry}</li>
     <li>Teléfonos: {company.phones.map((p) => p.display).join(" · ")}</li>
     <li>Email: {company.email}</li>

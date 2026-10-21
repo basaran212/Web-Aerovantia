@@ -6,14 +6,15 @@ import { company, legal, services } from "../data/site";
   <div class="wrap">
     <div>
       <a class="logo" href="/">AEROVANTIA<span>.</span></a>
-      <p style="margin-top:10px;max-width:42ch">
+      <p style="margin-top:12px;max-width:42ch">
         Reformas, obra nueva, interiorismo, aerotermia y placas solares en Toledo y el sur de Madrid desde {company.foundedYear}.
       </p>
-      <p style="margin-top:10px">
+      <p style="margin-top:12px">
         {company.phones.map((p, i) => <>{i > 0 && " · "}<a href={`tel:${p.tel}`}>{p.display}</a></>)}<br />
         <a href={`mailto:${company.email}`}>{company.email}</a>
       </p>
-      <p style="margin-top:10px;font-size:.8rem">{company.name} es una marca de {company.legalName} · NIF {company.cif} · {company.address}</p>
+      <p style="margin-top:12px;font-size:12px;line-height:16px">{company.name} es una marca de {company.legalName} · NIF {company.cif} · {company.street}, {company.address}</p>
+      <p class="ai-note">Las imágenes y vídeos de viviendas de esta web están generados con inteligencia artificial y tienen fines ilustrativos. No corresponden a obras realizadas.</p>
     </div>
     <div>
       <strong>Servicios</strong>

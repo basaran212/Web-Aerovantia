@@ -1,8 +1,14 @@
 ---
 import ServicePage from "../components/ServicePage.astro";
+import exteriorNight from "../assets/img/exterior-night.jpg";
+import exteriorNoon from "../assets/img/exterior-noon.jpg";
+import solarRoof from "../assets/img/solar-roof.jpg";
 ---
 
 <ServicePage
+  image={solarRoof}
+  imageAlt="Vista aérea de una cubierta plana con doce placas solares"
+  gallery={[{ img: exteriorNoon, alt: "Chalet con placas solares a mediodía" }, { img: exteriorNight, alt: "El chalet de noche cargando el coche eléctrico" }]}
   hue="#E3B23C"
   calc="solar"
   seoTitle="Placas solares en Toledo y Madrid sur | Aerovantia"

@@ -5,8 +5,8 @@ const path = Astro.url.pathname;
 ---
 
 <header class="top">
-  <div class="wrap">
-    <a class="logo" href="/">AEROVANTIA<span>.</span></a>
+  <div class="pill">
+    <a class="logo" href="/" aria-label="Aerovantia, inicio">AEROVANTIA<span>.</span></a>
     <nav class="menu" aria-label="Principal">
       {nav.map((item) => (
         <a href={item.href} aria-current={path === item.href ? "page" : undefined}>{item.label}</a>
@@ -15,26 +15,33 @@ const path = Astro.url.pathname;
     <div class="top-actions">
       <a class="tel" href={`tel:${phone.tel}`} aria-label={`Llamar al ${phone.display}`}>{phone.display}</a>
       <a class="btn btn-primary" href="/#contacto">Estudio gratuito</a>
-      <button class="burger" type="button" popovertarget="mnav" aria-label="Abrir menú">
+      <button class="burger" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Abrir menú">
         <span></span><span></span>
       </button>
     </div>
   </div>
-  <nav id="mnav" popover aria-label="Menú">
-    <button class="mnav-close" type="button" popovertarget="mnav" popovertargetaction="hide" aria-label="Cerrar menú">×</button>
-    <a href="/">Inicio</a>
-    {nav.map((item) => (
-      <a href={item.href} aria-current={path === item.href ? "page" : undefined}>{item.label}</a>
-    ))}
-    <a class="btn btn-primary" href="/#contacto">Pedir estudio gratuito</a>
-    <a class="btn btn-ghost" href={`tel:${phone.tel}`}>Llamar al {phone.display}</a>
-  </nav>
 </header>
+<nav id="mnav" aria-label="Menú" inert>
+  <a href="/">Inicio</a>
+  {nav.map((item) => (
+    <a href={item.href} aria-current={path === item.href ? "page" : undefined}>{item.label}</a>
+  ))}
+  <a class="btn btn-primary" href="/#contacto">Pedir estudio gratuito</a>
+  <a class="btn btn-ghost" href={`tel:${phone.tel}`}>Llamar al {phone.display}</a>
+</nav>
 
 <script>
-  // Cerrar el menú móvil al elegir una sección de la misma página.
+  const burger = document.querySelector<HTMLButtonElement>(".burger");
   const menu = document.getElementById("mnav");
-  menu?.querySelectorAll("a").forEach((a) =>
-    a.addEventListener("click", () => menu.hidePopover?.())
-  );
+  const setOpen = (open: boolean) => {
+    if (!burger || !menu) return;
+    burger.setAttribute("aria-expanded", String(open));
+    burger.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+    menu.classList.toggle("open", open);
+    menu.inert = !open;
+    document.documentElement.style.overflow = open ? "hidden" : "";
+  };
+  burger?.addEventListener("click", () => setOpen(burger.getAttribute("aria-expanded") !== "true"));
+  menu?.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setOpen(false)));
+  addEventListener("keydown", (e) => e.key === "Escape" && setOpen(false));
 </script>

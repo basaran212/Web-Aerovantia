@@ -1,8 +1,14 @@
 ---
 import ServicePage from "../components/ServicePage.astro";
+import bath from "../assets/img/bath.jpg";
+import kitchen from "../assets/img/kitchen.jpg";
+import living from "../assets/img/living.jpg";
 ---
 
 <ServicePage
+  image={living}
+  imageAlt="Salón con sofá de lino, mesa de travertino y estanterías de roble"
+  gallery={[{ img: kitchen, alt: "Cocina abierta con isla de mármol y lámparas de latón" }, { img: bath, alt: "Baño de travertino con lavabo de piedra" }]}
   hue="var(--brass)"
   calc="ref"
   seoTitle="Interiorismo en Toledo y Madrid sur | Aerovantia"

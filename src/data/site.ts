@@ -9,7 +9,8 @@ export const company = {
   locality: "Olías del Rey",
   region: "Toledo",
   address: "Olías del Rey (Toledo)",
-  registry: "[datos de inscripción en el Registro Mercantil]",
+  street: "C/ Venta de Abajo, 3",
+  registry: "Registro Mercantil de Toledo, tomo 1697, libro 0, folio 45, sección 8, hoja TO-42258, inscripción 1.ª",
   phones: [
     { display: "689 042 717", tel: "+34689042717" },
     { display: "626 731 467", tel: "+34626731467" },

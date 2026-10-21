@@ -1,8 +1,14 @@
 ---
 import ServicePage from "../components/ServicePage.astro";
+import exteriorDusk from "../assets/img/exterior-dusk.jpg";
+import exteriorNoon from "../assets/img/exterior-noon.jpg";
+import newbuild from "../assets/img/newbuild.jpg";
 ---
 
 <ServicePage
+  image={newbuild}
+  imageAlt="Chalet de nueva construcción con la estructura de hormigón terminada"
+  gallery={[{ img: exteriorDusk, alt: "Chalet contemporáneo terminado al anochecer, con piscina y olivos" }, { img: exteriorNoon, alt: "El mismo chalet a mediodía con placas solares en la cubierta" }]}
   hue="var(--warm)"
   calc="obra"
   seoTitle="Obra nueva de chalets en Toledo y Madrid sur | Aerovantia"

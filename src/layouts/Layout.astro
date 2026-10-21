@@ -1,7 +1,6 @@
 ---
-import "@fontsource-variable/archivo/wdth.css";
-import "@fontsource/ibm-plex-mono/400.css";
-import "@fontsource/ibm-plex-mono/500.css";
+import "@fontsource-variable/manrope/wght.css";
+import "@fontsource-variable/geist-mono/wght.css";
 import "../styles/global.css";
 
 import Footer from "../components/Footer.astro";
@@ -43,6 +42,7 @@ const business = {
   email: company.email,
   address: {
     "@type": "PostalAddress",
+    streetAddress: company.street,
     addressLocality: company.locality,
     addressRegion: company.region,
     addressCountry: "ES",
@@ -58,7 +58,7 @@ const jsonLd = { "@context": "https://schema.org", "@graph": [business, ...schem
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-    <meta name="theme-color" content="#0E1C22" />
+    <meta name="theme-color" content="#131209" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -78,9 +78,14 @@ const jsonLd = { "@context": "https://schema.org", "@graph": [business, ...schem
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
+    <a class="skip" href="#contenido">Saltar al contenido</a>
     <Header />
+    <div id="contenido" tabindex="-1"></div>
     <slot />
     <Footer />
     <MobileBar />
+    <script>
+      import "../scripts/motion.js";
+    </script>
   </body>
 </html>
