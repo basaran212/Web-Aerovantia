@@ -26,6 +26,7 @@ Una keyword principal = una URL. Volumen y dificultad: **[PENDIENTE: Keyword Pla
 | cargador coche eléctrico chalet | /cargador-coche-electrico/ | complementos | comercial | B | [PENDIENTE] |
 | reforma con suelo radiante / reforma integral con aerotermia | /reformas/ | reformas | comercial | B | [PENDIENTE] |
 | interiorismo madrid toledo | /interiorismo/ | reformas | comercial | C (sin prioridad) | [PENDIENTE] |
+| obra nueva chalet madrid / toledo | /obra-nueva/ | obra nueva | comercial | C | [PENDIENTE] |
 | calculadora aerotermia | /calculadoras/aerotermia/ | herramientas | transaccional | B | [PENDIENTE] |
 | calculadora placas solares | /calculadoras/placas-solares/ | herramientas | transaccional | B | [PENDIENTE] |
 | calculadora reforma | /calculadoras/reformas/ | herramientas | transaccional | C | [PENDIENTE] |

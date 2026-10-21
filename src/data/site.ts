@@ -31,6 +31,7 @@ export const services = [
   { href: "/placas-solares/", label: "Placas solares" },
   { href: "/aerotermia-y-placas-solares/", label: "Aerotermia + Solar" },
   { href: "/reformas/", label: "Reformas con energía" },
+  { href: "/obra-nueva/", label: "Obra nueva" },
 ];
 
 export const nav = [

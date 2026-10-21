@@ -47,5 +47,5 @@ export const reformFaqs: Faq[] = [
   { q: "¿Cuánto dura?", a: "Depende del alcance. Te damos un calendario por fases en la propuesta, antes de empezar." },
   { q: "¿Necesito licencia?", a: "Según el municipio y el alcance, una comunicación previa o una licencia de obra. La tramitamos nosotros." },
   { q: "¿Puedo deducirme parte de la reforma?", a: "La parte de eficiencia energética, como la aerotermia con suelo radiante, puede acogerse a la deducción del 40 % en el IRPF si cumple los requisitos. El resto de la reforma, no." },
-  { q: "¿Hacéis casas nuevas?", a: "Ahora mismo nos centramos en energía y reformas de viviendas existentes. Si estás construyendo, podemos estudiar la aerotermia y las placas de tu proyecto." },
+  { q: "¿Hacéis casas nuevas?", a: "Sí. Coordinamos obra nueva de chalets y viviendas unifamiliares con la aerotermia, el suelo radiante y las placas solares diseñados desde el proyecto. Si ya tienes constructor, nos encargamos solo de la energía. Más en obra nueva." },
 ];

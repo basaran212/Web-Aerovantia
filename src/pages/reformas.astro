@@ -56,7 +56,7 @@ const levels = [0, 1, 2].map((level) => ({ name: prices.levels[level], q: quoteR
         <thead><tr><th>Nivel de acabados</th><th>Referencia por m²</th><th>100 m²</th></tr></thead>
         <tbody>{levels.map((l) => <tr><td>{l.name}</td><td>{eurRange(l.q.perM2[0], l.q.perM2[1])}</td><td>{eurRange(l.q.lo, l.q.hi)}</td></tr>)}</tbody>
       </table></div>
-      <p class="disclaimer" style="margin-top:16px">Ajusta superficie, tipo de reforma y acabados en la <a href="/calculadoras/reformas/">calculadora de reformas</a>. Diseño interior: <a href="/interiorismo/">interiorismo</a>. La parte energética puede acogerse a la <a href="/ayudas/deduccion-irpf/">deducción del 40 % en el IRPF</a> si cumple los requisitos.</p>
+      <p class="disclaimer" style="margin-top:16px">Ajusta superficie, tipo de reforma y acabados en la <a href="/calculadoras/reformas/">calculadora de reformas</a>. Diseño interior: <a href="/interiorismo/">interiorismo</a>. ¿Casa nueva? <a href="/obra-nueva/">Obra nueva</a>. La parte energética puede acogerse a la <a href="/ayudas/deduccion-irpf/">deducción del 40 % en el IRPF</a> si cumple los requisitos.</p>
     </div>
   </section>
 </ServicePage>

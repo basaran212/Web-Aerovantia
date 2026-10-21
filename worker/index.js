@@ -6,8 +6,6 @@ const PRODUCTION = new Set(["aerovantia.es", "www.aerovantia.es"]);
 const REDIRECTS = {
   "/reformas-de-lujo/": "/reformas/",
   "/reformas-de-lujo": "/reformas/",
-  "/obra-nueva/": "/reformas/",
-  "/obra-nueva": "/reformas/",
 };
 
 export default {

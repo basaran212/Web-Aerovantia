@@ -1,0 +1,50 @@
+---
+import ServicePage from "../components/ServicePage.astro";
+import exteriorDusk from "../assets/img/exterior-dusk.jpg";
+import exteriorNoon from "../assets/img/exterior-noon.jpg";
+import newbuild from "../assets/img/newbuild.jpg";
+---
+
+<ServicePage
+  image={newbuild}
+  imageAlt="Recreación ilustrativa con IA: chalet de nueva construcción con la estructura de hormigón terminada"
+  gallery={[{ img: exteriorDusk, alt: "Recreación ilustrativa con IA: chalet contemporáneo al anochecer, con piscina y olivos" }, { img: exteriorNoon, alt: "Recreación ilustrativa con IA: chalet a mediodía con placas solares en la cubierta" }]}
+  hue="var(--warm)"
+  og="/og/home.png"
+  name="Obra nueva"
+  seoTitle="Obra nueva de chalets en Madrid y Toledo | Aerovantia"
+  description="Chalets y viviendas de obra nueva en Madrid y Toledo con aerotermia, suelo radiante y placas solares desde el proyecto. Precio bajo proyecto."
+  eyebrow="Obra nueva y promotores"
+  title="Obra nueva en Madrid y Toledo."
+  lede="Tu casa nueva, eficiente desde el plano. Coordinamos la construcción de chalets y viviendas unifamiliares con la aerotermia, el suelo radiante y las placas solares diseñados desde el proyecto, junto con tu arquitecto."
+  facts={[
+    { value: "Llave en mano", label: "de la parcela a la entrega de llaves" },
+    { value: "Desde plano", label: "instalaciones y diseño integrados en el proyecto" },
+    { value: "Bajo proyecto", label: "precio en una propuesta por escrito, con partidas desglosadas" },
+    { value: "1 interlocutor", label: "para ti, tu arquitecto y la obra" },
+  ]}
+  includesTitle="Tu casa nueva, con la energía ya resuelta."
+  includesText="Cuanto antes entramos, mejor encaja todo: distribución, instalaciones, cubierta, materiales y presupuesto, en un único proyecto."
+  includes={[
+    "Coordinación con tu arquitecto o búsqueda de uno de confianza",
+    "Construcción con empresas e instaladores habilitados colaboradores, con calendario por fases",
+    "Aerotermia con suelo radiante y agua caliente sanitaria",
+    "Placas solares, batería y preinstalación de recarga",
+    "Interiorismo, carpintería y acabados",
+    "Legalización de instalaciones y apoyo al certificado energético",
+    "Soluciones repetibles por tipología para promotores",
+  ]}
+  cardsTitle="Para propietarios, arquitectos y promotores."
+  cards={[
+    { title: "Si te haces la casa", text: "Te acompañamos desde el proyecto hasta la entrega, con un único responsable. El precio queda fijado en la propuesta que firmas y cualquier cambio se aprueba por escrito." },
+    { title: "Si eres arquitecto", text: "Te damos el diseño de las instalaciones energéticas y un interlocutor técnico en obra." },
+    { title: "Si eres promotor", text: "Definimos una solución por tipología, con plazos coordinados y la documentación energética que pide la venta." },
+  ]}
+  faqs={[
+    { q: "¿Os encargáis de la casa entera o solo de las instalaciones?", a: "De las dos formas. Podemos coordinar la construcción de tu casa llave en mano o, si ya tienes constructor, encargarnos de la aerotermia, el suelo radiante, las placas solares y el interiorismo coordinados con él." },
+    { q: "¿Cuándo conviene contar con vosotros?", a: "Lo ideal es durante el proyecto básico o de ejecución, antes de empezar la obra. También entramos con la obra empezada, revisando lo que ya está previsto." },
+    { q: "¿Tengo que tener ya arquitecto?", a: "No es imprescindible. Si aún no lo tienes, te ayudamos a encontrar uno y coordinamos el proyecto con él." },
+    { q: "¿Cuánto cuesta?", a: "Depende de la superficie, las calidades y la parcela. En obra nueva el precio se da bajo proyecto, en una propuesta por escrito con partidas desglosadas." },
+    { q: "¿Qué garantía tiene la obra?", a: "La garantía de los fabricantes de los equipos y las garantías legales de la edificación y de las instalaciones. En la propuesta te indicamos los plazos de cada una." },
+  ]}
+/>

@@ -5,7 +5,7 @@ import { join } from "node:path";
 
 const walk = (d) => readdirSync(d).flatMap((f) => { const p = join(d, f); return statSync(p).isDirectory() ? walk(p) : p.endsWith(".html") ? [p] : []; });
 const pages = walk("dist").filter((p) => !p.includes("404"));
-const REDIRECTS = ["/reformas-de-lujo/", "/obra-nueva/"];
+const REDIRECTS = ["/reformas-de-lujo/"];
 const issues = [];
 const titles = new Map(), metas = new Map();
 const pick = (html, re) => (html.match(re) || [])[1];
