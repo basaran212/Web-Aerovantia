@@ -342,3 +342,40 @@ nav.menu a[aria-current="page"]{color:var(--ink);box-shadow:inset 0 -2px var(--w
 @media (max-width:760px){.wa-float{display:none}}
 .mbar{gap:8px}
 .mbar .btn{white-space:nowrap;padding:0 .4em;font-size:clamp(.8rem,3.6vw,.92rem)}
+
+/* ===== Calculadoras: precio "desde" y presupuesto automático ===== */
+.range-line{font-family:var(--f-mono);font-size:.85rem;color:var(--muted);margin-top:8px}
+.quote-ctas{display:flex;flex-wrap:wrap;gap:10px}
+.tabs{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
+.tab{white-space:nowrap}
+#quote{width:min(760px,calc(100% - 24px));max-height:calc(100dvh - 24px);padding:0;border:0;border-radius:10px;background:var(--surface);color:var(--ink);box-shadow:0 30px 80px rgba(0,0,0,.35)}
+#quote::backdrop{background:rgba(6,12,18,.6);backdrop-filter:blur(4px)}
+.q-sheet{padding:clamp(20px,4vw,40px);display:grid;gap:16px}
+.q-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;border-bottom:1px solid var(--line);padding-bottom:14px}
+.q-head .logo{font-size:1.05rem}
+.q-meta{font-family:var(--f-mono);font-size:.78rem;color:var(--muted);margin-top:6px}
+.q-close{width:40px;height:40px;border:1px solid var(--line);border-radius:var(--r);background:transparent;color:var(--ink);font-size:1.4rem;cursor:pointer;flex:none}
+#q-title{font-size:clamp(1.4rem,3vw,2rem)}
+.q-from{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding:16px 18px;border-radius:var(--r);background:var(--bg);border:1px solid var(--line)}
+.q-from span{font-family:var(--f-mono);font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.q-from b{font-family:var(--f-display);font-stretch:115%;font-weight:750;font-size:clamp(2rem,6vw,3rem);line-height:1;color:var(--accent);font-variant-numeric:tabular-nums}
+.q-from small{color:var(--muted)}
+.q-lines{width:100%;border-collapse:collapse;font-size:.92rem;font-variant-numeric:tabular-nums}
+.q-lines th,.q-lines td{text-align:right;padding:10px 0 10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.q-lines th:first-child,.q-lines td:first-child{text-align:left;padding-left:0}
+.q-lines thead th{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.q-lines td:not(:first-child),.q-lines tfoot th:not(:first-child){white-space:nowrap;font-family:var(--f-mono);font-size:.86rem}
+.q-lines tfoot th{border-bottom:0;border-top:2px solid var(--ink);font-weight:700}
+.q-notes{margin:0;padding-left:1.1em;color:var(--muted);font-size:.9rem;display:grid;gap:4px}
+.q-legal,.q-company{font-size:.78rem;color:var(--muted)}
+.q-actions{display:flex;flex-wrap:wrap;gap:10px}
+
+@media print{
+  html.printing-quote body>*:not(main),html.printing-quote main>*:not(#quote){display:none!important}
+  html.printing-quote body{background:#fff}
+  html.printing-quote #quote{position:static;display:block;width:100%;max-height:none;box-shadow:none;border-radius:0;color:#0E1C22;background:#fff}
+  html.printing-quote #quote::backdrop{display:none}
+  html.printing-quote .q-close,html.printing-quote .q-actions{display:none}
+  html.printing-quote .q-from{background:#F2F4F3}
+  @page{margin:16mm}
+}

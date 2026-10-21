@@ -1,4 +1,5 @@
 // Portada animada, tarjetas, antes/después, calculadoras y formulario.
+import { quoteAero, quoteObra, quoteReforma, quoteSolar } from "./pricing.js";
 (function(){
 const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $ = id => document.getElementById(id);
@@ -269,9 +270,11 @@ const mq=$('mq');mq.innerHTML+=mq.innerHTML;
 
 requestAnimationFrame(loop);
 
-/* ===== CALCULADORAS ===== */
-let lastCalc={tipo:'aero'};
-// Solo se adjunta al formulario el cálculo que el cliente ha decidido enviar.
+/* ===== CALCULADORAS Y PRESUPUESTO AUTOMÁTICO ===== */
+// Las tarifas y fórmulas viven en pricing.js; aquí solo se leen los campos y se pintan resultados.
+const eurx = n => new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0,useGrouping:'always'}).format(n);
+const quotes = {};
+// Solo se adjunta al formulario el presupuesto que el cliente ha decidido enviar.
 let calcShared=null;
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.tab').forEach(o=>{const on=o===b;o.setAttribute('aria-selected',on);$('p-'+o.dataset.k).hidden=!on});
@@ -279,70 +282,90 @@ document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{
 // Las páginas de servicio enlazan a /?calc=solar#calculadoras para abrir su pestaña.
 const wantedTab=new URLSearchParams(location.search).get('calc');
 if(wantedTab)document.querySelector('.tab[data-k="'+wantedTab+'"]')?.click();
+const showFrom=(id,q)=>{$(id+'-from').textContent='Desde '+eurx(q.lo);$(id+'-range').textContent='Rango habitual: '+eurx(q.lo)+' – '+eurx(q.hi)};
 
-// Aerotermia
-const UTIL={gasoleo:1.15/10/0.85,propano:0.15,gas:0.085,elec:0.17},SCOP={D3:3.6,C4:3.9},PK=0.17;
-function calcA(){const fuel=$('a-fuel').value,spend=+$('a-spend').value,m2=+$('a-m2').value,zone=$('a-zone').value,irpfOn=$('a-irpf').checked;
-  $('a-spend-v').textContent=eur(spend);$('a-m2-v').textContent=m2+' m²';
-  const nc=spend/UTIL[fuel]*PK/SCOP[zone],save=Math.max(0,spend-nc),inv=7500+30*m2,irpf=irpfOn?0.4*Math.min(inv,7500):0,pay=save>0?(inv-irpf)/save:Infinity;
-  $('a-save').textContent=eur(save);$('a-n1').textContent=eur(spend);$('a-n2').textContent=eur(nc);$('a-b1').style.width='100%';$('a-b2').style.width=(nc/spend*100).toFixed(1)+'%';
-  $('a-inv').textContent=eur(inv*.88)+' – '+eur(inv*1.12);$('a-irpf-v').textContent=irpfOn?eur(irpf):'No aplica';
-  $('a-pay').textContent=isFinite(pay)?num(pay)+' años':'—';$('a-15').textContent=eur(save*15-(inv-irpf));
-  lastCalc={tipo:'Aerotermia',resumen:'ahorro ≈ '+eur(save)+'/año, inversión '+eur(inv*.88)+'–'+eur(inv*1.12)};}
-['a-fuel','a-spend','a-m2','a-zone','a-irpf'].forEach(id=>$(id).addEventListener('input',calcA));
-
-// Solar
-function calcS(){const bill=+$('s-bill').value,zone=$('s-zone').value,orient=+$('s-roof').value,bat=$('s-bat').checked,aero=$('s-aero').checked,ev=$('s-ev').checked;
-  $('s-bill-v').textContent=eur(bill)+'/mes';
-  let cons=bill*12*0.8/PK+(aero?4000:0)+(ev?2500:0);            // kWh/año (80 % de la factura es energía)
-  const annual=bill*12+(aero?4000*PK:0)+(ev?2500*PK:0);
-  const yieldK=(zone==='C4'?1620:1550)*orient;
-  let kwp=Math.round(clamp(cons*0.75/yieldK,2,15)/0.45)*0.45;
-  const prod=kwp*yieldK, selfR=bat?0.72:0.42, self=Math.min(prod*selfR,cons*0.85), exc=prod-self;
-  const save=self*PK+exc*0.06, after=Math.max(annual-save,annual*0.12);
-  const inv=1600+kwp*1150+(bat?6500:0), pay=inv/save;
-  $('s-save').textContent=eur(save);$('s-n1').textContent=eur(annual);$('s-n2').textContent=eur(after);
-  $('s-b1').style.width='100%';$('s-b2').style.width=(after/annual*100).toFixed(1)+'%';
-  $('s-kwp').textContent=num(kwp,2)+' kWp · '+Math.round(kwp/0.45)+' paneles';$('s-prod').textContent=Math.round(prod).toLocaleString('es-ES')+' kWh';
-  $('s-self').textContent=Math.round(self/cons*100)+' % de tu consumo';$('s-inv').textContent=eur(inv*.9)+' – '+eur(inv*1.1);$('s-pay').textContent=num(pay)+' años';
-  lastCalc={tipo:'Placas solares',resumen:num(kwp,2)+' kWp'+(bat?' + batería':'')+', ahorro ≈ '+eur(save)+'/año'};}
+function calcA(){
+  const q=quoteAero({fuel:$('a-fuel').value,spend:+$('a-spend').value,m2:+$('a-m2').value,zone:$('a-zone').value,emitter:$('a-emit').value,irpf:$('a-irpf').checked});
+  $('a-spend-v').textContent=eurx(+$('a-spend').value);$('a-m2-v').textContent=$('a-m2').value+' m²';
+  showFrom('a',q);
+  const spend=+$('a-spend').value;$('a-n1').textContent=eurx(spend);$('a-n2').textContent=eurx(q.newCost);$('a-b1').style.width='100%';$('a-b2').style.width=(q.newCost/spend*100).toFixed(1)+'%';
+  $('a-save').textContent=eurx(q.save);$('a-irpf-v').textContent=q.deduction?eurx(q.deduction):'No aplica';
+  $('a-ret').textContent=isFinite(q.payback)?num(q.payback)+' años':'—';
+  q.notes=['Bomba de calor recomendada: '+q.kw+' kW.','Ahorro estimado frente a tu sistema actual: '+eurx(q.save)+' al año.',
+    q.deduction?'Deducción IRPF estimada: '+eurx(q.deduction)+' (40 %, hasta el 31-12-2026, con certificado energético antes y después).':'',
+    'Incluye legalización, puesta en marcha y tramitación de ayudas.'].filter(Boolean);
+  quotes.aero=q;}
+function calcS(){
+  const q=quoteSolar({bill:+$('s-bill').value,zone:$('s-zone').value,orient:+$('s-roof').value,battery:+$('s-bat').value,aero:$('s-aero').checked,ev:$('s-ev').checked});
+  $('s-bill-v').textContent=eurx(+$('s-bill').value)+'/mes';
+  showFrom('s',q);
+  $('s-n1').textContent=eurx(q.annual);$('s-n2').textContent=eurx(q.after);$('s-b1').style.width='100%';$('s-b2').style.width=(q.after/q.annual*100).toFixed(1)+'%';
+  $('s-kwp').textContent=num(q.kwp,1)+' kWp · '+q.panels+' paneles';$('s-save').textContent=eurx(q.save);$('s-ret').textContent=num(q.payback)+' años';
+  q.notes=['Producción estimada: '+Math.round(q.prod).toLocaleString('es-ES')+' kWh al año ('+Math.round(q.selfPct*100)+' % de tu consumo).','Ahorro estimado: '+eurx(q.save)+' al año.',
+    'Incluye legalización del autoconsumo con compensación de excedentes y tramitación de bonificaciones de IBI e ICIO si tu municipio las ofrece.'];
+  quotes.solar=q;}
+function calcR(){
+  const type=$('r-type').value,units=+$('r-n').value,m2=+$('r-m2').value;
+  const unitM2=type==='int'||type==='design';
+  $('r-m2-f').hidden=!unitM2;$('r-n-f').hidden=unitM2;$('r-m2-v').textContent=m2+' m²';$('r-n-v').textContent=units+(units>1?' unidades':' unidad');
+  $('r-floor').disabled=type!=='int';$('r-proj').disabled=$('r-dom').disabled=type==='design';
+  const q=quoteReforma({type,level:+document.querySelector('input[name="r-q"]:checked').value,m2,units,floor:$('r-floor').checked,domotics:$('r-dom').checked,project:$('r-proj').checked});
+  showFrom('r',q);
+  $('r-m2p').textContent=eurx(q.perM2[0])+' – '+eurx(q.perM2[1]);$('r-time').textContent=q.weeks[0]+'–'+q.weeks[1]+' semanas';$('r-pay').textContent=type==='design'?'50 % · 50 %':q.payments;
+  q.notes=['Plazo estimado: '+q.weeks[0]+'–'+q.weeks[1]+' semanas.',type==='design'?'Incluye planos, renders 3D y selección de materiales.':'Pagos por hitos de obra: '+q.payments+'.',
+    'No incluye mobiliario suelto ni electrodomésticos salvo que se indique.'];
+  quotes.ref=q;}
+function calcO(){
+  const m2=+$('o-m2').value;$('o-m2-v').textContent=m2+' m²';
+  const q=quoteObra({m2,level:+document.querySelector('input[name="o-q"]:checked').value,energy:$('o-energy').checked,soft:$('o-soft').checked,pool:$('o-pool').checked});
+  showFrom('o',q);
+  $('o-m2p').textContent=eurx(q.perM2[0])+' – '+eurx(q.perM2[1]);$('o-time').textContent=q.months[0]+'–'+q.months[1]+' meses';
+  q.notes=['Plazo estimado de obra: '+q.months[0]+'–'+q.months[1]+' meses desde la licencia.','No incluye el terreno, acometidas ni urbanización exterior.',
+    'Vivienda de nueva construcción: IVA del 10 % incluido.'];
+  quotes.obra=q;}
+const CALC={aero:calcA,solar:calcS,ref:calcR,obra:calcO};
+['a-fuel','a-spend','a-m2','a-emit','a-zone','a-irpf'].forEach(id=>$(id).addEventListener('input',calcA));
 ['s-bill','s-zone','s-roof','s-bat','s-aero','s-ev'].forEach(id=>$(id).addEventListener('input',calcS));
-
-// Reforma de lujo
-const REF={ // [min,max] por nivel: Premium, Lujo, Alta decoración
-  int:{unit:'m2',p:[[1100,1500],[1600,2400],[2500,3600]]},
-  kit:{unit:'n',p:[[18000,28000],[30000,55000],[60000,110000]],m2eq:18},
-  bath:{unit:'n',p:[[9000,14000],[15000,28000],[30000,55000]],m2eq:8},
-  design:{unit:'m2',p:[[180,300],[320,520],[550,900]]}
-};
-function calcR(){const type=$('r-type').value,cfg=REF[type],q=+document.querySelector('input[name="r-q"]:checked').value;
-  const m2=+$('r-m2').value,n=+$('r-n').value;$('r-m2-v').textContent=m2+' m²';$('r-n-v').textContent=n+(n>1?' unidades':' unidad');
-  $('r-m2-f').hidden=cfg.unit!=='m2';$('r-n-f').hidden=cfg.unit!=='n';
-  const qty=cfg.unit==='m2'?m2:n;let [lo,hi]=cfg.p[q].map(v=>v*qty);
-  const floorOn=$('r-floor').checked&&(type==='int'),domOn=$('r-dom').checked,projOn=$('r-proj').checked;
-  $('r-floor').disabled=type!=='int';
-  const energy=floorOn?(6500+m2*55):0;
-  const dom=domOn?(lo+hi)/2*0.06:0, proj=projOn&&type!=='design'?(lo+hi)/2*0.09:0;
-  lo+=energy+dom+proj;hi+=energy+dom+proj;const mid=(lo+hi)/2;
-  $('r-total').textContent=eurK(lo)+' – '+eurK(hi);
-  const area=cfg.unit==='m2'?m2:cfg.m2eq*n;$('r-m2p').textContent=eur(lo/area)+' – '+eur(hi/area);
-  let wk;if(type==='int')wk=[Math.round(10+m2/25),Math.round(14+m2/18)];else if(type==='kit')wk=[3+n,5+n*2];else if(type==='bath')wk=[2+n,3+n*2];else wk=[4,8];
-  $('r-time').textContent=wk[0]+'–'+wk[1]+' semanas';
-  $('r-energy').textContent=floorOn?eur(energy):(type==='int'?'No incluido':'—');
-  const base=mid-energy-dom-proj, parts=[base*0.45,base*0.32,base*0.23,energy+dom+proj], tot=parts.reduce((a,b)=>a+b,0);
-  ['rs1','rs2','rs3','rs4'].forEach((id,i)=>$(id).style.width=(parts[i]/tot*100)+'%');
-  lastCalc={tipo:'Reforma',resumen:$('r-type').selectedOptions[0].text+', '+['premium','lujo','alta decoración'][q]+', '+eurK(lo)+'–'+eurK(hi)};}
 ['r-type','r-m2','r-n','r-floor','r-dom','r-proj'].forEach(id=>$(id).addEventListener('input',calcR));
 document.querySelectorAll('input[name="r-q"]').forEach(r=>r.addEventListener('input',calcR));
-calcA();calcS();calcR();calcA();
+['o-m2','o-energy','o-soft','o-pool'].forEach(id=>$(id).addEventListener('input',calcO));
+document.querySelectorAll('input[name="o-q"]').forEach(r=>r.addEventListener('input',calcO));
+calcA();calcS();calcR();calcO();
+
+// Presupuesto automático
+const dlg=$('quote');let current=null;
+function quoteRef(){const d=new Date(),p=n=>String(n).padStart(2,'0');return 'AV-'+String(d.getFullYear()).slice(2)+p(d.getMonth()+1)+p(d.getDate())+'-'+Math.random().toString(36).slice(2,6).toUpperCase()}
+function quoteText(q){return 'Presupuesto orientativo '+q.ref+' · '+q.title+'\n'+q.lines.map(l=>'· '+l.label+': '+eurx(l.lo)+' – '+eurx(l.hi)).join('\n')+'\nDesde '+eurx(q.lo)+' (IVA incluido)'}
+function openQuote(k){
+  CALC[k]();const q=quotes[k];q.ref=quoteRef();current=q;
+  const d=new Date();$('q-meta').textContent='Ref. '+q.ref+' · '+d.toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});
+  $('q-title').textContent=q.title;$('q-from').textContent=eurx(q.lo);
+  $('q-lines').replaceChildren(...q.lines.map(l=>{const tr=document.createElement('tr');[l.label,eurx(l.lo),eurx(l.hi)].forEach(t=>{const td=document.createElement('td');td.textContent=t;tr.append(td)});return tr}));
+  $('q-lo').textContent=eurx(q.lo);$('q-hi').textContent=eurx(q.hi);
+  $('q-notes').replaceChildren(...q.notes.map(n=>{const li=document.createElement('li');li.textContent=n;return li}));
+  $('q-wa').href='https://wa.me/34689042717?text='+encodeURIComponent('Hola, he calculado mi presupuesto en la web y quiero una visita.\n\n'+quoteText(q));
+  $('q-company').textContent='Aerovantia · Euforico Equilibrio S.L. · NIF B45917622 · Olías del Rey (Toledo) · 689 042 717 · info@aerovantia.es';
+  dlg.showModal();
+}
+document.querySelectorAll('[data-quote]').forEach(b=>b.addEventListener('click',()=>openQuote(b.dataset.quote)));
+dlg.addEventListener('click',e=>{if(e.target===dlg||e.target.closest('[data-close]'))dlg.close()});
+// El título del documento es el nombre que el navegador propone para el PDF.
+let pageTitle=document.title;
+$('q-pdf').addEventListener('click',()=>{pageTitle=document.title;document.title='Presupuesto Aerovantia '+current.ref;document.documentElement.classList.add('printing-quote');print()});
+addEventListener('afterprint',()=>{document.documentElement.classList.remove('printing-quote');document.title=pageTitle});
 
 // Pasar el cálculo al formulario
-document.querySelectorAll('[data-from]').forEach(a=>a.addEventListener('click',()=>{
-  const k=a.dataset.from;({aero:calcA,solar:calcS,ref:calcR})[k]();
-  calcShared=lastCalc;
-  $('f-calc').textContent='Tu cálculo: '+lastCalc.tipo+' — '+lastCalc.resumen+'. Lo usaremos para preparar tu estudio.';$('f-calc').hidden=false;
-  $('i-aero').checked=k==='aero';if($('i-new'))$('i-new').checked=false;$('i-pv').checked=k==='solar';$('i-bat').checked=k==='solar'&&$('s-bat').checked;$('i-ref').checked=k==='ref';$('i-int').checked=k==='ref'&&$('r-proj').checked;
-}));
+const INTEREST_OF={aero:['aero'],solar:['pv'],ref:['ref'],obra:['new']};
+function shareToForm(k,q){
+  calcShared={tipo:q.title,resumen:(q.ref?q.ref+' · ':'')+q.summary.replace(/ (\d+) €/,(m,n)=>' '+eurx(+n))};
+  $('f-calc').textContent='Tu presupuesto: '+calcShared.tipo+' — '+calcShared.resumen+'. Lo usaremos para preparar tu visita.';$('f-calc').hidden=false;
+  ['aero','pv','bat','ev','ref','int','new'].forEach(i=>{if($('i-'+i))$('i-'+i).checked=INTEREST_OF[k].includes(i)});
+  if(k==='solar'){$('i-bat').checked=+$('s-bat').value>0;$('i-ev').checked=$('s-ev').checked}
+  if(k==='ref')$('i-int').checked=$('r-type').value==='design'||$('r-proj').checked;
+  if(k==='obra')$('i-aero').checked=$('o-energy').checked;
+}
+document.querySelectorAll('[data-from]').forEach(a=>a.addEventListener('click',()=>{const k=a.dataset.from;CALC[k]();shareToForm(k,quotes[k])}));
+$('q-book').addEventListener('click',()=>{const k=current.kind;shareToForm(k,current);dlg.close()});
 
 // Formulario: si hay webhook (PUBLIC_LEAD_WEBHOOK_URL) se envía por POST; si no, se abre el
 // correo del cliente con la solicitud ya redactada para que no se pierda ningún contacto.
