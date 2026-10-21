@@ -1,6 +1,6 @@
 // Calculadoras y presupuesto orientativo. Las fórmulas viven en pricing.js; aquí solo se leen los
 // campos, se pintan los resultados en rango y se gestiona el presupuesto (PDF y WhatsApp).
-import { ENERGY as E, PRICES, ZONES, quoteAero, quoteReforma, quoteSolar } from "./pricing.js";
+import { ENERGY as E, PRICES, ZONES, quoteAero, quoteObra, quoteReforma, quoteSolar } from "./pricing.js";
 import { track } from "./track.js";
 
 (function () {
@@ -137,7 +137,29 @@ import { track } from "./track.js";
     quotes.ref = q;
   }
 
-  const CALC = { aero: calcA, solar: calcS, ref: calcR };
+  function calcO() {
+    const m2 = +$("o-m2").value, level = +document.querySelector('input[name="o-q"]:checked').value;
+    $("o-m2-v").textContent = m2 + " m²";
+    const q = quoteObra({ m2, level, zone: $("o-zone").value, energy: $("o-energy").checked, soft: $("o-soft").checked, pool: $("o-pool").checked });
+    showRange("o", q); $("o-range").textContent = "Referencia de mercado, IVA incluido";
+    $("o-m2p").textContent = eurRange(q.perM2[0], q.perM2[1]);
+    $("o-time").textContent = q.months[0] + "–" + q.months[1] + " meses";
+    q.hyp = [
+      `Construcción llave en mano: ${PRICES.obra.perM2[level].map((v) => eurx(v)).join(" – ")} por m² construido según calidades (${PRICES.levels[level].toLowerCase()}), punto medio ±10 %.`,
+      `Proyecto, dirección facultativa, licencia e ICIO: ${Math.round(PRICES.obra.soft * 100)} % de la construcción.`,
+      "Vivienda de nueva construcción: IVA del 10 % incluido.",
+      `Rangos de referencia del mercado de Madrid y Toledo actualizados en ${PRICES.actualizadoTexto}.`,
+    ];
+    list("o-hyp", q.hyp);
+    q.notes = [
+      "Referencia de mercado. En obra nueva el precio se da bajo proyecto.",
+      `Plazo estimado de obra: ${q.months[0]}–${q.months[1]} meses desde la licencia.`,
+      "No incluye el terreno, las acometidas ni la urbanización exterior.",
+    ];
+    quotes.obra = q;
+  }
+
+  const CALC = { aero: calcA, solar: calcS, ref: calcR, obra: calcO };
   const bind = (k, ids, radios = []) => {
     if (!$("p-" + k)) return;
     ids.forEach((id) => $(id).addEventListener("input", () => { markUsed(k); CALC[k](); }));
@@ -147,6 +169,7 @@ import { track } from "./track.js";
   bind("aero", ["a-fuel", "a-boiler", "a-spend", "a-m2", "a-ins", "a-emit", "a-zone", "a-irpf"]);
   bind("solar", ["s-bill", "s-zone", "s-profile", "s-type", "s-orient", "s-shade", "s-area", "s-bat", "s-aero", "s-ev", "s-irpf"], ["s-tilt"]);
   bind("ref", ["r-type", "r-m2", "r-n", "r-floor", "r-dom", "r-proj"], ["r-q", "r-size"]);
+  bind("obra", ["o-m2", "o-zone", "o-energy", "o-soft", "o-pool"], ["o-q"]);
   root.querySelectorAll("details").forEach((d) => d.addEventListener("toggle", () => { if (d.open) track("calc_hypotheses_opened", { calculadora: d.closest(".calc-grid").id.slice(2) }); }));
 
   // Presupuesto orientativo
@@ -162,8 +185,8 @@ import { track } from "./track.js";
     $("q-lines").replaceChildren(...q.lines.map((l) => { const tr = document.createElement("tr"); [l.label, eurx(l.lo), eurx(l.hi)].forEach((t) => { const td = document.createElement("td"); td.textContent = t; tr.append(td); }); return tr; }));
     $("q-lo").textContent = eurx(q.lo); $("q-hi").textContent = eurx(q.hi);
     list("q-notes", [...q.notes, "Hipótesis usadas:", ...q.hyp]);
-    $("q-legal").textContent = k === "ref"
-      ? `Estimación orientativa con rangos de referencia del mercado de Madrid y Toledo, actualizados en ${PRICES.actualizadoTexto}, IVA incluido. No es un presupuesto: en reformas el precio se da bajo proyecto. Validez de la estimación: 30 días.`
+    $("q-legal").textContent = k === "ref" || k === "obra"
+      ? `Estimación orientativa con rangos de referencia del mercado de Madrid y Toledo, actualizados en ${PRICES.actualizadoTexto}, IVA incluido. No es un presupuesto: en reformas y obra nueva el precio se da bajo proyecto. Validez de la estimación: 30 días.`
       : `Presupuesto orientativo generado a partir de tus datos y de precios actualizados en ${PRICES.actualizadoTexto}, IVA incluido. No es vinculante: el precio definitivo se fija en la propuesta escrita tras la visita. Validez de la estimación: 30 días.`;
     $("q-company").textContent = "Aerovantia · Eufórico Equilibrio S.L. · NIF B45917622 · Olías del Rey (Toledo) · 689 042 717 · info@aerovantia.es";
     $("q-err").hidden = true;

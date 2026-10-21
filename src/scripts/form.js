@@ -9,7 +9,7 @@ import { track } from "./track.js";
   const WEBHOOK_URL = import.meta.env.PUBLIC_LEAD_WEBHOOK_URL || "";
   const LEAD_EMAIL = "info@aerovantia.es";
   const INTEREST = { aero: "Aerotermia", pv: "Placas solares", combo: "Aerotermia + Solar", bat: "Batería", ev: "Cargador VE", ref: "Reforma", new: "Obra nueva", int: "Interiorismo", first: "Quiero ser de los primeros clientes" };
-  const INTEREST_OF = { aero: ["aero"], solar: ["pv"], ref: ["ref"] };
+  const INTEREST_OF = { aero: ["aero"], solar: ["pv"], ref: ["ref"], obra: ["new"] };
   let calc = null;
 
   // El cálculo llega de la calculadora de esta página o de otra (sessionStorage).

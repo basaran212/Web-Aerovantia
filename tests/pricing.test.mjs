@@ -3,7 +3,7 @@
 import assert from "node:assert/strict"
 import { test } from "node:test"
 
-import { aeroSavings, heatPumpKw, quoteAero, quoteCharger, quoteReforma, quoteSolar, solarFactor } from "../src/scripts/pricing.js"
+import { aeroSavings, heatPumpKw, quoteAero, quoteCharger, quoteObra, quoteReforma, quoteSolar, solarFactor } from "../src/scripts/pricing.js"
 import { AERO_CASES, SOLAR_CASES } from "./cases.mjs"
 
 const within = (v, lo, hi, what) => assert.ok(v >= lo && v <= hi, `${what}: ${v} fuera de ${lo}–${hi}`)
@@ -69,11 +69,19 @@ test("reforma integral: estándar alto y alta dentro de las bandas publicadas (B
   within(q1.perM2[0], 700, 1200, "alta €/m²")
 })
 
+test("obra nueva 150 m² calidad alta: 1.400–2.100 €/m² y 280.000–380.000 € con energía y proyecto (B26–B27)", () => {
+  const q = quoteObra({ m2: 150, level: 1, energy: false, soft: false, pool: false })
+  within(q.perM2[0], 1400, 2100, "€/m²")
+  const all = quoteObra({ m2: 150, level: 1, energy: true, soft: true, pool: false })
+  within(all.lo, 280000, 380000, "con energía y proyecto")
+})
+
 test("amplitud de todos los rangos de precio ≤ ±12 % sobre el punto medio", () => {
   const qs = [
     ...AERO_CASES.map((c) => quoteAero(c.input)),
     ...SOLAR_CASES.map((c) => quoteSolar(c.input)),
     quoteCharger({ power: "11", meters: 30 }),
+    ...[0, 1, 2].map((level) => quoteObra({ m2: 250, level, energy: true, soft: true, pool: true })),
     ...["int", "kit", "bath", "design"].flatMap((type) => [0, 1, 2].map((level) => quoteReforma({ type, level, m2: 150, units: 1, size: "m", project: true, domotics: true }))),
   ]
   for (const q of qs) assert.ok(halfWidth(q.lo, q.hi) <= 0.12, `${q.title}: ±${(halfWidth(q.lo, q.hi) * 100).toFixed(1)} %`)

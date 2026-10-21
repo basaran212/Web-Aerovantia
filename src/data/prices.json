@@ -216,5 +216,36 @@
     "Estándar alto",
     "Alta",
     "Lujo"
-  ]
+  ],
+  "obra": {
+    "perM2": [
+      [
+        1350,
+        1600
+      ],
+      [
+        1650,
+        2000
+      ],
+      [
+        2100,
+        2800
+      ]
+    ],
+    "soft": 0.09,
+    "pool": 25000,
+    "solarKwp": 5,
+    "_nota": "Construcción llave en mano por m² construido, sin terreno. Rango mostrado: punto medio ±10 %. En obra nueva el precio se da bajo proyecto.",
+    "trazabilidad": "B26–B27 · costes pendientes",
+    "incluye": [
+      "Construcción llave en mano según calidades",
+      "Aerotermia con suelo radiante y placas solares (opcional)",
+      "Proyecto, dirección facultativa, licencia e ICIO (opcional)"
+    ],
+    "noIncluye": [
+      "Terreno",
+      "Acometidas y urbanización exterior",
+      "Mobiliario"
+    ]
+  }
 }

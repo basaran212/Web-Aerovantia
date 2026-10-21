@@ -5,7 +5,7 @@
 import prices from "../data/prices.json";
 
 interface Props {
-  only?: "aero" | "solar" | "ref" | ("aero" | "solar" | "ref")[];
+  only?: "aero" | "solar" | "ref" | "obra" | ("aero" | "solar" | "ref" | "obra")[];
   /** Zona preseleccionada (landings de municipio). */
   zone?: "madrid" | "toledo";
 }
@@ -15,6 +15,7 @@ const tabs = [
   { k: "aero", label: "Aerotermia" },
   { k: "solar", label: "Placas solares" },
   { k: "ref", label: "Reformas" },
+  { k: "obra", label: "Obra nueva" },
 ].filter((t) => !only || (Array.isArray(only) ? only.includes(t.k as any) : t.k === only));
 const first = tabs[0].k;
 const show = (k: string) => tabs.some((t) => t.k === k);
@@ -159,7 +160,38 @@ const zoneOptions = [
     </div>
   )}
 
-  <p class="disclaimer" style="margin-top:28px">Precios orientativos basados en el mercado de Madrid y Toledo, actualizados en {prices.actualizadoTexto}, IVA incluido. En aerotermia y placas, el precio definitivo se fija en la propuesta escrita tras la visita. En reformas, el precio se da bajo proyecto.</p>
+  {show("obra") && (
+    <div class="calc-grid" role="tabpanel" id="p-obra" aria-labelledby={tabs.length > 1 ? "t-obra" : undefined} hidden={first !== "obra"}>
+      <form class="fields" onsubmit="return false">
+        <div class="field"><label for="o-m2">Superficie construida: <span class="range-val" id="o-m2-v"></span></label>
+          <input type="range" id="o-m2" min="90" max="500" step="10" value="180"><small>Sin contar el terreno.</small></div>
+        <fieldset class="field"><legend>Nivel de calidades</legend>
+          <div class="seg">
+            <label><input type="radio" name="o-q" value="0"> Estándar alto</label>
+            <label><input type="radio" name="o-q" value="1" checked> Alta</label>
+            <label><input type="radio" name="o-q" value="2"> Lujo</label>
+          </div></fieldset>
+        <div class="field"><label for="o-zone">Zona</label>
+          <select id="o-zone">{zoneOptions.map((o) => <option value={o.v} selected={o.v === zone}>{o.label}</option>)}</select></div>
+        <label class="chk" for="o-energy"><input type="checkbox" id="o-energy" checked> Aerotermia con suelo radiante y placas solares</label>
+        <label class="chk" for="o-soft"><input type="checkbox" id="o-soft" checked> Proyecto, dirección facultativa, licencia e ICIO</label>
+        <label class="chk" for="o-pool"><input type="checkbox" id="o-pool"> Piscina</label>
+      </form>
+      <div class="result" aria-live="polite">
+        <div><p class="eyebrow">Referencia de mercado · IVA incluido</p><div class="big brass" id="o-from">—</div><p class="range-line" id="o-range"></p></div>
+        <div class="res-rows">
+          <div><span>Precio por m² construido</span><b id="o-m2p"></b></div>
+          <div><span>Plazo de obra estimado</span><b id="o-time"></b></div>
+          <div><span>Terreno</span><b>No incluido</b></div>
+        </div>
+        <p class="calc-note">En obra nueva el precio se da siempre bajo proyecto, con la parcela, el proyecto y las calidades definidos.</p>
+        <details><summary>Ver hipótesis</summary><ul class="q-notes" id="o-hyp"></ul></details>
+        <div class="quote-ctas"><button class="btn btn-primary" type="button" data-quote="obra">Ver mi estimación</button><a class="btn btn-ghost" href="/#contacto" data-from="obra">Reservar visita gratis</a></div>
+      </div>
+    </div>
+  )}
+
+  <p class="disclaimer" style="margin-top:28px">Precios orientativos basados en el mercado de Madrid y Toledo, actualizados en {prices.actualizadoTexto}, IVA incluido. En aerotermia y placas, el precio definitivo se fija en la propuesta escrita tras la visita. En reformas y obra nueva, el precio se da bajo proyecto.</p>
 
   <dialog id="quote" aria-labelledby="q-title">
     <div class="q-sheet">

@@ -18,7 +18,7 @@ interface Props {
   title: string;
   lede: string;
   /** Calculadora a la que lleva el segundo botón. */
-  calc?: "aero" | "solar" | "ref";
+  calc?: "aero" | "solar" | "ref" | "obra";
   facts: { value: string; label: string }[];
   includesTitle: string;
   includesText: string;
@@ -41,7 +41,7 @@ const p = Astro.props;
 const path = Astro.url.pathname;
 const name = p.name ?? services.find((s) => s.href === path)?.label ?? p.eyebrow;
 const parents = p.parents ?? [];
-const calcHref = { aero: "/calculadoras/aerotermia/", solar: "/calculadoras/placas-solares/", ref: "/calculadoras/reformas/" };
+const calcHref = { aero: "/calculadoras/aerotermia/", solar: "/calculadoras/placas-solares/", ref: "/calculadoras/reformas/", obra: "/calculadoras/obra-nueva/" };
 const pc = config.primerosClientes;
 const crumbs = [{ name: "Inicio", href: "/" }, ...parents, { name, href: path }];
 

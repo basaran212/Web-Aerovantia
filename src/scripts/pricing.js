@@ -190,6 +190,34 @@ export function quoteCharger({ power = "7.4", meters = 10 }) {
   return { kind: "ev", title: "Cargador de coche eléctrico", lo, hi, lines: [{ label: `Punto de recarga ${power.replace(".", ",")} kW y línea de ${meters} m`, lo, hi }] };
 }
 
+/* ===== Obra nueva (rango de referencia; el precio se da bajo proyecto) ===== */
+
+export function quoteObra({ m2, level, energy = true, soft = true, pool = false, zone = "madrid" }) {
+  const o = P.obra;
+  const [pmin, pmax] = o.perM2[level];
+  const mid = (pmin + pmax) / 2;
+  const build = { lo: mid * 0.9 * m2, hi: mid * 1.1 * m2 };
+  const lines = [{ label: `Construcción llave en mano · ${P.levels[level]} · ${m2} m²`, ...build }];
+  if (energy) {
+    lines.push(...aeroLines({ m2, zone, emitter: "floor", fuel: "elec" }).lines);
+    const [lo, hi] = range(P.solar.fixed + P.solar.perKwp * o.solarKwp);
+    lines.push({ label: `Placas solares ${o.solarKwp} kWp`, lo, hi });
+  }
+  if (soft) lines.push({ label: "Proyecto, dirección facultativa, licencia e ICIO", lo: build.lo * o.soft, hi: build.hi * o.soft });
+  if (pool) lines.push({ label: "Piscina (≈ 8 × 4 m)", lo: o.pool * 0.9, hi: o.pool * 1.1 });
+  const rounded = lines.map((l) => ({ ...l, lo: down(l.lo), hi: up(l.hi) }));
+  const t = total(rounded);
+  return {
+    kind: "obra",
+    title: "Obra nueva",
+    lines: rounded,
+    ...t,
+    perM2: [t.lo / m2, t.hi / m2],
+    months: [Math.round(8 + m2 / 60), Math.round(12 + m2 / 45)],
+    summary: `Obra nueva de ${m2} m² (${P.levels[level].toLowerCase()}), ${t.lo}–${t.hi} € (IVA incl.), referencia de mercado`,
+  };
+}
+
 /* ===== Reformas (rango de referencia de mercado; el precio se da bajo proyecto) ===== */
 
 const SIZE_POS = { s: 0.2, m: 0.5, l: 0.8 };
