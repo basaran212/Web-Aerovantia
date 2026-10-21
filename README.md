@@ -72,6 +72,17 @@ comprueba que siguen dentro de esos rangos:
 **Antes de publicar, revisad `PRICING` con vuestros costes reales**: el "desde" es un precio
 que el cliente verá y esperará.
 
+## Publicación (Cloudflare Workers)
+
+La web se sirve como archivos estáticos desde Cloudflare Workers (`wrangler.jsonc`, sin código de
+Worker). Con `CLOUDFLARE_API_TOKEN` y `CLOUDFLARE_ACCOUNT_ID` en el entorno:
+
+```sh
+pnpm deploy   # astro build && wrangler deploy
+```
+
+`public/_headers` fija la caché larga de `/_astro/*` y de los vídeos.
+
 ## Formulario de contacto
 
 Las solicitudes se envían por POST (JSON) a la URL de `PUBLIC_LEAD_WEBHOOK_URL`

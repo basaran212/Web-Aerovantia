@@ -1,0 +1,11 @@
+{
+  // Web estática servida por Cloudflare Workers (sin código de Worker): solo los archivos de dist/.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "web-aerovantia",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+    "html_handling": "force-trailing-slash"
+  }
+}
