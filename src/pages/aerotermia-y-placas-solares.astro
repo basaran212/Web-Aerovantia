@@ -53,13 +53,13 @@ const solar = quoteSolar({ bill: 120, zone: "madrid", roof: "teja", orient: "S",
   <section>
     <div class="wrap">
       <div class="sec-head"><p class="eyebrow">Ejemplo orientativo</p><h2>Un chalet de 180 m² con gasóleo.</h2><p class="lede">Radiadores existentes, 2.400 € al año de gasóleo y 120 €/mes de luz. Precios de {prices.actualizadoTexto}, IVA incluido.</p></div>
-      <table class="q-lines">
+      <div class="table-wrap"><table class="q-lines">
         <thead><tr><th>Instalación</th><th>Inversión orientativa</th><th>Ahorro estimado al año</th></tr></thead>
         <tbody>
           <tr><td>Aerotermia {aero.kw} kW</td><td>{eurRange(aero.lo, aero.hi)}</td><td>{eurRange(aero.save[0], aero.save[1])}</td></tr>
           <tr><td>Placas {solar.kwp.toLocaleString("es-ES")} kWp + batería 5 kWh</td><td>{eurRange(solar.lo, solar.hi)}</td><td>{eurRange(solar.save[0], solar.save[1])}</td></tr>
         </tbody>
-      </table>
+      </table></div>
       <p class="disclaimer" style="margin-top:16px">Cada caso es distinto: el ahorro depende de los radiadores, del aislamiento y de tu tejado. Calcula las dos partes en la <a href="/calculadoras/aerotermia/">calculadora de aerotermia</a> (con tu sistema actual) y en la <a href="/calculadoras/placas-solares/">de placas solares</a> (marcando "También instalo aerotermia"). Requisitos de la <a href="/ayudas/deduccion-irpf/">deducción del 40 %</a>.</p>
     </div>
   </section>

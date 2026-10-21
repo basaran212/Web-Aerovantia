@@ -35,10 +35,10 @@ const faqs = [
   <h2>La respuesta corta</h2>
   <p>Con una caldera de gas antigua y suelo radiante, la aerotermia puede reducir mucho el gasto. Con una caldera de condensación reciente y radiadores, el ahorro es pequeño. En una casa que gasta 1.800 € al año en gas, la diferencia va de unas decenas a unos cientos de euros según el caso.</p>
   <h2>Coste anual para una casa que gasta 1.800 € de gas</h2>
-  <table class="q-lines">
+  <div class="table-wrap"><table class="q-lines">
     <thead><tr><th>Situación actual (Madrid)</th><th>Coste con aerotermia</th><th>Ahorro al año</th></tr></thead>
     <tbody>{rows.map((r) => <tr><td>{r.label}</td><td>{eurRange(r.s.cost[0], r.s.cost[1])}</td><td>{eurRange(r.s.save[0], r.s.save[1])}</td></tr>)}</tbody>
-  </table>
+  </table></div>
   <p>En la provincia de Toledo, con inviernos algo más suaves, el ahorro con caldera estándar y radiadores queda en {eurRange(toledo.save[0], toledo.save[1])} al año. La inversión orientativa para 150 m² con radiadores es de {eurRange(inv.lo, inv.hi)}.</p>
   <h2>Hipótesis</h2>
   <ul>

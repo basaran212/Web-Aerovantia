@@ -33,7 +33,7 @@ export default defineConfig({
         zona: (item) => (/\/zona\//.test(item.url) ? item : undefined),
         ayudas: (item) => (/\/ayudas\//.test(item.url) ? item : undefined),
         guias: (item) => (/\/(guias\/|aerotermia\/con-radiadores\/|placas-solares\/baterias\/)/.test(item.url) ? item : undefined),
-        servicios: (item) => item,
+        servicios: (item) => (/\/(zona|ayudas|guias)\/|\/aerotermia\/con-radiadores\/|\/placas-solares\/baterias\// .test(item.url) ? undefined : item),
       },
       serialize: (item) => ({ ...item, lastmod: lastCommit(sourceOf(item.url)) }),
     }),

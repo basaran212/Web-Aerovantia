@@ -59,10 +59,10 @@ const faqs = aeroFaqs.map((f) =>
   <section>
     <div class="wrap">
       <div class="sec-head"><p class="eyebrow">Ahorro por sistema</p><h2>Cuánto se ahorra según lo que tengas hoy.</h2><p class="lede">Ahorro estimado en calefacción y agua caliente, con las hipótesis de la calculadora (precios de {energy.actualizado}). Depende sobre todo de cómo se reparte el calor y del aislamiento.</p></div>
-      <table class="q-lines">
+      <div class="table-wrap"><table class="q-lines">
         <thead><tr><th>Sistema que sustituyes</th><th>Con tus radiadores</th><th>Con suelo radiante</th></tr></thead>
         <tbody>{table.map((r) => <tr><td>{r.label}</td><td>{r.keep[0]}–{r.keep[1]} %</td><td>{r.floor[0]}–{r.floor[1]} %</td></tr>)}</tbody>
-      </table>
+      </table></div>
       <p class="disclaimer" style="margin-top:16px">Rendimiento estacional realista según el emisor, no el de catálogo. Hipótesis y fuentes en la <a href="/calculadoras/aerotermia/">calculadora de aerotermia</a>. Precios por configuración en <a href="/aerotermia/precio/">precio de la aerotermia</a>. ¿Tienes radiadores? Lee <a href="/aerotermia/con-radiadores/">aerotermia con radiadores: cuándo funciona</a>. Requisitos de la <a href="/ayudas/deduccion-irpf/">deducción del 40 % en el IRPF</a>.</p>
     </div>
   </section>

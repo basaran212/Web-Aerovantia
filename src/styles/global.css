@@ -72,7 +72,7 @@ header.top{position:fixed;inset:24px 0 auto;z-index:40;pointer-events:none;displ
 .logo{font-weight:700;letter-spacing:.14em;font-size:14px;line-height:20px;text-decoration:none;white-space:nowrap}
 .logo span{color:var(--accent)}
 nav.menu{display:flex;gap:4px}
-nav.menu a{font-size:14px;line-height:20px;font-weight:500;color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:999px;transition:color .4s var(--ease),background-color .4s var(--ease)}
+nav.menu a{white-space:nowrap;font-size:14px;line-height:20px;font-weight:500;color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:999px;transition:color .4s var(--ease),background-color .4s var(--ease)}
 nav.menu a:hover{color:var(--ink);background:rgba(242,237,228,.06)}
 nav.menu a[aria-current="page"]{color:var(--ink);background:rgba(242,237,228,.08)}
 .top-actions{display:flex;align-items:center;gap:8px}
@@ -84,8 +84,8 @@ nav.menu a[aria-current="page"]{color:var(--ink);background:rgba(242,237,228,.08
 .burger span:first-child{top:16px}.burger span:last-child{top:22px}
 .burger[aria-expanded="true"] span:first-child{top:19px;transform:rotate(45deg)}
 .burger[aria-expanded="true"] span:last-child{top:19px;transform:rotate(-45deg)}
-@media (max-width:1180px){.top .tel{display:none}}
-@media (max-width:1020px){nav.menu{display:none}.burger{display:block}.top .pill{gap:16px}}
+@media (max-width:1240px){.top .tel{display:none}}
+@media (max-width:1140px){nav.menu{display:none}.burger{display:block}.top .pill{gap:16px}}
 @media (max-width:420px){.top-actions .btn{display:none}.top .pill{width:100%;justify-content:space-between}}
 #mnav{position:fixed;inset:0;z-index:35;display:flex;flex-direction:column;justify-content:center;gap:4px;padding:96px 24px 48px;background:rgba(19,18,9,.86);backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);opacity:0;visibility:hidden;transition:opacity .6s var(--ease),visibility 0s linear .6s}
 #mnav.open{opacity:1;visibility:visible;transition:opacity .6s var(--ease)}
@@ -428,6 +428,9 @@ html{-webkit-tap-highlight-color:transparent}
 
 /* Etiqueta de imagen generada con IA: discreta, en una esquina */
 .ai-tag{position:absolute;right:12px;bottom:12px;z-index:2;font-family:var(--f-mono);font-size:11px;line-height:16px;padding:2px 8px;border-radius:999px;background:rgba(19,18,9,.7);color:rgba(242,237,228,.85);pointer-events:none;white-space:nowrap}
-.world .ai-tag{right:16px;bottom:16px}
-@media (max-width:767px){.world .ai-tag{bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
+.world .ai-tag{left:16px;right:auto;bottom:16px}
+@media (max-width:767px){.world .ai-tag{left:auto;right:16px;bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
 .ai-wrap{position:relative}
+/* Tablas de contenido (precios, ayudas, municipios): desplazamiento horizontal en móvil si no caben */
+.table-wrap{overflow-x:auto;max-width:100%;min-width:0}
+.table-wrap.text .q-lines td{white-space:normal}

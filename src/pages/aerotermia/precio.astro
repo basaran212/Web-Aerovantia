@@ -24,10 +24,10 @@ const faqs = [
 >
   <h2>Precio por configuración tipo</h2>
   <p>Bomba de calor monobloc R290 con depósito de agua caliente, instalación, legalización y puesta en marcha. IVA incluido. Ejemplo con caldera de gas (la retirada de un depósito de gasóleo o propano suma unos cientos de euros).</p>
-  <table class="q-lines">
+  <div class="table-wrap"><table class="q-lines">
     <thead><tr><th>Vivienda</th><th>Con tus radiadores</th><th>Radiadores baja temp.</th><th>Suelo radiante nuevo</th></tr></thead>
     <tbody>{rows.map((r) => <tr><td>{r.kw} kW · {r.label}</td><td>{eurRange(r.keep.lo, r.keep.hi)}</td><td>{eurRange(r.radiators.lo, r.radiators.hi)}</td><td>{eurRange(r.floor.lo, r.floor.hi)}</td></tr>)}</tbody>
-  </table>
+  </table></div>
   <h2>Qué incluye</h2>
   <ul>{prices.aero.incluye.map((i) => <li>{i}</li>)}</ul>
   <h2>Qué no incluye</h2>

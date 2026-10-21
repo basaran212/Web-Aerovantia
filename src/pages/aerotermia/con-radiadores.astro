@@ -30,14 +30,14 @@ const faqs = [
   <h2>La respuesta corta</h2>
   <p>Una caldera calienta el agua de los radiadores a 70–80 °C. Una bomba de calor rinde mejor cuanto más baja es esa temperatura. Si tus radiadores son grandes, o la casa está bien aislada, pueden calentar con agua a 45–55 °C y la aerotermia funciona. Si se instalaron justos, en los días más fríos no llegarán.</p>
   <h2>Cuánto rinde según el emisor</h2>
-  <table class="q-lines">
+  <div class="table-wrap"><table class="q-lines">
     <thead><tr><th>Emisor</th><th>Temperatura del agua</th><th>Rendimiento estacional (SCOP)</th></tr></thead>
     <tbody>
       <tr><td>Radiadores existentes</td><td>50–55 °C</td><td>{k0} – {k1}</td></tr>
       <tr><td>Radiadores de baja temperatura</td><td>≈ 45 °C</td><td>{r0} – {r1}</td></tr>
       <tr><td>Suelo radiante</td><td>≈ 35 °C</td><td>{f0} – {f1}</td></tr>
     </tbody>
-  </table>
+  </table></div>
   <p>Valores prudentes para Madrid. Fuente: {energy.scop.fuente}. {energy.scop.pendiente}</p>
   <p>Con estas hipótesis, sustituir una caldera de gasóleo ahorra entre un {t.keep[0]} y un {t.keep[1]} % manteniendo los radiadores y entre un {t.floor[0]} y un {t.floor[1]} % con suelo radiante.</p>
   <h2>Cómo saber si tus radiadores valen</h2>

@@ -33,18 +33,18 @@ const faqs = [
   <h2>La respuesta corta</h2>
   <p>Si hay alguien en casa de día, a menudo no compensa todavía: ya aprovechas buena parte de lo que producen las placas. Si la casa está vacía de día, o tienes aerotermia o coche eléctrico, la batería sube mucho el autoconsumo y suele merecer la pena estudiarla.</p>
   <h2>Autoconsumo con y sin batería</h2>
-  <table class="q-lines">
+  <div class="table-wrap"><table class="q-lines">
     <thead><tr><th>Perfil</th><th>Sin batería</th><th>Batería 5 kWh</th><th>Batería 10 kWh</th></tr></thead>
     <tbody>
       <tr><td>Hay alguien en casa de día</td><td>{energy.solar.autoconsumo.dia["0"] * 100} %</td><td>{energy.solar.autoconsumo.dia["5"] * 100} %</td><td>{energy.solar.autoconsumo.dia["10"] * 100} %</td></tr>
       <tr><td>Casa vacía de día</td><td>{energy.solar.autoconsumo.fuera["0"] * 100} %</td><td>{energy.solar.autoconsumo.fuera["5"] * 100} %</td><td>{energy.solar.autoconsumo.fuera["10"] * 100} %</td></tr>
     </tbody>
-  </table>
+  </table></div>
   <p>Porcentaje de la producción que se usa en casa. Fuente: {energy.solar.autoconsumo.fuente}. {energy.solar.autoconsumo.pendiente}</p>
   <h2>Ejemplo: 150 €/mes de luz, teja sur</h2>
-  <table class="q-lines">
+  <div class="table-wrap"><table class="q-lines">
     <thead><tr><th>Perfil</th><th>Opción</th><th>Inversión</th><th>Ahorro al año</th><th>Retorno</th></tr></thead>
     <tbody>{cases.flatMap((c) => [["Sin batería", c.b0], ["Batería 5 kWh", c.b5], ["Batería 10 kWh", c.b10]].map(([n, q]: any) => <tr><td>{c.label}</td><td>{n}</td><td>{eurRange(q.lo, q.hi)}</td><td>{eurRange(q.save[0], q.save[1])}</td><td>{yrs(q.payback)}</td></tr>))}</tbody>
-  </table>
+  </table></div>
   <p>Sin deducción del IRPF. Los excedentes se valoran a precio de compensación ({energy.excedentes.min}–{energy.excedentes.max} €/kWh), nunca al de compra. Pruébalo con tu caso en la <a href="/calculadoras/placas-solares/">calculadora de placas solares</a>. Precios en <a href="/placas-solares/precio/">precio de las placas solares</a>.</p>
 </ContentPage>

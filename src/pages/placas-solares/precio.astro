@@ -26,15 +26,15 @@ const faqs = [
 >
   <h2>Precio por potencia y batería</h2>
   <p>Tejado de teja orientado al sur. Paneles, inversor, estructura, instalación y legalización. IVA incluido.</p>
-  <table class="q-lines">
+  <div class="table-wrap"><table class="q-lines">
     <thead><tr><th>Potencia</th><th>Sin batería</th><th>Batería 5 kWh</th><th>Batería 10 kWh</th></tr></thead>
     <tbody>{rows.map((r) => <tr><td>{r.kwp} kWp</td><td>{eurRange(r.b0.lo, r.b0.hi)}</td><td>{eurRange(r.b5.lo, r.b5.hi)}</td><td>{eurRange(r.b10.lo, r.b10.hi)}</td></tr>)}</tbody>
-  </table>
+  </table></div>
   <h2>Precio según la cubierta (6 kWp, sin batería)</h2>
-  <table class="q-lines">
+  <div class="table-wrap"><table class="q-lines">
     <thead><tr><th>Cubierta</th><th>Rango orientativo</th></tr></thead>
     <tbody>{roofs.map((r) => <tr><td>{r.label}{r.k === "uralita" ? " (sin la retirada del amianto)" : ""}</td><td>{eurRange(r.q.lo, r.q.hi)}</td></tr>)}</tbody>
-  </table>
+  </table></div>
   <h2>Qué incluye</h2>
   <ul>{prices.solar.incluye.map((i) => <li>{i}</li>)}</ul>
   <h2>Qué no incluye</h2>

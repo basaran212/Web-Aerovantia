@@ -57,10 +57,10 @@ const faqs = [
   <section>
     <div class="wrap">
       <div class="sec-head"><p class="eyebrow">Precio orientativo</p><h2>Cuánto cuesta una instalación tipo.</h2><p class="lede">Teja orientada al sur, IVA incluido, precios de {prices.actualizadoTexto}. El tipo de cubierta, la orientación y la batería cambian el resultado.</p></div>
-      <table class="q-lines">
+      <div class="table-wrap"><table class="q-lines">
         <thead><tr><th>Potencia</th><th>Sin batería</th><th>Con batería 5 kWh</th></tr></thead>
         <tbody>{solarConfigs().map((c) => <tr><td>{c.kwp} kWp</td><td>{eurRange(c.b0.lo, c.b0.hi)}</td><td>{eurRange(c.b5.lo, c.b5.hi)}</td></tr>)}</tbody>
-      </table>
+      </table></div>
       <p class="disclaimer" style="margin-top:16px">Todas las configuraciones en <a href="/placas-solares/precio/">precio de las placas solares</a>. ¿Dudas con la batería? <a href="/placas-solares/baterias/">Batería solar: cuándo compensa</a>. Calcula la tuya en la <a href="/calculadoras/placas-solares/">calculadora de placas solares</a> y revisa las <a href="/ayudas/bonificacion-ibi-icio/">bonificaciones de IBI e ICIO</a>.</p>
     </div>
   </section>

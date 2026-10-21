@@ -40,12 +40,12 @@ const schema = [
   <p>{m.vivienda}</p>
   <h2>Clima y producción solar</h2>
   <p>{m.clima}</p>
-  <table class="q-lines">
+  <div class="table-wrap text"><table class="q-lines">
     <tbody>
       <tr><td>Zona climática (CTE)</td><td>{m.zonaCTE}</td></tr>
       <tr><td>Producción solar orientativa</td><td>{y0.toLocaleString("es-ES")} – {y1.toLocaleString("es-ES")} kWh/kWp al año, orientación sur. {PENDIENTES_MUNICIPIO.pvgis}</td></tr>
     </tbody>
-  </table>
+  </table></div>
   <p>Simulación en <a href={pvgis} rel="nofollow noopener" target="_blank">PVGIS</a> con las coordenadas de {m.name} ({m.lat.toLocaleString("es-ES")}, {m.lon.toLocaleString("es-ES")}).</p>
   <h2>Ayudas municipales</h2>
   <p>{m.ibi} Tabla completa en <a href="/ayudas/bonificacion-ibi-icio/">bonificaciones de IBI e ICIO</a>.</p>

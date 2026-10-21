@@ -52,10 +52,10 @@ const faqs = [
   <section>
     <div class="wrap">
       <div class="sec-head"><p class="eyebrow">Precio orientativo</p><h2>Cuánto cuesta instalar un cargador.</h2><p class="lede">IVA incluido, precios de {prices.actualizadoTexto}.</p></div>
-      <table class="q-lines">
+      <div class="table-wrap"><table class="q-lines">
         <thead><tr><th>Instalación</th><th>Rango orientativo</th></tr></thead>
         <tbody>{configs.map((c) => <tr><td>{c.label}</td><td>{eurRange(c.q.lo, c.q.hi)}</td></tr>)}</tbody>
-      </table>
+      </table></div>
       <p class="disclaimer" style="margin-top:16px">No incluye el paso a trifásico ni el aumento de potencia contratada, si hicieran falta. ¿Vas a poner placas? <a href="/placas-solares/">Placas solares</a> y <a href="/calculadoras/placas-solares/">calculadora</a>, con la opción de coche eléctrico.</p>
     </div>
   </section>
