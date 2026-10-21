@@ -1,11 +1,331 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout>
-	<Welcome />
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#inicio">AEROVANTIA<span>.</span></a>
+    <nav class="menu" aria-label="Principal">
+      <a href="#servicios">Servicios</a>
+      <a href="#reformas">Reformas</a>
+      <a href="#calculadoras">Calculadoras</a>
+      <a href="#ayudas">Ayudas</a>
+      <a href="#proceso">Cómo trabajamos</a>
+      <a href="#faq">Preguntas</a>
+    </nav>
+    <a class="btn btn-primary" href="#contacto">Estudio gratuito</a>
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="film" id="film" aria-label="Un día en una casa Aerovantia">
+    <div class="stage">
+      <canvas id="filmc" aria-label="Película animada de un chalet con placas, aerotermia y reforma a lo largo de un día"></canvas>
+      <div class="scrim" id="scrim"></div>
+      <div class="capscrim" id="capscrim" style="opacity:0"></div>
+      <div class="live" aria-live="off">
+        <span><i class="dot"></i>Solar <b id="lv-pv">0,0 kW</b></span>
+        <span>Exterior <b id="lv-ext">—</b></span>
+        <span>Salón <b>21,0 °C</b></span>
+      </div>
+      <div class="intro" id="intro">
+        <div class="wrap"><div class="inner">
+          <p class="eyebrow">Sur de Madrid · La Sagra · Toledo</p>
+          <h1>Tu casa, más eficiente y más bella.</h1>
+          <p class="lede">Aerotermia, placas solares y reformas de lujo para chalets. Un solo equipo diseña la energía y los espacios a la vez, con precio cerrado y las ayudas tramitadas.</p>
+          <div class="hero-ctas"><a class="btn btn-primary" href="#contacto">Pedir estudio gratuito</a><a class="btn btn-ghost" href="#calculadoras">Calcular mi proyecto</a></div>
+        </div></div>
+      </div>
+      <div class="caps">
+        <div class="cap" data-a=".10" data-b=".30"><div class="wrap"><div class="inner"><span class="when">07:10 · AMANECER</span><h2>La casa se despierta caliente.</h2><p>La aerotermia ha mantenido 21 °C toda la noche con la energía guardada en la batería.</p></div></div></div>
+        <div class="cap" data-a=".30" data-b=".46"><div class="wrap"><div class="inner"><span class="when">12:30 · MEDIODÍA</span><h2>12 paneles. 5,4&nbsp;kW. Energía&nbsp;tuya.</h2><p>Lo que producen las placas alimenta la casa, carga la batería y el sobrante se compensa en tu factura.</p></div></div></div>
+        <div class="cap" data-a=".46" data-b=".58"><div class="wrap"><div class="inner"><span class="when">15:00 · AEROTERMIA</span><h2>1 kWh de luz, 4 kWh de calor.</h2><p>La bomba de calor toma la energía del aire y la lleva al suelo radiante y al agua caliente. Adiós a la caldera.</p></div></div></div>
+        <div class="cap" data-a=".58" data-b=".80"><div class="wrap"><div class="inner"><span class="when">17:00 · TARDE</span><h2>Y dentro, la reforma.</h2><p>Sigue bajando: de cocina de los 90 a isla de mármol, roble y latón, con el suelo radiante escondido bajo la madera.</p></div></div></div>
+        <div class="cap" data-a=".80" data-b=".93"><div class="wrap"><div class="inner"><span class="when">21:30 · NOCHE</span><h2>La batería toma el relevo.</h2><p>La casa usa la energía del día y el coche carga en horas valle. Tu factura, mínima.</p></div></div></div>
+        <div class="cap" data-a=".93" data-b="1.1"><div class="wrap"><div class="inner"><span class="when">TU CASA</span><h2>¿Empezamos por la tuya?</h2><p>Estudio técnico gratuito en 48 h, con precio cerrado y las ayudas calculadas.</p><div class="hero-ctas"><a class="btn btn-primary" href="#contacto">Pedir estudio gratuito</a><a class="btn btn-ghost" href="#calculadoras">Calcular mi proyecto</a></div></div></div></div>
+      </div>
+      <div class="hint" id="hint">Desliza · un día en tu casa</div>
+      <div class="prog"><div class="wrap"><span class="clock" id="clock">06:00</span><div class="bar"><i id="pbar"></i><b style="left:10%"></b><b style="left:30%"></b><b style="left:46%"></b><b style="left:58%"></b><b style="left:80%"></b><b style="left:93%"></b></div></div></div>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true"><div class="track" id="mq">
+    <span>Aerotermia R290</span><span>Placas solares N-type</span><span>Reformas integrales</span><span>Baterías</span><span>Cocinas a medida</span><span>Suelo radiante</span><span>Recarga VE</span><span>Baños de piedra natural</span><span>Interiorismo</span>
+  </div></div>
+
+  <div class="deadline">
+    <div class="wrap">
+      <div class="date">Hasta 31.12.2026</div>
+      <p><strong>Deducción del 40&nbsp;% en el IRPF</strong> si la instalación reduce un 30&nbsp;% el consumo de energía no renovable o la vivienda llega a calificación A o B. El certificado energético debe estar emitido antes de fin de año.</p>
+      <a class="btn btn-ghost" href="#ayudas">Ver ayudas</a>
+    </div>
+  </div>
+
+  <section id="servicios">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Servicios</p>
+        <h2>Energía y diseño, proyectados juntos.</h2>
+        <p class="lede">Cuando reformas, es el momento de esconder el suelo radiante, colocar la aerotermia y preparar la cubierta para las placas. Lo hacemos en una sola obra.</p>
+      </div>
+      <div class="lines">
+        <article class="line reveal"><canvas data-scene="heat"></canvas><div class="body"><span class="tag">AEROTERMIA</span><h3>Calefacción, frío y agua caliente</h3><p>Bomba de calor R290 que sustituye la caldera y reduce la factura hasta un 70&nbsp;%.</p><ul><li>Daikin · Vaillant · Bosch · BAXI</li><li>Suelo radiante o fancoils</li></ul></div></article>
+        <article class="line reveal"><canvas data-scene="sun"></canvas><div class="body"><span class="tag">SOLAR + BATERÍA + VE</span><h3>Tu propia energía</h3><p>Placas de alta eficiencia, batería y cargador del coche, calculados con tu consumo real.</p><ul><li>Huawei · SolarEdge · Fronius</li><li>BYD · Tesla Powerwall · Wallbox</li></ul></div></article>
+        <article class="line reveal"><canvas data-scene="lux"></canvas><div class="body"><span class="tag">REFORMAS DE LUJO</span><h3>Espacios a medida</h3><p>Reformas integrales, cocinas, baños e interiorismo con materiales nobles y dirección de obra propia.</p><ul><li>Piedra natural · roble · latón</li><li>Proyecto, licencia y llave en mano</li></ul></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="reformas" class="ref">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Reformas de lujo</p>
+        <h2>De casa anticuada a casa de revista.</h2>
+        <p class="lede">Desliza para ver la diferencia. Quitamos radiadores y caldera, abrimos espacios, metemos suelo radiante bajo la madera y dejamos la casa lista para producir su propia energía.</p>
+      </div>
+      <div class="ref-grid">
+        <div class="ba reveal" id="ba">
+          <canvas id="interior" aria-label="Comparación antes y después de una reforma de salón-cocina"></canvas>
+          <span class="lbl l">Antes</span><span class="lbl r">Después</span>
+          <input type="range" id="ba-r" min="0" max="100" value="50" aria-label="Deslizar entre antes y después">
+        </div>
+        <div class="ref-points">
+          <div><h3>Reforma integral</h3><p>Distribución, instalaciones, carpintería y acabados con un único director de obra.</p></div>
+          <div><h3>Cocinas y baños</h3><p>Islas de piedra natural, electrodomésticos de gama alta, duchas a ras de suelo y grifería termostática.</p></div>
+          <div><h3>Interiorismo</h3><p>Proyecto 3D, selección de materiales, iluminación y mobiliario a medida.</p></div>
+          <div><h3>Energía integrada</h3><p>Suelo radiante, aerotermia oculta y domótica: confort invisible y factura mínima.</p></div>
+        </div>
+      </div>
+      <div class="swatches" aria-label="Materiales">
+        <div class="sw"><div class="tile"><canvas data-mat="marble"></canvas></div><span><b>Mármol Calacatta</b>Encimeras y baños</span></div>
+        <div class="sw"><div class="tile" style="--d:1.2s"><canvas data-mat="oak"></canvas></div><span><b>Roble natural</b>Suelos y carpintería</span></div>
+        <div class="sw"><div class="tile" style="--d:2.4s"><canvas data-mat="trav"></canvas></div><span><b>Travertino</b>Paredes y escaleras</span></div>
+        <div class="sw"><div class="tile" style="--d:3.6s"><canvas data-mat="micro"></canvas></div><span><b>Microcemento</b>Continuidad sin juntas</span></div>
+        <div class="sw"><div class="tile" style="--d:4.8s"><canvas data-mat="brass"></canvas></div><span><b>Latón cepillado</b>Grifería y detalles</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="calculadoras" class="calc">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Calculadoras</p>
+        <h2>Calcula tu proyecto en 30 segundos.</h2>
+        <p class="lede">Cifras orientativas con precios de 2026. El estudio gratuito te da el número exacto.</p>
+      </div>
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" id="t-aero" data-k="aero" aria-selected="true" aria-controls="p-aero">Aerotermia</button>
+        <button class="tab" role="tab" id="t-solar" data-k="solar" aria-selected="false" aria-controls="p-solar">Placas solares</button>
+        <button class="tab" role="tab" id="t-ref" data-k="ref" aria-selected="false" aria-controls="p-ref">Reforma de lujo</button>
+      </div>
+
+      <!-- AEROTERMIA -->
+      <div class="calc-grid" role="tabpanel" id="p-aero" aria-labelledby="t-aero">
+        <form class="fields" onsubmit="return false">
+          <div class="field"><label for="a-fuel">Sistema actual</label>
+            <select id="a-fuel"><option value="gasoleo" selected>Caldera de gasóleo</option><option value="propano">Caldera de propano</option><option value="gas">Caldera de gas natural</option><option value="elec">Radiadores o acumuladores eléctricos</option></select></div>
+          <div class="field"><label for="a-spend">Gasto anual en calefacción y ACS: <span class="range-val" id="a-spend-v"></span></label>
+            <input type="range" id="a-spend" min="800" max="6000" step="100" value="2900"><small>Suma de facturas o llenados de depósito de 12 meses.</small></div>
+          <div class="field"><label for="a-m2">Superficie calefactada: <span class="range-val" id="a-m2-v"></span></label>
+            <input type="range" id="a-m2" min="80" max="450" step="10" value="220"></div>
+          <div class="field"><label for="a-zone">Zona</label>
+            <select id="a-zone"><option value="D3" selected>Madrid sur y oeste (zona D3)</option><option value="C4">Toledo y La Sagra (zona C4)</option></select></div>
+          <label class="chk" for="a-irpf"><input type="checkbox" id="a-irpf" checked> Vivienda habitual o alquilada (deducción IRPF 40&nbsp;%)</label>
+        </form>
+        <div class="result" aria-live="polite">
+          <div><p class="eyebrow">Ahorro estimado al año</p><div class="big" id="a-save">—</div></div>
+          <div class="compare">
+            <div class="cbar"><span>Hoy</span><div class="track"><div class="fill" id="a-b1" style="background:var(--warm)"></div></div><span class="n" id="a-n1"></span></div>
+            <div class="cbar"><span>Aerotermia</span><div class="track"><div class="fill" id="a-b2" style="background:var(--cold)"></div></div><span class="n" id="a-n2"></span></div>
+          </div>
+          <div class="res-rows">
+            <div><span>Inversión orientativa</span><b id="a-inv"></b></div>
+            <div><span>Deducción IRPF estimada</span><b id="a-irpf-v"></b></div>
+            <div><span>Retorno de la inversión</span><b id="a-pay"></b></div>
+            <div><span>Ahorro neto a 15 años</span><b id="a-15"></b></div>
+          </div>
+          <p class="disclaimer">Gasóleo ≈ 1,15 €/l, electricidad ≈ 0,17 €/kWh, rendimiento estacional de una bomba de calor actual. No incluye el descuento CAE, que depende de la zona. La deducción exige certificado energético antes y después.</p>
+          <a class="btn btn-primary" href="#contacto" data-from="aero">Quiero el cálculo exacto</a>
+        </div>
+      </div>
+
+      <!-- SOLAR -->
+      <div class="calc-grid" role="tabpanel" id="p-solar" aria-labelledby="t-solar" hidden>
+        <form class="fields" onsubmit="return false">
+          <div class="field"><label for="s-bill">Factura de luz media al mes: <span class="range-val" id="s-bill-v"></span></label>
+            <input type="range" id="s-bill" min="40" max="450" step="5" value="140"></div>
+          <div class="field"><label for="s-zone">Zona</label>
+            <select id="s-zone"><option value="D3" selected>Madrid sur y oeste</option><option value="C4">Toledo y La Sagra</option></select></div>
+          <div class="field"><label for="s-roof">Orientación de la cubierta</label>
+            <select id="s-roof"><option value="1" selected>Sur o cubierta plana</option><option value="0.9">Sureste / suroeste</option><option value="0.8">Este / oeste</option></select></div>
+          <label class="chk" for="s-bat"><input type="checkbox" id="s-bat" checked> Añadir batería de 10 kWh</label>
+          <label class="chk" for="s-aero"><input type="checkbox" id="s-aero"> También instalo aerotermia (sube el consumo eléctrico)</label>
+          <label class="chk" for="s-ev"><input type="checkbox" id="s-ev"> Tengo o tendré coche eléctrico</label>
+        </form>
+        <div class="result" aria-live="polite">
+          <div><p class="eyebrow">Ahorro estimado al año</p><div class="big" id="s-save">—</div></div>
+          <div class="compare">
+            <div class="cbar"><span>Factura hoy</span><div class="track"><div class="fill" id="s-b1" style="background:var(--warm)"></div></div><span class="n" id="s-n1"></span></div>
+            <div class="cbar"><span>Con solar</span><div class="track"><div class="fill" id="s-b2" style="background:#E3B23C"></div></div><span class="n" id="s-n2"></span></div>
+          </div>
+          <div class="res-rows">
+            <div><span>Potencia recomendada</span><b id="s-kwp"></b></div>
+            <div><span>Producción anual</span><b id="s-prod"></b></div>
+            <div><span>Autoconsumo</span><b id="s-self"></b></div>
+            <div><span>Inversión orientativa</span><b id="s-inv"></b></div>
+            <div><span>Retorno de la inversión</span><b id="s-pay"></b></div>
+          </div>
+          <p class="disclaimer">Producción media de 1.550–1.620 kWh por kWp en la zona, excedentes compensados a 0,06 €/kWh. Muchos municipios bonifican además el IBI por instalar placas.</p>
+          <a class="btn btn-primary" href="#contacto" data-from="solar">Quiero el cálculo exacto</a>
+        </div>
+      </div>
+
+      <!-- REFORMA -->
+      <div class="calc-grid" role="tabpanel" id="p-ref" aria-labelledby="t-ref" hidden>
+        <form class="fields" onsubmit="return false">
+          <div class="field"><label for="r-type">Tipo de reforma</label>
+            <select id="r-type"><option value="int" selected>Reforma integral de vivienda</option><option value="kit">Cocina</option><option value="bath">Baño</option><option value="design">Interiorismo y decoración</option></select></div>
+          <div class="field" id="r-m2-f"><label for="r-m2">Superficie: <span class="range-val" id="r-m2-v"></span></label>
+            <input type="range" id="r-m2" min="60" max="500" step="10" value="200"></div>
+          <div class="field" id="r-n-f" hidden><label for="r-n">Unidades: <span class="range-val" id="r-n-v"></span></label>
+            <input type="range" id="r-n" min="1" max="5" step="1" value="1"></div>
+          <fieldset class="field"><legend>Nivel de acabados</legend>
+            <div class="seg">
+              <label><input type="radio" name="r-q" value="0"> Premium</label>
+              <label><input type="radio" name="r-q" value="1" checked> Lujo</label>
+              <label><input type="radio" name="r-q" value="2"> Alta decoración</label>
+            </div></fieldset>
+          <label class="chk" for="r-floor"><input type="checkbox" id="r-floor" checked> Integrar suelo radiante con aerotermia</label>
+          <label class="chk" for="r-dom"><input type="checkbox" id="r-dom"> Domótica e iluminación escénica</label>
+          <label class="chk" for="r-proj"><input type="checkbox" id="r-proj" checked> Proyecto de interiorismo 3D y dirección de obra</label>
+        </form>
+        <div class="result" aria-live="polite">
+          <div><p class="eyebrow">Inversión estimada</p><div class="big brass" id="r-total">—</div></div>
+          <div class="stack" aria-hidden="true"><i id="rs1" style="background:var(--ink)"></i><i id="rs2" style="background:var(--brass)"></i><i id="rs3" style="background:var(--cold)"></i><i id="rs4" style="background:var(--warm)"></i></div>
+          <div class="legend"><span style="--c:var(--ink)">Obra e instalaciones</span><span style="--c:var(--brass)">Materiales y acabados</span><span style="--c:var(--cold)">Carpintería y mobiliario</span><span style="--c:var(--warm)">Energía, domótica y proyecto</span></div>
+          <div class="res-rows">
+            <div><span>Precio por m² equivalente</span><b id="r-m2p"></b></div>
+            <div><span>Plazo de obra estimado</span><b id="r-time"></b></div>
+            <div><span>Suelo radiante + aerotermia</span><b id="r-energy"></b></div>
+            <div><span>Pagos</span><b>30 % · 40 % · 30 %</b></div>
+          </div>
+          <p class="disclaimer">Rangos de mercado para chalets en Madrid y Toledo en 2026. No incluye mobiliario suelto, licencias de obra mayor ni IVA. Si integras aerotermia, esa parte puede acogerse a la deducción IRPF.</p>
+          <a class="btn btn-primary" href="#contacto" data-from="ref">Quiero mi presupuesto</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ayudas">
+    <div class="wrap">
+      <div class="sec-head reveal"><p class="eyebrow">Ayudas</p><h2>Las ayudas las tramitamos nosotros.</h2><p class="lede">En el estudio te decimos qué ayudas aplican y las descontamos de la propuesta cuando es posible.</p></div>
+      <div class="aid-grid">
+        <div class="aid reveal"><div class="pct">40 %</div><h3>Deducción en el IRPF</h3><p>Base de hasta 7.500 € (máx. 3.000 €) si reduces un 30&nbsp;% el consumo no renovable o alcanzas calificación A o B. Plazo: 31 de diciembre de 2026.</p></div>
+        <div class="aid reveal"><div class="pct">CAE</div><h3>Certificados de Ahorro Energético</h3><p>Al sustituir una caldera de combustión por aerotermia, el ahorro se convierte en un descuento directo. Depende de la zona climática.</p></div>
+        <div class="aid reveal"><div class="pct">IBI · ICIO</div><h3>Bonificaciones municipales</h3><p>Muchos ayuntamientos bonifican el IBI o el impuesto de obras por instalar energía solar. Revisamos tu municipio.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="proceso" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head reveal"><p class="eyebrow">Cómo trabajamos</p><h2>Simple para ti. Milimétrico por detrás.</h2></div>
+      <div class="steps">
+        <div class="step"><h3>Visita técnica</h3><p class="when">En 48 h</p><p>Revisamos la casa, las instalaciones y tus facturas.</p></div>
+        <div class="step"><h3>Propuesta cerrada</h3><p class="when">En 5–10 días</p><p>Diseño, precio final, plazos y ayudas, por escrito. En reformas, con render 3D.</p></div>
+        <div class="step"><h3>Obra</h3><p class="when">Según proyecto</p><p>Un único responsable coordina todos los gremios.</p></div>
+        <div class="step"><h3>Legalización y ayudas</h3><p class="when">Incluido</p><p>Certificados, boletines, licencias y expediente de ayudas.</p></div>
+        <div class="step"><h3>Care+</h3><p class="when">Opcional</p><p>Mantenimiento anual y seguimiento del rendimiento.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="guar">
+    <div class="wrap">
+      <div class="sec-head"><p class="eyebrow">Compromisos</p><h2>Lo que firmamos contigo.</h2></div>
+      <div class="guar-grid">
+        <div><h3>Precio cerrado</h3><p>El precio de la propuesta es el que pagas. Sin extras al terminar.</p></div>
+        <div><h3>Un único interlocutor</h3><p>Un responsable de proyecto de la visita a la entrega de llaves.</p></div>
+        <div><h3>Profesionales habilitados</h3><p>Carnet RITE, gases fluorados y seguro de responsabilidad civil.</p></div>
+        <div><h3>Doble garantía</h3><p>Garantía del fabricante y garantía propia sobre la instalación y la obra.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="zona">
+    <div class="wrap">
+      <div class="sec-head reveal"><p class="eyebrow">Zona de trabajo</p><h2>Trabajamos donde vives.</h2><p class="lede">Nuestros proveedores tienen almacén en Getafe, Leganés, Móstoles y Torrijos: respuesta rápida y repuestos cerca.</p></div>
+      <div class="zones">
+        <div><h3>Madrid sur y oeste</h3><ul><li>Boadilla del Monte</li><li>Villaviciosa de Odón</li><li>Villanueva de la Cañada</li><li>Brunete</li><li>Alcorcón</li><li>Móstoles</li><li>Arroyomolinos</li><li>Navalcarnero</li><li>Fuenlabrada</li><li>Getafe</li><li>Leganés</li><li>Parla</li><li>Griñón</li><li>Valdemoro</li></ul></div>
+        <div><h3>Toledo y La Sagra</h3><ul><li>Seseña</li><li>Illescas</li><li>Yeles</li><li>Esquivias</li><li>Ugena</li><li>Yuncos</li><li>Numancia de la Sagra</li><li>Cabañas de la Sagra</li><li>Bargas</li><li>Olías del Rey</li><li>Toledo</li><li>Torrijos</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head"><p class="eyebrow">Preguntas frecuentes</p><h2>Lo que nos preguntan antes de decidir.</h2></div>
+      <div class="faq">
+        <details><summary>¿La aerotermia funciona con mis radiadores?</summary><p>Con radiadores de baja temperatura o sobredimensionados, sí. Con radiadores convencionales a veces hay que cambiar algunos. Si reformas, lo ideal es suelo radiante.</p></details>
+        <details><summary>¿Cuánto dura una reforma integral?</summary><p>Entre 3 y 6 meses según superficie y nivel de acabados. Te damos un calendario por fases y penalizaciones por retraso en el contrato.</p></details>
+        <details><summary>¿Puedo vivir en la casa durante la obra?</summary><p>En cocinas, baños o instalaciones energéticas, normalmente sí. En una reforma integral recomendamos no hacerlo; planificamos fases si no hay alternativa.</p></details>
+        <details><summary>¿Compensa combinar aerotermia y placas?</summary><p>En un chalet, normalmente sí: la aerotermia consume electricidad y las placas la producen en casa. Las calculamos juntas.</p></details>
+        <details><summary>¿Necesito licencia?</summary><p>Según el municipio, una comunicación previa, licencia de obra menor o mayor. La tramitamos nosotros.</p></details>
+        <details><summary>¿Qué pasa si hay una avería?</summary><p>Durante la garantía gestionamos la reparación con el fabricante. Con Care+ tienes revisión anual y atención prioritaria.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto" class="calc">
+    <div class="wrap contact-grid">
+      <div>
+        <div class="sec-head" style="margin:0"><p class="eyebrow">Estudio gratuito</p><h2>Cuéntanos tu proyecto.</h2><p class="lede">Te llamamos en menos de 24 h laborables para concertar la visita. Sin compromiso.</p></div>
+        <div class="contact-points">
+          <div><span class="k">Teléfono y WhatsApp</span><span class="v">[+34 600 000 000]</span></div>
+          <div><span class="k">Email</span><span class="v">[hola@aerovantia.es]</span></div>
+          <div><span class="k">Horario</span><span class="v">L–V 9:00–19:00 · S 10:00–14:00</span></div>
+        </div>
+      </div>
+      <form class="lead" id="leadForm" novalidate>
+        <p class="calc-note" id="f-calc" hidden></p>
+        <div class="two">
+          <div class="field"><label for="f-name">Nombre</label><input type="text" id="f-name" autocomplete="name" required></div>
+          <div class="field"><label for="f-phone">Teléfono</label><input type="tel" id="f-phone" autocomplete="tel" inputmode="tel" required></div>
+        </div>
+        <div class="field"><label for="f-town">Municipio</label><input type="text" id="f-town" autocomplete="address-level2" required></div>
+        <fieldset>
+          <legend style="font-size:.88rem;font-weight:600">Me interesa</legend>
+          <div class="pills">
+            <label><input type="checkbox" id="i-aero" checked> Aerotermia</label>
+            <label><input type="checkbox" id="i-pv"> Placas solares</label>
+            <label><input type="checkbox" id="i-bat"> Batería</label>
+            <label><input type="checkbox" id="i-ev"> Cargador VE</label>
+            <label><input type="checkbox" id="i-ref"> Reforma</label>
+            <label><input type="checkbox" id="i-int"> Interiorismo</label>
+          </div>
+        </fieldset>
+        <label class="chk" for="f-rgpd"><input type="checkbox" id="f-rgpd" required> <span>He leído la <a href="#legal">política de privacidad</a> y acepto que Aerovantia me contacte para preparar el estudio.</span></label>
+        <p class="err" id="f-err" hidden></p>
+        <button class="btn btn-primary" type="submit">Solicitar estudio gratuito</button>
+        <div class="ok-msg" id="f-ok" hidden></div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><a class="logo" href="#inicio">AEROVANTIA<span>.</span></a><p style="margin-top:10px;max-width:40ch">[Razón social S.L.] · CIF [B-00000000] · [Domicilio social] · Inscrita en el Registro Mercantil de [provincia].</p></div>
+    <div><strong>Energía</strong><ul><li><a href="#servicios">Aerotermia</a></li><li><a href="#servicios">Placas solares</a></li><li><a href="#servicios">Baterías y recarga</a></li><li><a href="#servicios">Care+</a></li></ul></div>
+    <div><strong>Reformas</strong><ul><li><a href="#reformas">Reforma integral</a></li><li><a href="#reformas">Cocinas y baños</a></li><li><a href="#reformas">Interiorismo</a></li></ul></div>
+    <div id="legal"><strong>Legal</strong><ul><li><a href="#legal">Aviso legal</a></li><li><a href="#legal">Privacidad</a></li><li><a href="#legal">Cookies</a></li></ul></div>
+  </div>
+</footer>
+
+<div class="mbar"><a class="btn btn-ghost" href="#calculadoras">Calcular</a><a class="btn btn-primary" href="#contacto">Estudio gratis</a></div>
 </Layout>
+
+<script>
+  import "../scripts/site.js";
+</script>
