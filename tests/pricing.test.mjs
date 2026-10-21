@@ -2,7 +2,7 @@
 import assert from "node:assert/strict"
 import { test } from "node:test"
 
-import { heatPumpKw, quoteAero, quoteObra, quoteReforma, quoteSolar } from "../src/scripts/pricing.js"
+import { heatPumpKw, quoteAero, quoteObra, quoteReforma, quoteSolar, solarFactor } from "../src/scripts/pricing.js"
 
 const within = (v, lo, hi, what) => assert.ok(v >= lo && v <= hi, `${what}: ${v} fuera de ${lo}–${hi}`)
 
@@ -25,10 +25,50 @@ test("bomba de calor dimensionada por superficie", () => {
   assert.equal(heatPumpKw(120), 6)
   assert.equal(heatPumpKw(220), 12)
   assert.equal(heatPumpKw(600), 16)
+  assert.ok(heatPumpKw(180, "D3", "poor") > heatPumpKw(180, "D3", "good"), "más potencia si la casa está peor aislada")
+})
+
+test("la aerotermia rinde más con suelo radiante que con los radiadores de siempre", () => {
+  const args = { fuel: "gasoleo", spend: 2400, m2: 180, zone: "C4", irpf: false }
+  const keep = quoteAero({ ...args, emitter: "keep" })
+  const floor = quoteAero({ ...args, emitter: "floor" })
+  assert.ok(floor.scop > keep.scop)
+  assert.ok(floor.newCost < keep.newCost)
+  within(keep.scop, 2.5, 3.5, "SCOP con radiadores convencionales")
+  within(floor.scop, 4, 5.2, "SCOP con suelo radiante")
+})
+
+test("orientación: sur > sureste > este-oeste > noreste > norte (PVGIS, latitud 40°)", () => {
+  const f = (orient, tilt = 30) => solarFactor({ orient, tilt })
+  assert.equal(f("S"), 1)
+  assert.ok(f("S") > f("SE") && f("SE") > f("E") && f("E") > f("NE") && f("NE") > f("N"))
+  assert.equal(f("SE"), f("SO"))
+  assert.equal(f("E"), f("O"))
+  within(f("E"), 0.78, 0.88, "este/oeste a 30°")
+  within(f("N"), 0.45, 0.6, "norte a 30°")
+  assert.ok(f("N", 15) > f("N", 45), "un tejado norte pierde menos cuanto más plano")
+  assert.equal(solarFactor({ roof: "plana", orient: "N" }), solarFactor({ roof: "plana", orient: "S" }), "en cubierta plana se orienta la estructura")
+  assert.ok(solarFactor({ shade: "lot" }) < solarFactor({ shade: "some" }))
+})
+
+test("placas: la superficie del tejado limita los paneles y el este-oeste autoconsume más", () => {
+  const base = { bill: 200, zone: "C4", battery: 0, aero: false, ev: false }
+  const small = quoteSolar({ ...base, roof: "plana", area: 15 })
+  assert.ok(small.limitedByRoof)
+  assert.equal(small.panels, 4)
+  const s = quoteSolar({ ...base, orient: "S", area: 100 })
+  const eo = quoteSolar({ ...base, orient: "EO", area: 100 })
+  assert.ok(eo.selfPct / (eo.prod / s.prod) > s.selfPct, "más autoconsumo por kWh producido")
+  assert.ok(quoteSolar({ ...base, roof: "uralita", area: 100 }).asbestos)
+})
+
+test("placas: la compensación de excedentes no supera lo comprado a la red", () => {
+  const q = quoteSolar({ bill: 40, zone: "C4", orient: "S", area: 150, battery: 10, aero: false, ev: false })
+  assert.ok(q.save <= q.annual, "el ahorro no puede superar la factura")
 })
 
 test("placas solares 4–6 kWp sin batería: 4.000–8.500 €; con batería: 7.000–14.000 €", () => {
-  const base = { bill: 120, zone: "D3", orient: 1, aero: false, ev: false }
+  const base = { bill: 120, zone: "D3", orient: "S", tilt: 30, area: 60, aero: false, ev: false }
   const no = quoteSolar({ ...base, battery: 0 })
   within(no.kwp, 3, 7, "kWp")
   within(no.lo, 4000, 8500, "sin batería")
@@ -59,7 +99,7 @@ test("obra nueva 150 m² calidad media-alta: 1.400–2.500 €/m²", () => {
 test("el precio 'desde' nunca supera el 'hasta' y es múltiplo de 100", () => {
   const qs = [
     quoteAero({ fuel: "gas", spend: 1500, m2: 90, zone: "C4", emitter: "radiators", irpf: false }),
-    quoteSolar({ bill: 300, zone: "C4", orient: 0.8, battery: 10, aero: true, ev: true }),
+    quoteSolar({ bill: 300, zone: "C4", roof: "plana", area: 150, battery: 10, aero: true, ev: true }),
     quoteReforma({ type: "kit", level: 2, m2: 0, units: 2, floor: false, domotics: true, project: true }),
     quoteObra({ m2: 400, level: 2, energy: true, soft: true, pool: true }),
   ]

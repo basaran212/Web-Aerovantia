@@ -19,33 +19,50 @@ if(wantedTab)document.querySelector('.tab[data-k="'+wantedTab+'"]')?.click();
 const showFrom=(id,q)=>{$(id+'-from').textContent='Desde '+eurx(q.lo);$(id+'-range').textContent='Rango habitual: '+eurx(q.lo)+' – '+eurx(q.hi)};
 
 function calcA(){
-  const q=quoteAero({fuel:$('a-fuel').value,spend:+$('a-spend').value,m2:+$('a-m2').value,zone:$('a-zone').value,emitter:$('a-emit').value,irpf:$('a-irpf').checked});
+  const q=quoteAero({fuel:$('a-fuel').value,spend:+$('a-spend').value,m2:+$('a-m2').value,zone:$('a-zone').value,emitter:$('a-emit').value,irpf:$('a-irpf').checked,insulation:$('a-ins').value});
   $('a-spend-v').textContent=eurx(+$('a-spend').value);$('a-m2-v').textContent=$('a-m2').value+' m²';
   showFrom('a',q);
   const spend=+$('a-spend').value;$('a-n1').textContent=eurx(spend);$('a-n2').textContent=eurx(q.newCost);$('a-b1').style.width='100%';$('a-b2').style.width=(q.newCost/spend*100).toFixed(1)+'%';
+  $('a-kw').textContent=q.kw+' kW · SCOP '+num(q.scop);
   $('a-save').textContent=eurx(q.save);$('a-irpf-v').textContent=q.deduction?eurx(q.deduction):'No aplica';
   $('a-ret').textContent=isFinite(q.payback)?num(q.payback)+' años':'—';
-  q.notes=['Bomba de calor recomendada: '+q.kw+' kW.','Ahorro estimado frente a tu sistema actual: '+eurx(q.save)+' al año.',
+  const aWarn=$('a-emit').value==='keep'?'Con radiadores convencionales la bomba trabaja a 50–55 °C y rinde menos. En la visita comprobamos si alguno hay que cambiarlo por uno de baja temperatura.':'';
+  $('a-warn').textContent=aWarn;$('a-warn').hidden=!aWarn;
+  q.notes=['Bomba de calor recomendada: '+q.kw+' kW, con un rendimiento estacional (SCOP) de '+num(q.scop)+'.',aWarn,'Ahorro estimado frente a tu sistema actual: '+eurx(q.save)+' al año.',
     q.deduction?'Deducción IRPF estimada: '+eurx(q.deduction)+' (40 %, hasta el 31-12-2026, con certificado energético antes y después).':'',
     'Incluye legalización, puesta en marcha y tramitación de ayudas.'].filter(Boolean);
   quotes.aero=q;}
 function calcS(){
-  const q=quoteSolar({bill:+$('s-bill').value,zone:$('s-zone').value,orient:+$('s-roof').value,battery:+$('s-bat').value,aero:$('s-aero').checked,ev:$('s-ev').checked});
-  $('s-bill-v').textContent=eurx(+$('s-bill').value)+'/mes';
+  const roof=$('s-type').value,flat=roof==='plana';
+  $('s-orient-f').hidden=$('s-tilt-f').hidden=flat;
+  const q=quoteSolar({bill:+$('s-bill').value,zone:$('s-zone').value,roof,orient:$('s-orient').value,tilt:+document.querySelector('input[name="s-tilt"]:checked').value,shade:$('s-shade').value,area:+$('s-area').value,battery:+$('s-bat').value,aero:$('s-aero').checked,ev:$('s-ev').checked,irpf:$('s-irpf').checked});
+  $('s-bill-v').textContent=eurx(+$('s-bill').value)+'/mes';$('s-area-v').textContent=$('s-area').value+' m²';
   showFrom('s',q);
   $('s-n1').textContent=eurx(q.annual);$('s-n2').textContent=eurx(q.after);$('s-b1').style.width='100%';$('s-b2').style.width=(q.after/q.annual*100).toFixed(1)+'%';
-  $('s-kwp').textContent=num(q.kwp,1)+' kWp · '+q.panels+' paneles';$('s-save').textContent=eurx(q.save);$('s-ret').textContent=num(q.payback)+' años';
-  q.notes=['Producción estimada: '+Math.round(q.prod).toLocaleString('es-ES')+' kWh al año ('+Math.round(q.selfPct*100)+' % de tu consumo).','Ahorro estimado: '+eurx(q.save)+' al año.',
-    'Incluye legalización del autoconsumo con compensación de excedentes y tramitación de bonificaciones de IBI e ICIO si tu municipio las ofrece.'];
+  $('s-kwp').textContent=num(q.kwp,1)+' kWp · '+q.panels+' paneles';$('s-prod').textContent=Math.round(q.prod).toLocaleString('es-ES',{useGrouping:'always'})+' kWh';
+  $('s-save').textContent=eurx(q.save);$('s-irpf-v').textContent=q.deduction?eurx(q.deduction):'No aplica';$('s-ret').textContent=num(q.payback)+' años';
+  const sWarn=[
+    q.asbestos?'El fibrocemento suele contener amianto: hay que retirarlo con una empresa autorizada (RERA) antes de instalar. No está incluido en este precio.':'',
+    !flat&&q.factor<0.7?'Con esta orientación los paneles producen bastante menos. Normalmente compensa más una estructura en otra zona de la parcela o en una pérgola; lo vemos en la visita.':'',
+    q.limitedByRoof?'Tu tejado no da para cubrir todo tu consumo: hemos ajustado la instalación a los '+q.panels+' paneles que caben.':'',
+  ].filter(Boolean);
+  $('s-warn').textContent=sWarn.join(' ');$('s-warn').hidden=!sWarn.length;
+  q.notes=['Producción estimada: '+Math.round(q.prod).toLocaleString('es-ES',{useGrouping:'always'})+' kWh al año, '+Math.round(q.factor*100)+' % de la que daría un tejado ideal orientado al sur ('+Math.round(q.selfPct*100)+' % de tu consumo cubierto con energía solar).','Ahorro estimado: '+eurx(q.save)+' al año.',
+    q.deduction?'Deducción IRPF estimada: '+eurx(q.deduction)+' (40 %, hasta el 31-12-2026, con certificado energético antes y después).':'',
+    ...sWarn,
+    'Incluye legalización del autoconsumo con compensación de excedentes y tramitación de bonificaciones de IBI e ICIO si tu municipio las ofrece.'].filter(Boolean);
   quotes.solar=q;}
 function calcR(){
-  const type=$('r-type').value,units=+$('r-n').value,m2=+$('r-m2').value;
+  const type=$('r-type').value,m2=+$('r-m2').value;
+  const maxN=type==='kit'?2:5;$('r-n').max=maxN;if(+$('r-n').value>maxN)$('r-n').value=maxN;
+  const units=+$('r-n').value;
   const unitM2=type==='int'||type==='design';
   $('r-m2-f').hidden=!unitM2;$('r-n-f').hidden=unitM2;$('r-m2-v').textContent=m2+' m²';$('r-n-v').textContent=units+(units>1?' unidades':' unidad');
   $('r-floor').disabled=type!=='int';$('r-proj').disabled=$('r-dom').disabled=type==='design';
   const q=quoteReforma({type,level:+document.querySelector('input[name="r-q"]:checked').value,m2,units,floor:$('r-floor').checked,domotics:$('r-dom').checked,project:$('r-proj').checked});
   showFrom('r',q);
-  $('r-m2p').textContent=eurx(q.perM2[0])+' – '+eurx(q.perM2[1]);$('r-time').textContent=q.weeks[0]+'–'+q.weeks[1]+' semanas';$('r-pay').textContent=type==='design'?'50 % · 50 %':q.payments;
+  $('r-m2p-l').textContent=unitM2?'Precio por m²':(type==='kit'?'Precio por cocina':'Precio por baño');
+  $('r-m2p').textContent=unitM2?eurx(q.perM2[0])+' – '+eurx(q.perM2[1]):eurx(q.lo/units)+' – '+eurx(q.hi/units);$('r-time').textContent=q.weeks[0]+'–'+q.weeks[1]+' semanas';$('r-pay').textContent=type==='design'?'50 % · 50 %':q.payments;
   q.notes=['Plazo estimado: '+q.weeks[0]+'–'+q.weeks[1]+' semanas.',type==='design'?'Incluye planos, renders 3D y selección de materiales.':'Pagos por hitos de obra: '+q.payments+'.',
     'No incluye mobiliario suelto ni electrodomésticos salvo que se indique.'];
   quotes.ref=q;}
@@ -58,8 +75,9 @@ function calcO(){
     'Vivienda de nueva construcción: IVA del 10 % incluido.'];
   quotes.obra=q;}
 const CALC={aero:calcA,solar:calcS,ref:calcR,obra:calcO};
-['a-fuel','a-spend','a-m2','a-emit','a-zone','a-irpf'].forEach(id=>$(id).addEventListener('input',calcA));
-['s-bill','s-zone','s-roof','s-bat','s-aero','s-ev'].forEach(id=>$(id).addEventListener('input',calcS));
+['a-fuel','a-spend','a-m2','a-ins','a-emit','a-zone','a-irpf'].forEach(id=>$(id).addEventListener('input',calcA));
+['s-bill','s-zone','s-type','s-orient','s-shade','s-area','s-bat','s-aero','s-ev','s-irpf'].forEach(id=>$(id).addEventListener('input',calcS));
+document.querySelectorAll('input[name="s-tilt"]').forEach(r=>r.addEventListener('input',calcS));
 ['r-type','r-m2','r-n','r-floor','r-dom','r-proj'].forEach(id=>$(id).addEventListener('input',calcR));
 document.querySelectorAll('input[name="r-q"]').forEach(r=>r.addEventListener('input',calcR));
 ['o-m2','o-energy','o-soft','o-pool'].forEach(id=>$(id).addEventListener('input',calcO));
