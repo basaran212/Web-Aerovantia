@@ -8,7 +8,7 @@ const root = path.resolve(__dirname, "..");
 const font = (pkg, file) => "data:font/woff2;base64," + fs.readFileSync(path.join(root, "node_modules/@fontsource-variable", pkg, "files", file)).toString("base64");
 const img = (f) => "data:image/jpeg;base64," + fs.readFileSync(path.join(root, "src/assets/img", f)).toString("base64");
 const pages = [
-  ["home", "Aerotermia y placas solares", "en Madrid y Toledo", "exterior-noon.jpg"],
+  ["home", "Aerotermia, placas solares y reformas", "en Madrid y Toledo", "exterior-noon.jpg"],
   ["aerotermia", "Aerotermia", "Madrid y Toledo", "heatpump.jpg"],
   ["placas-solares", "Placas solares", "Madrid y Toledo", "solar-roof.jpg"],
   ["aerotermia-y-placas-solares", "Aerotermia + Solar", "calculadas juntas", "exterior-dusk.jpg"],
