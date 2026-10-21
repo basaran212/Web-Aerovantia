@@ -1,109 +1,17 @@
-// Tarifas y fórmulas de las calculadoras y del presupuesto automático.
+// Fórmulas de las calculadoras y del presupuesto orientativo.
 //
-// Todos los importes son precios finales para el cliente, IVA incluido, calibrados con
-// referencias públicas de mercado de 2026 para Toledo y Madrid (ver README).
-// Revisad estas cifras con vuestros costes reales: son las que la web muestra como "desde".
+// Los precios salen de src/data/prices.json y las hipótesis energéticas de src/data/energy.json:
+// cambiar una cifra allí cambia la calculadora, las páginas de precio y el PDF a la vez.
+// Todos los importes son precios finales con IVA. Cada resultado se da en rango (desde–hasta).
+import PRICES from "../data/prices.json" with { type: "json" };
+import ENERGY from "../data/energy.json" with { type: "json" };
 
-export const PRICING = {
-  // Margen del rango sobre el precio calculado: "desde" = base × low, "hasta" = base × high.
-  spread: { low: 0.92, high: 1.12 },
+export { PRICES, ENERGY };
 
-  aero: {
-    // Bomba de calor aire-agua con depósito de ACS, hidráulica, legalización y puesta en marcha.
-    equipmentBase: 4800,
-    equipmentPerKw: 520,
-    sizesKw: [6, 8, 10, 12, 14, 16],
-    // Potencia orientativa por m² según zona climática y aislamiento de la vivienda.
-    wPerM2: {
-      D3: { good: 40, mid: 50, poor: 65 },
-      C4: { good: 35, mid: 45, poor: 60 },
-    },
-    emitters: {
-      keep: { label: "Adaptación de los radiadores actuales", perM2: 0, fixed: 600 },
-      radiators: { label: "Radiadores nuevos de baja temperatura", perRoom: 420, m2PerRoom: 18 },
-      floor: { label: "Suelo radiante (sin pavimento final)", perM2: 48 },
-    },
-    removal: { gasoleo: 650, propano: 650, gas: 350, elec: 0 },
-    // Precio de la energía para estimar el ahorro (€/kWh útil de cada combustible).
-    energyPrice: { gasoleo: 1.15 / 10 / 0.85, propano: 0.15, gas: 0.085, elec: 0.19 },
-    // Rendimiento estacional según el emisor: cuanto más baja la temperatura de impulsión, mejor.
-    // Radiadores convencionales 50–55 °C, radiadores de baja temperatura ~45 °C, suelo radiante ~35 °C.
-    scop: {
-      D3: { keep: 2.9, radiators: 3.5, floor: 4.3 },
-      C4: { keep: 3.1, radiators: 3.7, floor: 4.5 },
-    },
-    electricity: 0.19,
-    // Deducción IRPF del 40 %: base máxima 7.500 € (deducción máxima 3.000 €).
-    irpf: { rate: 0.4, maxBase: 7500 },
-  },
+const P = PRICES;
+const E = ENERGY;
+export const ZONES = { madrid: "Comunidad de Madrid", toledo: "Provincia de Toledo" };
 
-  solar: {
-    fixed: 1300,
-    perKwp: 980,
-    panelKwp: 0.5,
-    batteries: { 0: 0, 5: 3500, 10: 6200 },
-    wallbox: 1100,
-    // kWh al año por kWp con orientación sur e inclinación óptima (PVGIS, 14 % de pérdidas).
-    yieldPerKwp: { D3: 1580, C4: 1640 },
-    // Producción relativa al óptimo según orientación e inclinación (PVGIS, latitud 40°).
-    // Inclinación: 15° tejado suave, 30° tejado habitual, 45° tejado muy inclinado.
-    orientation: {
-      S: { label: "Sur", f: { 15: 0.95, 30: 1, 45: 0.98 } },
-      SE: { label: "Sureste", f: { 15: 0.93, 30: 0.96, 45: 0.93 } },
-      SO: { label: "Suroeste", f: { 15: 0.93, 30: 0.96, 45: 0.93 } },
-      EO: { label: "Este-oeste (tejado a dos aguas)", f: { 15: 0.87, 30: 0.84, 45: 0.78 } },
-      E: { label: "Este", f: { 15: 0.87, 30: 0.84, 45: 0.78 } },
-      O: { label: "Oeste", f: { 15: 0.87, 30: 0.84, 45: 0.78 } },
-      NE: { label: "Noreste", f: { 15: 0.77, 30: 0.66, 45: 0.55 } },
-      NO: { label: "Noroeste", f: { 15: 0.77, 30: 0.66, 45: 0.55 } },
-      N: { label: "Norte", f: { 15: 0.7, 30: 0.55, 45: 0.42 } },
-    },
-    // Cubierta plana: los paneles van sobre estructura inclinada hacia el sur.
-    flatFactor: 0.96,
-    // Tipo de cubierta: sobrecoste de estructura y montaje (€/kWp) y m² de cubierta por panel.
-    roofs: {
-      teja: { label: "Teja", perKwp: 0, m2PerPanel: 2.3 },
-      chapa: { label: "Chapa o panel sándwich", perKwp: -60, m2PerPanel: 2.3 },
-      pizarra: { label: "Pizarra", perKwp: 150, m2PerPanel: 2.3 },
-      plana: { label: "Cubierta plana", perKwp: 110, m2PerPanel: 3.4, flat: true },
-      uralita: { label: "Fibrocemento (uralita)", perKwp: 0, m2PerPanel: 2.3, asbestos: true },
-    },
-    shade: { none: 1, some: 0.92, lot: 0.8 },
-    // Autoconsumo directo según batería; un tejado este-oeste reparte la producción en más horas.
-    selfConsumption: { 0: 0.42, 5: 0.62, 10: 0.75 },
-    eastWestBonus: 0.05,
-    surplusPrice: 0.06,
-    // La compensación de excedentes no puede superar el término de energía de lo comprado a la red.
-    gridEnergyPrice: 0.13,
-    electricity: 0.19,
-    irpf: { rate: 0.4, maxBase: 7500 },
-  },
-
-  // Reformas e interiorismo: [mín, máx] por nivel (0 Estándar alto, 1 Alta, 2 Lujo).
-  reforma: {
-    types: {
-      int: { label: "Reforma integral", unit: "m2", p: [[620, 780], [820, 1080], [1150, 1600]] },
-      kit: { label: "Reforma de cocina", unit: "n", p: [[9000, 14000], [15000, 26000], [28000, 50000]], m2eq: 18 },
-      bath: { label: "Reforma de baño", unit: "n", p: [[5500, 8500], [9000, 15000], [16000, 30000]], m2eq: 8 },
-      design: { label: "Proyecto de interiorismo", unit: "m2", p: [[22, 35], [35, 55], [55, 90]] },
-    },
-    domotics: 0.05, // sobre el coste de obra
-    project: 0.07, // proyecto 3D, licencia y dirección de obra, sobre el coste de obra
-    payments: "30 % · 40 % · 30 %",
-  },
-
-  // Obra nueva llave en mano, €/m² construido, sin terreno.
-  obra: {
-    perM2: [[1350, 1600], [1650, 2000], [2100, 2800]],
-    soft: 0.09, // proyecto, dirección facultativa, licencia e ICIO, sobre construcción
-    pool: [18000, 32000],
-    solarKwp: 5,
-  },
-
-  levels: ["Estándar alto", "Alta", "Lujo"],
-};
-
-const P = PRICING;
 const down = (n) => Math.floor(n / 100) * 100;
 const up = (n) => Math.ceil(n / 100) * 100;
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -118,16 +26,33 @@ function total(lines) {
   return { lo: down(lo), hi: up(hi) };
 }
 
+/** Retorno en años como rango: el peor caso usa la inversión alta y el ahorro bajo. */
+function paybackRange(lo, hi, deduction, save) {
+  const f = (inv, s) => (s > 0 ? Math.max(0, inv - deduction) / s : Infinity);
+  return [f(lo, save[1]), f(hi, save[0])];
+}
+
+/** Indica si la inversión no compensa con los umbrales de energy.json. */
+function notWorth(save, payback) {
+  return payback[1] > E.noCompensa.retornoMaxAnios || save[1] < E.noCompensa.ahorroMinAnual;
+}
+
+function irpfDeduction(amount, applies) {
+  return applies ? E.irpf.porcentaje * Math.min(amount, E.irpf.baseMaxima) : 0;
+}
+
+/* ===== Aerotermia ===== */
+
 /** Potencia de bomba de calor recomendada (kW) para una superficie, zona y aislamiento. */
-export function heatPumpKw(m2, zone = "D3", insulation = "mid") {
-  const need = (m2 * P.aero.wPerM2[zone][insulation]) / 1000;
+export function heatPumpKw(m2, zone = "madrid", insulation = "mid") {
+  const need = (m2 * E.potenciaPorM2[zone][insulation]) / 1000;
   return P.aero.sizesKw.find((s) => s >= need) ?? P.aero.sizesKw.at(-1);
 }
 
 /** Líneas de una instalación de aerotermia (sin ahorro ni ayudas). */
-export function aeroLines({ m2, zone = "D3", emitter = "keep", fuel = "gas", insulation = "mid" }) {
+export function aeroLines({ m2, zone = "madrid", emitter = "keep", fuel = "gas", insulation = "mid", kw: forcedKw }) {
   const a = P.aero;
-  const kw = heatPumpKw(m2, zone, insulation);
+  const kw = forcedKw ?? heatPumpKw(m2, zone, insulation);
   const lines = [];
   const [elo, ehi] = range(a.equipmentBase + a.equipmentPerKw * kw);
   lines.push({ label: `Bomba de calor ${kw} kW con depósito de ACS, instalación y legalización`, lo: elo, hi: ehi });
@@ -140,61 +65,85 @@ export function aeroLines({ m2, zone = "D3", emitter = "keep", fuel = "gas", ins
     lines.push({ label: e.label, lo, hi });
   }
   const rem = a.removal[fuel] || 0;
-  if (rem) lines.push({ label: "Desmontaje de la caldera y retirada del depósito", lo: rem, hi: rem });
+  if (rem) lines.push({ label: a.removalLabel[fuel], lo: rem, hi: rem });
   return { kw, lines };
 }
 
-export function quoteAero({ fuel, spend, m2, zone, emitter, irpf, insulation = "mid" }) {
-  const a = P.aero;
-  const { kw, lines } = aeroLines({ m2, zone, emitter, fuel, insulation });
+/**
+ * Ahorro anual en rango. La energía útil que hoy produce tu caldera sale de tu gasto, del precio
+ * del combustible y del rendimiento de la caldera; la aerotermia la produce con electricidad
+ * dividida por su SCOP (rango según emisor y zona).
+ */
+export function aeroSavings({ fuel, spend, zone, emitter, boiler = "estandar" }) {
+  const c = E.combustibles[fuel];
+  const eff = fuel === "elec" ? 1 : E.calderas[boiler].rendimiento;
+  const fixed = fuel === "gas" ? c.fijoAnual : 0;
+  const useful = (Math.max(0, spend - fixed) / c.precio) * eff;
+  const [s0, s1] = E.scop[zone][emitter];
+  const cost = [useful * E.electricidad.precio / s1, useful * E.electricidad.precio / s0];
+  // El ahorro nunca supera el gasto actual: como mínimo seguirás pagando la electricidad de la bomba.
+  const save = [Math.max(0, spend - cost[1]), Math.max(0, spend - cost[0])];
+  return { useful, scop: [s0, s1], cost, save };
+}
+
+export function quoteAero({ fuel, spend, m2, zone, emitter, irpf, insulation = "mid", boiler = "estandar", kw: forcedKw }) {
+  const { kw, lines } = aeroLines({ m2, zone, emitter, fuel, insulation, kw: forcedKw });
   const t = total(lines);
-  const scop = a.scop[zone][emitter];
-  const newCost = (spend / a.energyPrice[fuel]) * a.electricity / scop;
-  const save = Math.max(0, spend - newCost);
-  const deduction = irpf ? a.irpf.rate * Math.min(t.lo, a.irpf.maxBase) : 0;
-  const payback = save > 0 ? (t.lo - deduction) / save : Infinity;
+  const s = aeroSavings({ fuel, spend, zone, emitter, boiler });
+  const deduction = irpfDeduction(t.lo, irpf);
+  const payback = paybackRange(t.lo, t.hi, deduction, s.save);
   return {
     kind: "aero",
     title: "Aerotermia",
     lines,
     ...t,
     kw,
-    scop,
-    save,
-    newCost,
+    scop: s.scop,
+    save: s.save,
+    newCost: s.cost,
     deduction,
     payback,
-    net15: save * 15 - (t.lo - deduction),
-    summary: `Aerotermia ${kw} kW para ${m2} m², desde ${t.lo} € (IVA incl.)`,
+    notWorth: notWorth(s.save, payback),
+    summary: `Aerotermia ${kw} kW para ${m2} m², ${t.lo}–${t.hi} € (IVA incl.)`,
   };
 }
 
+/* ===== Fotovoltaica ===== */
+
 /** Producción relativa al óptimo para una cubierta, orientación, inclinación y sombras. */
 export function solarFactor({ roof = "teja", orient = "S", tilt = 30, shade = "none" }) {
-  const s = P.solar;
-  const base = s.roofs[roof].flat ? s.flatFactor : s.orientation[orient].f[tilt];
-  return base * s.shade[shade];
+  const s = E.solar;
+  const base = P.solar.roofs[roof].flat ? s.planaFactor : s.orientacion[orient].f[tilt];
+  return base * s.sombras[shade];
 }
 
-export function quoteSolar({ bill, zone, roof = "teja", orient = "S", tilt = 30, shade = "none", area = 60, battery, aero, ev, irpf = false }) {
+export function quoteSolar({ bill, zone, roof = "teja", orient = "S", tilt = 30, shade = "none", area = 60, battery = 0, aero = false, ev = false, irpf = false, profile = "dia", kwp: forcedKwp }) {
   const s = P.solar;
   const r = s.roofs[roof];
-  const cons = (bill * 12 * 0.8) / s.electricity + (aero ? 4000 : 0) + (ev ? 2500 : 0);
-  const annual = bill * 12 + (aero ? 4000 * s.electricity : 0) + (ev ? 2500 * s.electricity : 0);
+  const price = E.electricidad.precio;
+  const extra = (aero ? E.consumos.aerotermiaKWh : 0) + (ev ? E.consumos.cocheElectricoKWh : 0);
+  const cons = (bill * 12 * 0.8) / price + extra;
+  const annual = bill * 12 + extra * price;
   const factor = solarFactor({ roof, orient, tilt, shade });
-  const yieldK = s.yieldPerKwp[zone] * factor;
-  const wanted = Math.round(clamp((cons * 0.9) / yieldK, 2, 15) / s.panelKwp);
+  const [y0, y1] = E.solar.kWhPorKWp[zone];
+  const yMid = ((y0 + y1) / 2) * factor;
+  const wanted = Math.round(clamp((cons * 0.9) / yMid, 2, 15) / s.panelKwp);
   const fit = Math.floor(area / r.m2PerPanel);
-  const panels = Math.max(2, Math.min(wanted, fit));
+  const panels = forcedKwp ? Math.round(forcedKwp / s.panelKwp) : Math.max(2, Math.min(wanted, fit));
   const kwp = panels * s.panelKwp;
-  const prod = kwp * yieldK;
+  const prod = [kwp * y0 * factor, kwp * y1 * factor];
   const eastWest = !r.flat && orient === "EO";
-  const selfR = s.selfConsumption[battery] + (eastWest ? s.eastWestBonus : 0);
-  const self = Math.min(prod * selfR, cons * 0.85);
-  const surplus = prod - self;
-  const credit = Math.min(surplus * s.surplusPrice, (cons - self) * s.gridEnergyPrice);
-  const save = self * s.electricity + credit;
-  const after = Math.max(annual - save, annual * 0.12);
+  const selfR = E.solar.autoconsumo[profile][battery] + (eastWest ? E.solar.autoconsumo.eastWestBonus : 0);
+  const saving = (p, surplusPrice) => {
+    const self = Math.min(p * selfR, cons * 0.85);
+    const credit = Math.min((p - self) * surplusPrice, (cons - self) * E.compraRedEnergia.precio);
+    return { self, value: self * price + credit };
+  };
+  const lowCase = saving(prod[0], E.excedentes.min);
+  const highCase = saving(prod[1], E.excedentes.max);
+  // Nunca más ahorro que la factura: siempre quedan el término de potencia y los impuestos.
+  const cap = annual * 0.88;
+  const save = [Math.min(lowCase.value, cap), Math.min(highCase.value, cap)];
   const lines = [];
   const [plo, phi] = range(s.fixed + (s.perKwp + r.perKwp) * kwp);
   const mount = r.flat ? "estructura inclinada sobre cubierta plana" : `estructura para ${r.label.toLowerCase()}`;
@@ -208,7 +157,8 @@ export function quoteSolar({ bill, zone, roof = "teja", orient = "S", tilt = 30,
     lines.push({ label: "Cargador de vehículo eléctrico", lo, hi });
   }
   const t = total(lines);
-  const deduction = irpf ? s.irpf.rate * Math.min(t.lo, s.irpf.maxBase) : 0;
+  const deduction = irpfDeduction(t.lo, irpf);
+  const payback = paybackRange(t.lo, t.hi, deduction, save);
   return {
     kind: "solar",
     title: "Placas solares",
@@ -219,30 +169,47 @@ export function quoteSolar({ bill, zone, roof = "teja", orient = "S", tilt = 30,
     limitedByRoof: fit < wanted,
     factor,
     prod,
-    selfPct: self / cons,
+    selfPct: Math.min(lowCase.self, cons) / cons,
     save,
     annual,
-    after,
+    after: [Math.max(annual - save[1], annual * 0.12), Math.max(annual - save[0], annual * 0.12)],
     deduction,
-    payback: (t.lo - deduction) / save,
+    payback,
+    notWorth: notWorth(save, payback),
     asbestos: Boolean(r.asbestos),
-    summary: `${kwp.toLocaleString("es-ES")} kWp${battery ? ` + batería ${battery} kWh` : ""}, desde ${t.lo} € (IVA incl.)`,
+    summary: `${kwp.toLocaleString("es-ES")} kWp${battery ? ` + batería ${battery} kWh` : ""}, ${t.lo}–${t.hi} € (IVA incl.)`,
   };
 }
 
-export function quoteReforma({ type, level, m2, units, floor, domotics, project }) {
+/* ===== Cargador de coche eléctrico ===== */
+
+export function quoteCharger({ power = "7.4", meters = 10 }) {
+  const c = P.cargador;
+  const base = c.base[power] + Math.max(0, meters - c.metrosIncluidos) * c.perMetro;
+  const [lo, hi] = range(base);
+  return { kind: "ev", title: "Cargador de coche eléctrico", lo, hi, lines: [{ label: `Punto de recarga ${power.replace(".", ",")} kW y línea de ${meters} m`, lo, hi }] };
+}
+
+/* ===== Reformas (rango de referencia de mercado; el precio se da bajo proyecto) ===== */
+
+const SIZE_POS = { s: 0.2, m: 0.5, l: 0.8 };
+
+export function quoteReforma({ type, level, m2, units, size = "m", floor, domotics, project, zone = "madrid" }) {
   const r = P.reforma;
   const cfg = r.types[type];
+  const [pmin, pmax] = cfg.p[level];
   const qty = cfg.unit === "m2" ? m2 : units;
-  const [plo, phi] = cfg.p[level];
-  const lines = [{ label: `${cfg.label} · ${P.levels[level]}${cfg.unit === "m2" ? ` · ${m2} m²` : ` · ${units} ud.`}`, lo: plo * qty, hi: phi * qty }];
-  const works = { lo: plo * qty, hi: phi * qty };
+  // Punto medio según el tamaño (cocinas y baños) o el centro del rango (por m²), ±10 %.
+  const mid = cfg.unit === "m2" ? (pmin + pmax) / 2 : pmin + (pmax - pmin) * SIZE_POS[size];
+  const works = { lo: mid * 0.9 * qty, hi: mid * 1.1 * qty };
+  const lines = [{ label: `${cfg.label} · ${P.levels[level]}${cfg.unit === "m2" ? ` · ${m2} m²` : ` · ${units} ud.`}`, ...works }];
   if (domotics && type !== "design")
     lines.push({ label: "Domótica e iluminación escénica", lo: works.lo * r.domotics, hi: works.hi * r.domotics });
   if (project && type !== "design")
     lines.push({ label: "Proyecto 3D, licencia y dirección de obra", lo: works.lo * r.project, hi: works.hi * r.project });
-  if (floor && type === "int") lines.push(...aeroLines({ m2, emitter: "floor", fuel: "gas" }).lines.filter((l) => !/Desmontaje/.test(l.label)));
-  const t = total(lines.map((l) => ({ ...l, lo: down(l.lo), hi: up(l.hi) })));
+  if (floor && type === "int") lines.push(...aeroLines({ m2, zone, emitter: "floor", fuel: "gas" }).lines.filter((l) => !/Desmontaje/.test(l.label)));
+  const rounded = lines.map((l) => ({ ...l, lo: down(l.lo), hi: up(l.hi) }));
+  const t = total(rounded);
   const area = cfg.unit === "m2" ? m2 : cfg.m2eq * units;
   let weeks;
   if (type === "int") weeks = [Math.round(10 + m2 / 25), Math.round(14 + m2 / 18)];
@@ -252,35 +219,11 @@ export function quoteReforma({ type, level, m2, units, floor, domotics, project 
   return {
     kind: "ref",
     title: cfg.label,
-    lines: lines.map((l) => ({ ...l, lo: down(l.lo), hi: up(l.hi) })),
+    lines: rounded,
     ...t,
     perM2: [t.lo / area, t.hi / area],
     weeks,
     payments: r.payments,
-    summary: `${cfg.label} (${P.levels[level].toLowerCase()}), desde ${t.lo} € (IVA incl.)`,
-  };
-}
-
-export function quoteObra({ m2, level, energy, soft, pool }) {
-  const o = P.obra;
-  const [plo, phi] = o.perM2[level];
-  const lines = [{ label: `Construcción llave en mano · ${P.levels[level]} · ${m2} m²`, lo: plo * m2, hi: phi * m2 }];
-  if (energy) {
-    lines.push(...aeroLines({ m2, emitter: "floor", fuel: "elec" }).lines);
-    const [lo, hi] = range(P.solar.fixed + P.solar.perKwp * o.solarKwp);
-    lines.push({ label: `Placas solares ${o.solarKwp} kWp`, lo, hi });
-  }
-  if (soft) lines.push({ label: "Proyecto, dirección facultativa, licencia e ICIO", lo: plo * m2 * o.soft, hi: phi * m2 * o.soft });
-  if (pool) lines.push({ label: "Piscina", lo: o.pool[0], hi: o.pool[1] });
-  const rounded = lines.map((l) => ({ ...l, lo: down(l.lo), hi: up(l.hi) }));
-  const t = total(rounded);
-  return {
-    kind: "obra",
-    title: "Obra nueva",
-    lines: rounded,
-    ...t,
-    perM2: [t.lo / m2, t.hi / m2],
-    months: [Math.round(8 + m2 / 60), Math.round(12 + m2 / 45)],
-    summary: `Obra nueva de ${m2} m² (${P.levels[level].toLowerCase()}), desde ${t.lo} € (IVA incl.)`,
+    summary: `${cfg.label} (${P.levels[level].toLowerCase()}), ${t.lo}–${t.hi} € (IVA incl.), referencia de mercado`,
   };
 }

@@ -5,7 +5,6 @@ import "../styles/global.css";
 
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
-import ChatLoader from "../components/ChatLoader.astro";
 import Consent from "../components/Consent.astro";
 import MobileBar from "../components/MobileBar.astro";
 import { company } from "../data/site";
@@ -16,20 +15,23 @@ interface Props {
   /** Nodos extra de datos estructurados (FAQPage, Service…), sin "@context". */
   schema?: Record<string, unknown>[];
   noindex?: boolean;
+  /** Imagen para redes (1200×630) en /public/og/. */
+  og?: string;
 }
 
 const {
   title = "Aerotermia y placas solares en Madrid y Toledo | Aerovantia",
-  description = "Aerotermia, placas solares y baterías en la Comunidad de Madrid y la provincia de Toledo. Estudio gratuito, propuesta por escrito con el ahorro estimado y la deducción del 40 % tramitada.",
+  description = "Estudio gratuito de aerotermia y placas solares en Madrid y Toledo. Ahorro estimado con tu factura, ayudas explicadas y propuesta por escrito.",
   schema = [],
   noindex = false,
+  og = "/og/home.png",
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const ogImage = new URL("/og.png", Astro.site);
+const ogImage = new URL(og, Astro.site);
 
 const business = {
-  "@type": "HVACBusiness",
+  "@type": ["Organization", "HVACBusiness"],
   "@id": new URL("/#empresa", Astro.site).href,
   name: company.name,
   url: Astro.site?.href,
@@ -89,9 +91,9 @@ const jsonLd = { "@context": "https://schema.org", "@graph": [business, ...schem
     <Footer />
     <MobileBar />
     <Consent />
-    <ChatLoader />
     <script>
       import "../scripts/motion.js";
+      import "../scripts/clicks.js";
     </script>
   </body>
 </html>

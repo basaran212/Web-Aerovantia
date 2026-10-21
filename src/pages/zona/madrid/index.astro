@@ -1,0 +1,30 @@
+---
+import ContentPage from "../../../components/ContentPage.astro";
+import energy from "../../../data/energy.json";
+import { areas } from "../../../data/site";
+import { municipios } from "../../../data/municipios";
+
+const list = municipios.filter((m) => m.province === "madrid");
+const others = areas["Comunidad de Madrid"].filter((t) => !list.some((m) => m.name === t));
+const [y0, y1] = energy.solar.kWhPorKWp.madrid;
+---
+
+<ContentPage
+  name="Comunidad de Madrid"
+  parents={[{ name: "Zona de trabajo", href: "/zona/madrid/" }]}
+  seoTitle="Zona Comunidad de Madrid: aerotermia y solar | Aerovantia"
+  description="Aerotermia, placas solares y baterías en la Comunidad de Madrid: municipios donde trabajamos, clima, producción solar y ayudas municipales."
+  eyebrow="Zona de trabajo"
+  title="Aerotermia y placas solares en la Comunidad de Madrid."
+  lede="Trabajamos en toda la Comunidad de Madrid, con más presencia en el oeste y el sur, donde hay más chalets y adosados: Boadilla, Pozuelo, Las Rozas, Majadahonda, Villaviciosa de Odón o Getafe, además de las colonias de Madrid capital."
+>
+  <h2>Municipios con página propia</h2>
+  <div class="cards">
+    {list.map((m) => <a class="card" href={m.href} style="text-decoration:none"><h3>{m.name}</h3><p>{m.description}</p><span class="more">Ver {m.name} <span aria-hidden="true">→</span></span></a>)}
+  </div>
+  <h2>También trabajamos en</h2>
+  <p>{others.join(", ")}. Si tu municipio no aparece, pregúntanos.</p>
+  <h2>Clima y producción solar</h2>
+  <p>Clima continental, con inviernos fríos y veranos calurosos. La mayor parte del territorio habitado está en la zona climática D3 del CTE. La aerotermia se dimensiona para los días más fríos y en verano el mismo equipo puede dar frío. Producción orientativa: {y0.toLocaleString("es-ES")} – {y1.toLocaleString("es-ES")} kWh por kWp al año con orientación sur (PVGIS). {energy.solar.pendiente}</p>
+  <p>Ayudas municipales por municipio en <a href="/ayudas/bonificacion-ibi-icio/">bonificaciones de IBI e ICIO</a>.</p>
+</ContentPage>

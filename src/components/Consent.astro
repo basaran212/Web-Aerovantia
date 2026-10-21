@@ -1,0 +1,53 @@
+---
+// Consent Mode v2: analítica y Ads denegados por defecto. Solo se pinta el aviso y se carga Google si
+// hay un ID en src/data/config.json; mientras esté vacío, la web no instala cookies ni muestra aviso.
+import config from "../data/config.json";
+
+const ga4 = config.analytics.ga4Id;
+const ads = config.analytics.googleAdsId;
+const enabled = Boolean(ga4 || ads);
+---
+
+{enabled && (
+  <>
+    <script is:inline define:vars={{ ga4, ads }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag("consent", "default", { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: "denied", wait_for_update: 500 });
+      let choice = null;
+      try { choice = localStorage.getItem("aerovantia_consent"); } catch (_) {}
+      if (choice === "granted") gtag("consent", "update", { ad_storage: "granted", ad_user_data: "granted", ad_personalization: "granted", analytics_storage: "granted" });
+      const id = ga4 || ads;
+      const s = document.createElement("script");
+      s.async = true;
+      s.src = "https://www.googletagmanager.com/gtag/js?id=" + id;
+      document.head.append(s);
+      gtag("js", new Date());
+      if (ga4) gtag("config", ga4);
+      if (ads) gtag("config", ads);
+    </script>
+    <div class="note" id="consent" role="dialog" aria-label="Cookies" hidden style="position:fixed;left:16px;right:16px;bottom:96px;z-index:50;max-width:560px;margin-inline:auto;display:grid;gap:12px">
+      <p>Usamos cookies de analítica y publicidad solo si las aceptas. <a href="/cookies/">Más información</a>.</p>
+      <div class="hero-ctas">
+        <button class="btn btn-ghost" type="button" data-consent="denied">Rechazar</button>
+        <button class="btn btn-ghost" type="button" data-consent="granted">Aceptar</button>
+      </div>
+    </div>
+    <script is:inline>
+      (function () {
+        const box = document.getElementById("consent");
+        let choice = null;
+        try { choice = localStorage.getItem("aerovantia_consent"); } catch (_) {}
+        if (!choice) box.hidden = false;
+        box.addEventListener("click", (e) => {
+          const v = e.target.closest("[data-consent]")?.dataset.consent;
+          if (!v) return;
+          try { localStorage.setItem("aerovantia_consent", v); } catch (_) {}
+          window.gtag("consent", "update", { ad_storage: v, ad_user_data: v, ad_personalization: v, analytics_storage: v });
+          box.hidden = true;
+        });
+      })();
+    </script>
+  </>
+)}

@@ -1,0 +1,220 @@
+{
+  "_leeme": "Fuente única de precios de las calculadoras y de las páginas de precio. Importes finales con IVA. Cada bloque lleva su trazabilidad (referencias del benchmark B## y de costes C##). Mientras costes.csv y el benchmark no estén completos, estos precios están calibrados solo con referencias de mercado publicadas y bloquean el despliegue a producción.",
+  "actualizado": "2026-10",
+  "actualizadoTexto": "octubre de 2026",
+  "revision": "Cada 3 meses o cuando cambien las tarifas de los distribuidores",
+  "estado": "[PENDIENTE: validar con costes.csv (tarifas de distribuidor y mano de obra) y con al menos 10 referencias del benchmark por servicio]",
+  "spread": {
+    "low": 0.94,
+    "high": 1.06,
+    "_nota": "Rango mostrado = precio base × [low, high]: ±6 % sobre el punto medio por partida (máximo permitido ±12 %)."
+  },
+  "aero": {
+    "equipmentBase": 4800,
+    "equipmentPerKw": 520,
+    "sizesKw": [
+      6,
+      8,
+      11,
+      14,
+      16
+    ],
+    "emitters": {
+      "keep": {
+        "label": "Adaptación de los radiadores actuales",
+        "perM2": 0,
+        "fixed": 600
+      },
+      "radiators": {
+        "label": "Radiadores nuevos de baja temperatura",
+        "perRoom": 420,
+        "m2PerRoom": 18
+      },
+      "floor": {
+        "label": "Suelo radiante (sin pavimento final)",
+        "perM2": 48
+      }
+    },
+    "removal": {
+      "gasoleo": 650,
+      "propano": 650,
+      "gas": 350,
+      "elec": 0
+    },
+    "removalLabel": {
+      "gasoleo": "Desmontaje de la caldera y retirada del depósito de gasóleo",
+      "propano": "Desmontaje de la caldera y retirada del depósito de propano",
+      "gas": "Desmontaje de la caldera de gas"
+    },
+    "trazabilidad": "B01–B08 (aerotermia) · C01–C15 pendientes",
+    "incluye": [
+      "Bomba de calor monobloc R290 con depósito de ACS",
+      "Instalación hidráulica y eléctrica de la unidad",
+      "Legalización y puesta en marcha",
+      "Certificado energético antes y después (si aplicas la deducción)",
+      "Gestión de la deducción IRPF y de los CAE"
+    ],
+    "noIncluye": [
+      "Pavimento final sobre el suelo radiante",
+      "Obras de albañilería no previstas",
+      "Aumento de potencia contratada si fuera necesario"
+    ]
+  },
+  "solar": {
+    "fixed": 1300,
+    "perKwp": 980,
+    "panelKwp": 0.5,
+    "batteries": {
+      "0": 0,
+      "5": 3500,
+      "10": 6200
+    },
+    "wallbox": 1100,
+    "roofs": {
+      "teja": {
+        "label": "Teja",
+        "perKwp": 0,
+        "m2PerPanel": 2.3
+      },
+      "chapa": {
+        "label": "Chapa o panel sándwich",
+        "perKwp": -60,
+        "m2PerPanel": 2.3
+      },
+      "pizarra": {
+        "label": "Pizarra",
+        "perKwp": 150,
+        "m2PerPanel": 2.3
+      },
+      "plana": {
+        "label": "Cubierta plana",
+        "perKwp": 110,
+        "m2PerPanel": 3.4,
+        "flat": true
+      },
+      "uralita": {
+        "label": "Fibrocemento (uralita)",
+        "perKwp": 0,
+        "m2PerPanel": 2.3,
+        "asbestos": true
+      }
+    },
+    "trazabilidad": "B09–B18 (fotovoltaica y baterías) · C16–C40 pendientes",
+    "incluye": [
+      "Paneles, inversor y estructura para tu tipo de cubierta",
+      "Instalación, protecciones y monitorización",
+      "Legalización del autoconsumo con compensación de excedentes",
+      "Tramitación de bonificaciones de IBI/ICIO si tu municipio las ofrece"
+    ],
+    "noIncluye": [
+      "Retirada de fibrocemento (amianto)",
+      "Reparación de la cubierta",
+      "Andamios o plataforma elevadora si el acceso lo exige"
+    ]
+  },
+  "cargador": {
+    "base": {
+      "7.4": 1150,
+      "11": 1450
+    },
+    "perMetro": 22,
+    "metrosIncluidos": 10,
+    "trazabilidad": "B19–B21 · C41–C44 pendientes",
+    "incluye": [
+      "Punto de recarga",
+      "Protecciones y línea desde el cuadro",
+      "Legalización (boletín)"
+    ],
+    "noIncluye": [
+      "Cambio a suministro trifásico o aumento de potencia"
+    ]
+  },
+  "reforma": {
+    "types": {
+      "int": {
+        "label": "Reforma integral",
+        "unit": "m2",
+        "p": [
+          [
+            620,
+            780
+          ],
+          [
+            820,
+            1080
+          ],
+          [
+            1150,
+            1600
+          ]
+        ]
+      },
+      "kit": {
+        "label": "Reforma de cocina",
+        "unit": "n",
+        "p": [
+          [
+            9000,
+            14000
+          ],
+          [
+            15000,
+            26000
+          ],
+          [
+            28000,
+            50000
+          ]
+        ],
+        "m2eq": 18
+      },
+      "bath": {
+        "label": "Reforma de baño",
+        "unit": "n",
+        "p": [
+          [
+            5500,
+            8500
+          ],
+          [
+            9000,
+            15000
+          ],
+          [
+            16000,
+            30000
+          ]
+        ],
+        "m2eq": 8
+      },
+      "design": {
+        "label": "Proyecto de interiorismo",
+        "unit": "m2",
+        "p": [
+          [
+            22,
+            35
+          ],
+          [
+            35,
+            55
+          ],
+          [
+            55,
+            90
+          ]
+        ]
+      }
+    },
+    "domotics": 0.05,
+    "project": 0.07,
+    "payments": "30 % · 40 % · 30 %",
+    "_nota": "Rango de referencia de mercado. En reformas el precio se da siempre bajo proyecto.",
+    "trazabilidad": "B22–B25 · C45–C56 pendientes"
+  },
+  "levels": [
+    "Estándar alto",
+    "Alta",
+    "Lujo"
+  ]
+}

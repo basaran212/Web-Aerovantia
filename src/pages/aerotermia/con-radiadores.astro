@@ -1,0 +1,50 @@
+---
+import ContentPage from "../../components/ContentPage.astro";
+import { guideMeta } from "../../data/authors";
+import { eurRange, savingsTable } from "../../data/derived";
+import energy from "../../data/energy.json";
+
+const t = savingsTable().find((r) => r.k === "gasoleo")!;
+const [k0, k1] = energy.scop.madrid.keep;
+const [r0, r1] = energy.scop.madrid.radiators;
+const [f0, f1] = energy.scop.madrid.floor;
+const faqs = [
+  { q: "¿Tengo que cambiar todos los radiadores?", a: "Casi nunca. Lo habitual es cambiar los de las estancias que más calor necesitan, o los más pequeños. Se ve calculando la potencia de cada radiador a 45–50 °C." },
+  { q: "¿Funcionan los radiadores de hierro fundido?", a: "Suelen funcionar bien, porque tienen mucha superficie y masa. Son de los que mejor se adaptan a una temperatura más baja." },
+  { q: "¿Y los de aluminio?", a: "Depende de su tamaño. Si se instalaron justos para una caldera a 70–80 °C, puede que a 50 °C no lleguen en los días más fríos." },
+];
+---
+
+<ContentPage
+  name="Con radiadores"
+  parents={[{ name: "Aerotermia", href: "/aerotermia/" }]}
+  seoTitle="Aerotermia con radiadores: cuándo funciona | Aerovantia"
+  description="Cuándo funciona la aerotermia con los radiadores que ya tienes, cuánto rinde frente al suelo radiante y cuándo conviene cambiar algunos radiadores. Con números."
+  eyebrow="Guía de aerotermia"
+  title="Aerotermia con radiadores: cuándo funciona."
+  lede="Sí puede funcionar con tus radiadores, pero rinde menos que con suelo radiante y a veces hay que cambiar alguno. Te explicamos cómo saberlo."
+  faqs={faqs}
+  article={guideMeta}
+  og="/og/aerotermia.png"
+>
+  <h2>La respuesta corta</h2>
+  <p>Una caldera calienta el agua de los radiadores a 70–80 °C. Una bomba de calor rinde mejor cuanto más baja es esa temperatura. Si tus radiadores son grandes, o la casa está bien aislada, pueden calentar con agua a 45–55 °C y la aerotermia funciona. Si se instalaron justos, en los días más fríos no llegarán.</p>
+  <h2>Cuánto rinde según el emisor</h2>
+  <table class="q-lines">
+    <thead><tr><th>Emisor</th><th>Temperatura del agua</th><th>Rendimiento estacional (SCOP)</th></tr></thead>
+    <tbody>
+      <tr><td>Radiadores existentes</td><td>50–55 °C</td><td>{k0} – {k1}</td></tr>
+      <tr><td>Radiadores de baja temperatura</td><td>≈ 45 °C</td><td>{r0} – {r1}</td></tr>
+      <tr><td>Suelo radiante</td><td>≈ 35 °C</td><td>{f0} – {f1}</td></tr>
+    </tbody>
+  </table>
+  <p>Valores prudentes para Madrid. Fuente: {energy.scop.fuente}. {energy.scop.pendiente}</p>
+  <p>Con estas hipótesis, sustituir una caldera de gasóleo ahorra entre un {t.keep[0]} y un {t.keep[1]} % manteniendo los radiadores y entre un {t.floor[0]} y un {t.floor[1]} % con suelo radiante.</p>
+  <h2>Cómo saber si tus radiadores valen</h2>
+  <ol>
+    <li>Calculamos lo que necesita cada estancia en el día más frío.</li>
+    <li>Medimos cada radiador y calculamos lo que da a 45–50 °C.</li>
+    <li>Si alguno se queda corto, se cambia por uno mayor o de baja temperatura.</li>
+  </ol>
+  <p>Pruébalo en la <a href="/calculadoras/aerotermia/">calculadora de aerotermia</a> cambiando "Cómo se reparte el calor". Precios por configuración en <a href="/aerotermia/precio/">precio de la aerotermia</a>.</p>
+</ContentPage>

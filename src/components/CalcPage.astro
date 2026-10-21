@@ -1,0 +1,48 @@
+---
+// Página de una calculadora: cabecera simple, calculadora y explicación de la metodología.
+import Calculators from "./Calculators.astro";
+import Layout from "../layouts/Layout.astro";
+import prices from "../data/prices.json";
+
+interface Props {
+  only: "aero" | "solar" | "ref";
+  seoTitle: string;
+  description: string;
+  name: string;
+  title: string;
+  lede: string;
+  links: { href: string; label: string }[];
+}
+const p = Astro.props;
+const path = Astro.url.pathname;
+const crumbs = [{ name: "Inicio", href: "/" }, { name: "Calculadoras", href: "/calculadoras/" }, { name: p.name, href: path }];
+const schema = [
+  { "@type": "BreadcrumbList", itemListElement: crumbs.map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: new URL(c.href, Astro.site).href })) },
+];
+---
+
+<Layout title={p.seoTitle} description={p.description} schema={schema} og="/og/calculadoras.png">
+  <main>
+    <section class="page-hero plain">
+      <div class="wrap">
+        <nav class="crumbs" aria-label="Ruta">{crumbs.map((c, i) => i < crumbs.length - 1 ? <><a href={c.href}>{c.name}</a><span aria-hidden="true">/</span></> : <span>{c.name}</span>)}</nav>
+        <p class="eyebrow">Calculadora · precios de {prices.actualizadoTexto}</p>
+        <h1>{p.title}</h1>
+        <p class="lede">{p.lede}</p>
+      </div>
+    </section>
+    <section id="calculadoras" style="padding-top:0">
+      <div class="wrap"><Calculators only={p.only} /></div>
+    </section>
+    <section class="calc">
+      <div class="wrap prose">
+        <h2>Cómo calculamos el precio</h2>
+        <p>Los rangos salen de un único archivo de precios, revisado cada 3 meses, contrastado con el mercado de Madrid y Toledo. Cada partida se da con un margen de ±6 % y el total nunca se separa más de un ±12 % de su punto medio. Si un dato cambia mucho el resultado, te lo preguntamos en lugar de ampliar el rango.</p>
+        <p>El ahorro se calcula con precios de la energía, rendimientos y producción realistas, que puedes ver en "Ver hipótesis" con sus fuentes. No usamos subidas futuras del precio de la energía para inflar el ahorro.</p>
+        <p>El precio de tu instalación es el de la propuesta escrita tras la visita. <a href="/como-trabajamos/">Cómo trabajamos</a>.</p>
+        <h2>Sigue leyendo</h2>
+        <ul>{p.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+      </div>
+    </section>
+  </main>
+</Layout>

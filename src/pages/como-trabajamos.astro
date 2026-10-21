@@ -1,0 +1,37 @@
+---
+import ContentPage from "../components/ContentPage.astro";
+import config from "../data/config.json";
+import prices from "../data/prices.json";
+---
+
+<ContentPage
+  name="Cómo trabajamos"
+  seoTitle="Cómo trabajamos: proceso y garantías | Aerovantia"
+  description="El proceso de Aerovantia de la llamada a la puesta en marcha: plazos, instaladores habilitados, garantías y cómo calculamos los precios orientativos."
+  eyebrow="Empresa"
+  title="Cómo trabajamos."
+  lede="Te explicamos el proceso, quién hace cada cosa, qué garantías tienes y de dónde salen los precios de la calculadora."
+>
+  <h2>El proceso</h2>
+  <ol>
+    <li><strong>Te llamamos en menos de 24 h laborables</strong> desde que nos escribes.</li>
+    <li><strong>Visita gratuita</strong> a tu casa: instalaciones, facturas, tejado y espacio para los equipos.</li>
+    <li><strong>Propuesta por escrito en 5–10 días tras la visita</strong>, con partidas desglosadas, el ahorro estimado y las ayudas que te aplican.</li>
+    <li><strong>Instalación</strong> según el calendario de la propuesta, coordinada por tu responsable de proyecto.</li>
+    <li><strong>Legalización, ayudas y puesta en marcha.</strong></li>
+  </ol>
+  <h2>Nuestros compromisos</h2>
+  <ul>
+    <li>Propuesta por escrito con partidas desglosadas. Sabes qué pagas y por qué.</li>
+    <li>El precio de la instalación queda fijado en la propuesta que firmas. Cualquier cambio se te presenta por escrito y no se ejecuta sin tu aprobación.</li>
+    <li>Un responsable de proyecto desde la visita hasta la puesta en marcha.</li>
+    <li>Te decimos qué ayudas aplican a tu caso y las tramitamos nosotros.</li>
+    <li>Si después de estudiar tu casa la aerotermia o las placas no te compensan, te lo decimos.</li>
+  </ul>
+  <h2>Quién instala</h2>
+  <p>Instaladores habilitados RITE y gases fluorados que colaboran con nosotros. Registro de habilitación: [PENDIENTE: número de registro de los instaladores colaboradores]. Seguro de responsabilidad civil: [PENDIENTE: aseguradora y cobertura].</p>
+  <h2>Garantías</h2>
+  <p>La garantía del fabricante del equipo y la garantía legal de la instalación{config.garantiaPropia ? `, más ${config.garantiaPropia}` : ""}. En la propuesta te indicamos los plazos de cada una para los equipos concretos.</p>
+  <h2>Cómo calculamos los precios orientativos</h2>
+  <p>Los precios de las calculadoras y de las páginas de precio salen de un único archivo, actualizado en {prices.actualizadoTexto} y revisado cada 3 meses o cuando cambian las tarifas de los distribuidores. Se contrastan con referencias del mercado de Madrid y Toledo. Cada rango se mueve como mucho un ±12 % sobre su punto medio. El ahorro usa precios de la energía, rendimientos y producción realistas, que puedes ver en "Ver hipótesis" en cada calculadora. Si con tus datos la inversión tarda en recuperarse, la calculadora te lo dice.</p>
+</ContentPage>

@@ -1,0 +1,26 @@
+---
+import ContentPage from "../components/ContentPage.astro";
+import { company } from "../data/site";
+---
+
+<ContentPage
+  name="Quiénes somos"
+  seoTitle="Quiénes somos | Aerovantia"
+  description="Aerovantia, marca de Eufórico Equilibrio S.L. con oficina en Olías del Rey (Toledo): estudio, diseño y gestión de ayudas para aerotermia y placas."
+  eyebrow="Empresa"
+  title="Quiénes somos."
+  lede="Aerovantia es una marca nueva. Hacemos el estudio, la propuesta, el diseño y la gestión de ayudas, y coordinamos a instaladores habilitados RITE y gases fluorados."
+>
+  <h2>El equipo</h2>
+  <p>[PENDIENTE: personas reales del equipo con nombre, rol y foto real]</p>
+  <h2>Cómo trabajamos</h2>
+  <p>El estudio de tu casa, la propuesta por escrito, el diseño y la gestión de las ayudas los hacemos nosotros. La instalación la realizan instaladores habilitados RITE y gases fluorados que colaboran con nosotros, coordinados por tu responsable de proyecto. Compramos los equipos a distribuidores del sector. Más detalle en <a href="/como-trabajamos/">cómo trabajamos</a>.</p>
+  <h2>Datos de la sociedad</h2>
+  <ul>
+    <li>{company.name} es una marca de {company.legalName}</li>
+    <li>NIF: {company.cif}</li>
+    <li>Domicilio: {company.street}, {company.address}</li>
+    <li>Teléfonos: {company.phones.map((p) => p.display).join(" · ")}</li>
+    <li>Email: {company.email}</li>
+  </ul>
+</ContentPage>

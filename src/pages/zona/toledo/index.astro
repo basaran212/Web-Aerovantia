@@ -1,0 +1,30 @@
+---
+import ContentPage from "../../../components/ContentPage.astro";
+import energy from "../../../data/energy.json";
+import { areas } from "../../../data/site";
+import { municipios } from "../../../data/municipios";
+
+const list = municipios.filter((m) => m.province === "toledo");
+const others = areas["Provincia de Toledo"].filter((t) => !list.some((m) => m.name === t));
+const [y0, y1] = energy.solar.kWhPorKWp.toledo;
+---
+
+<ContentPage
+  name="Provincia de Toledo"
+  parents={[{ name: "Zona de trabajo", href: "/zona/toledo/" }]}
+  seoTitle="Zona provincia de Toledo: aerotermia y solar | Aerovantia"
+  description="Aerotermia, placas solares y baterías en la provincia de Toledo: municipios donde trabajamos, clima, producción solar y ayudas municipales."
+  eyebrow="Zona de trabajo"
+  title="Aerotermia y placas solares en la provincia de Toledo."
+  lede="Tenemos la oficina en Olías del Rey y trabajamos en toda la provincia de Toledo: la capital, La Sagra (Illescas, Seseña, Yuncos, Esquivias…), Torrijos y Talavera de la Reina."
+>
+  <h2>Municipios con página propia</h2>
+  <div class="cards">
+    {list.map((m) => <a class="card" href={m.href} style="text-decoration:none"><h3>{m.name}</h3><p>{m.description}</p><span class="more">Ver {m.name} <span aria-hidden="true">→</span></span></a>)}
+  </div>
+  <h2>También trabajamos en</h2>
+  <p>{others.join(", ")}. Si tu municipio no aparece, pregúntanos.</p>
+  <h2>Clima y producción solar</h2>
+  <p>Inviernos algo más suaves que en Madrid, con heladas y nieblas, y veranos muy calurosos. La capital está en la zona climática C4 del CTE y otros municipios en C4 o D3 según la altitud. Mucha radiación solar y mucho aire acondicionado en verano. Producción orientativa: {y0.toLocaleString("es-ES")} – {y1.toLocaleString("es-ES")} kWh por kWp al año con orientación sur (PVGIS). {energy.solar.pendiente}</p>
+  <p>Ayudas municipales por municipio en <a href="/ayudas/bonificacion-ibi-icio/">bonificaciones de IBI e ICIO</a>.</p>
+</ContentPage>

@@ -123,6 +123,14 @@ export function initWorld(world, { reduceMotion, onScroll }) {
     }),
   );
 
+  // Las escenas 2–6 se piden cuando la página ya ha cargado (la primera es la que cuenta para el LCP).
+  const wake = () => {
+    stage.querySelectorAll("source[data-srcset]").forEach((s) => { s.srcset = s.dataset.srcset; });
+    stage.querySelectorAll("img[data-defer]").forEach((img) => { img.src = img.dataset.src; });
+  };
+  if (document.readyState === "complete") wake();
+  else addEventListener("load", wake, { once: true });
+
   // Con movimiento reducido o ahorro de datos se quedan las imágenes.
   const saveData = navigator.connection?.saveData;
   if (!clips.length || reduceMotion || saveData) return;

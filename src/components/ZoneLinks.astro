@@ -1,0 +1,27 @@
+---
+// Enlaces a las landings de municipio, en dos bloques de igual peso (Madrid y Toledo).
+import { municipios } from "../data/municipios";
+
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+const groups = [
+  { name: "Comunidad de Madrid", hub: "/zona/madrid/", items: municipios.filter((m) => m.province === "madrid") },
+  { name: "Provincia de Toledo", hub: "/zona/toledo/", items: municipios.filter((m) => m.province === "toledo") },
+];
+---
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">En tu zona</p><h2>{title}</h2></div>
+    <div class="zones">
+      {groups.map((g) => (
+        <div>
+          <h3><a href={g.hub}>{g.name}</a></h3>
+          <ul>{g.items.map((m) => <li><a href={m.href}>{m.name}</a></li>)}</ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

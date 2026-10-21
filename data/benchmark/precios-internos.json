@@ -1,0 +1,11 @@
+{
+  "_leeme": "Interno: no se publica. Margen y posicionamiento de precio. prices.json (público) no debe llevar márgenes.",
+  "posicionamiento": "[PENDIENTE: elegir posicionamiento de precio: media del mercado con más servicio incluido, o ligeramente por encima de la media]",
+  "margen": {
+    "aerotermia": "[PENDIENTE: margen objetivo]",
+    "fotovoltaica": "[PENDIENTE: margen objetivo]",
+    "cargador": "[PENDIENTE: margen objetivo]",
+    "reformas": "[PENDIENTE: margen objetivo]"
+  },
+  "estado": "[PENDIENTE: validar con costes.csv (tarifas de distribuidor y mano de obra) y con al menos 10 referencias del benchmark por servicio]"
+}

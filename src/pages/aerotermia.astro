@@ -1,49 +1,70 @@
 ---
 import ServicePage from "../components/ServicePage.astro";
+import ZoneLinks from "../components/ZoneLinks.astro";
+import { aeroConfigs, eurRange, savingsSpan, savingsTable } from "../data/derived";
+import energy from "../data/energy.json";
+import { aeroFaqs } from "../data/faqs";
+import prices from "../data/prices.json";
 import exteriorNoon from "../assets/img/exterior-noon.jpg";
 import heatpump from "../assets/img/heatpump.jpg";
 import living from "../assets/img/living.jpg";
+
+const span = savingsSpan();
+const table = savingsTable();
+const chalet = aeroConfigs().find((c) => c.kw === 11)!;
+const faqs = aeroFaqs.map((f) =>
+  f.q === "¿Cuánto cuesta?"
+    ? { q: f.q, a: `Para un chalet de unos 180 m², el rango orientativo va de ${eurRange(chalet.keep.lo, chalet.keep.hi)} aprovechando los radiadores a ${eurRange(chalet.floor.lo, chalet.floor.hi)} con suelo radiante nuevo, IVA incluido (precios de ${prices.actualizadoTexto}). El precio de tu instalación es el de la propuesta por escrito tras la visita.` }
+    : f,
+);
 ---
 
 <ServicePage
   image={heatpump}
-  imageAlt="Unidad exterior de aerotermia instalada junto a la fachada de un chalet"
-  gallery={[{ img: exteriorNoon, alt: "Chalet con aerotermia y placas solares a mediodía" }, { img: living, alt: "Salón con suelo radiante bajo la madera" }]}
+  imageAlt="Recreación ilustrativa con IA: unidad exterior de aerotermia junto a la fachada de un chalet"
+  gallery={[{ img: exteriorNoon, alt: "Recreación ilustrativa con IA: chalet con aerotermia y placas solares a mediodía" }, { img: living, alt: "Recreación ilustrativa con IA: salón con suelo de madera" }]}
   hue="var(--cold)"
   calc="aero"
-  seoTitle="Aerotermia en Toledo y Madrid | Aerovantia"
-  description="Instalación de aerotermia con suelo radiante en Toledo y Madrid. Sustituye tu caldera, ahorra hasta un 70 % y deduce el 40 % en el IRPF."
+  og="/og/aerotermia.png"
+  seoTitle="Instalación de aerotermia en Madrid y Toledo | Aerovantia"
+  description="Instalación de aerotermia en Madrid y Toledo. Estudio gratuito con tu factura, ahorro estimado según tu sistema actual y ayudas explicadas."
   eyebrow="Aerotermia"
-  title="Aerotermia en Toledo y Madrid."
-  lede="Calefacción, frío y agua caliente con la energía del aire. Sustituimos tu caldera de gasóleo, propano o gas por una bomba de calor R290 dimensionada para tu casa. Un solo equipo da calefacción en invierno, frío en verano y agua caliente todo el año."
+  title="Aerotermia en Madrid y Toledo."
+  lede="Calefacción, frío y agua caliente con la energía del aire. Sustituimos tu caldera de gasóleo, propano o gas por una bomba de calor R290 dimensionada para tu casa, y te decimos antes cuánto puedes ahorrar."
   facts={[
-    { value: "Hasta 70 %", label: "menos en la factura frente a una caldera de gasóleo" },
-    { value: "1 → 4", label: "kWh de calor por cada kWh de electricidad" },
-    { value: "40 %", label: "de deducción en el IRPF hasta el 31.12.2026" },
+    { value: `${span.others[0]}–${span.others[1]} %`, label: "de ahorro estimado frente a gasóleo, propano o eléctrica, según emisor y aislamiento" },
+    { value: `${span.gas[0]}–${span.gas[1]} %`, label: "de ahorro estimado frente a una caldera de gas natural" },
+    { value: "40 %", label: "de deducción en el IRPF hasta el 31.12.2026, si cumples los requisitos" },
     { value: "R290", label: "refrigerante natural de bajo impacto climático" },
   ]}
   includesTitle="Llave en mano, de la visita a la puesta en marcha."
   includesText="Calculamos las necesidades reales de tu casa antes de elegir el equipo. Una bomba de calor sobredimensionada cuesta más y rinde peor."
   includes={[
     "Estudio de cargas térmicas con tus facturas y la superficie real",
-    "Bomba de calor R290 de Daikin, Vaillant, Bosch o BAXI",
+    "Bombas de calor monobloc R290 de fabricantes de primer nivel",
     "Suelo radiante, fancoils o adaptación de tus radiadores",
     "Depósito de agua caliente sanitaria",
     "Desmontaje de la caldera y retirada del depósito de combustible",
     "Legalización, boletín y certificado energético antes y después",
-    "Tramitación de la deducción IRPF y de los CAE",
+    "Tramitación de la deducción IRPF y de los CAE, si tu caso cumple",
   ]}
   cardsTitle="Una instalación pensada como parte de la casa."
   cards={[
-    { title: "Junto a las placas", text: "La aerotermia consume electricidad y las placas la producen. Si las calculamos juntas, gran parte del calor de tu casa sale de tu propia cubierta." },
+    { title: "Junto a las placas", text: "La aerotermia consume electricidad y las placas la producen. Calculadas juntas, parte del calor de tu casa sale de tu propia cubierta." },
     { title: "Escondida en la reforma", text: "Si reformas, es el momento de meter el suelo radiante bajo la madera y colocar la unidad exterior donde no se vea ni se oiga." },
-    { title: "Mantenimiento Care+", text: "Revisión anual, seguimiento del rendimiento y atención prioritaria. Gestionamos con el fabricante cualquier avería en garantía." },
+    { title: "Si no compensa, te lo decimos", text: "Con una caldera de gas reciente y una casa bien aislada, a veces el ahorro no justifica la inversión. Te enseñamos los números." },
   ]}
-  faqs={[
-    { q: "¿La aerotermia funciona con mis radiadores?", a: "Con radiadores de baja temperatura o sobredimensionados, sí. Con radiadores convencionales a veces hay que cambiar algunos. Si reformas, lo ideal es suelo radiante." },
-    { q: "¿Funciona cuando hace mucho frío?", a: "Sí. Las bombas de calor actuales siguen calentando con temperaturas bajo cero. En Madrid y La Sagra los inviernos son suaves, y la dimensionamos para los días más fríos de tu zona." },
-    { q: "¿Cuánto cuesta?", a: "Depende de la superficie, del sistema de emisión y de lo que haya que adaptar. La calculadora de la portada te da una cifra orientativa; el estudio gratuito, el precio cerrado." },
-    { q: "¿Qué ayudas hay?", a: "Una deducción del 40 % en el IRPF (base de hasta 7.500 €) si reduces un 30 % el consumo no renovable o la vivienda llega a calificación A o B, con plazo hasta el 31 de diciembre de 2026. Al sustituir una caldera de combustión también se puede obtener un descuento por Certificados de Ahorro Energético (CAE)." },
-    { q: "¿Necesita mantenimiento?", a: "Mucho menos que una caldera: no hay combustión ni humos. Recomendamos una revisión anual para mantener el rendimiento, incluida en Care+." },
-  ]}
-/>
+  faqs={faqs}
+>
+  <section>
+    <div class="wrap">
+      <div class="sec-head"><p class="eyebrow">Ahorro por sistema</p><h2>Cuánto se ahorra según lo que tengas hoy.</h2><p class="lede">Ahorro estimado en calefacción y agua caliente, con las hipótesis de la calculadora (precios de {energy.actualizado}). Depende sobre todo de cómo se reparte el calor y del aislamiento.</p></div>
+      <table class="q-lines">
+        <thead><tr><th>Sistema que sustituyes</th><th>Con tus radiadores</th><th>Con suelo radiante</th></tr></thead>
+        <tbody>{table.map((r) => <tr><td>{r.label}</td><td>{r.keep[0]}–{r.keep[1]} %</td><td>{r.floor[0]}–{r.floor[1]} %</td></tr>)}</tbody>
+      </table>
+      <p class="disclaimer" style="margin-top:16px">Rendimiento estacional realista según el emisor, no el de catálogo. Hipótesis y fuentes en la <a href="/calculadoras/aerotermia/">calculadora de aerotermia</a>. Precios por configuración en <a href="/aerotermia/precio/">precio de la aerotermia</a>. ¿Tienes radiadores? Lee <a href="/aerotermia/con-radiadores/">aerotermia con radiadores: cuándo funciona</a>. Requisitos de la <a href="/ayudas/deduccion-irpf/">deducción del 40 % en el IRPF</a>.</p>
+    </div>
+  </section>
+  <ZoneLinks title="Aerotermia en tu municipio." />
+</ServicePage>

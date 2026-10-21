@@ -1,0 +1,64 @@
+---
+import Calculators from "../../../components/Calculators.astro";
+import ContentPage from "../../../components/ContentPage.astro";
+import energy from "../../../data/energy.json";
+import { municipios, PENDIENTES_MUNICIPIO } from "../../../data/municipios";
+import type { Municipio } from "../../../data/municipios";
+
+export function getStaticPaths() {
+  return municipios.map((m) => ({ params: { province: m.province, slug: m.slug }, props: { m } }));
+}
+
+const { m } = Astro.props as { m: Municipio };
+const hub = m.province === "madrid" ? { name: "Comunidad de Madrid", href: "/zona/madrid/" } : { name: "Provincia de Toledo", href: "/zona/toledo/" };
+const [y0, y1] = energy.solar.kWhPorKWp[m.province];
+const pvgis = `https://re.jrc.ec.europa.eu/pvg_tools/es/#api_5.3&lat=${m.lat}&lon=${m.lon}`;
+const schema = [
+  {
+    "@type": "Service",
+    name: `Aerotermia y placas solares en ${m.name}`,
+    serviceType: "Instalación de aerotermia y placas solares",
+    provider: { "@id": new URL("/#empresa", Astro.site).href },
+    areaServed: { "@type": "City", name: m.name },
+    url: new URL(m.href, Astro.site).href,
+  },
+];
+---
+
+<ContentPage
+  name={m.name}
+  parents={[{ name: "Zona de trabajo", href: hub.href }, hub]}
+  seoTitle={m.title}
+  description={m.description}
+  eyebrow={hub.name}
+  title={`Aerotermia y placas solares en ${m.name}.`}
+  lede={m.intro}
+  faqs={m.faqs}
+  schema={schema}
+>
+  <h2>La vivienda en {m.name}</h2>
+  <p>{m.vivienda}</p>
+  <h2>Clima y producción solar</h2>
+  <p>{m.clima}</p>
+  <table class="q-lines">
+    <tbody>
+      <tr><td>Zona climática (CTE)</td><td>{m.zonaCTE}</td></tr>
+      <tr><td>Producción solar orientativa</td><td>{y0.toLocaleString("es-ES")} – {y1.toLocaleString("es-ES")} kWh/kWp al año, orientación sur. {PENDIENTES_MUNICIPIO.pvgis}</td></tr>
+    </tbody>
+  </table>
+  <p>Simulación en <a href={pvgis} rel="nofollow noopener" target="_blank">PVGIS</a> con las coordenadas de {m.name} ({m.lat.toLocaleString("es-ES")}, {m.lon.toLocaleString("es-ES")}).</p>
+  <h2>Ayudas municipales</h2>
+  <p>{m.ibi} Tabla completa en <a href="/ayudas/bonificacion-ibi-icio/">bonificaciones de IBI e ICIO</a>.</p>
+  <h2>Trámite</h2>
+  <p>{m.tramite}</p>
+  <h2>Cómo lo enfocamos en {m.name}</h2>
+  <p>{m.enfoque}</p>
+  <Fragment slot="after">
+    <section id="calculadoras" class="calc">
+      <div class="wrap">
+        <div class="sec-head"><p class="eyebrow">Calculadora</p><h2>Calcula tu caso en {m.name}.</h2><p class="lede">Preconfigurada para {hub.name}. Rangos orientativos con IVA.</p></div>
+        <Calculators only={["aero", "solar"]} zone={m.province} />
+      </div>
+    </section>
+  </Fragment>
+</ContentPage>

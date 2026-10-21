@@ -1,0 +1,32 @@
+---
+import ContentPage from "../../components/ContentPage.astro";
+import { guideMeta } from "../../data/authors";
+import { municipios } from "../../data/municipios";
+
+const faqs = [
+  { q: "¿La bonificación es automática?", a: "No. Normalmente hay que solicitarla al ayuntamiento, a menudo antes de una fecha concreta del año anterior al primero en que se aplica. Te ayudamos con la solicitud." },
+  { q: "¿Se bonifica la aerotermia?", a: "La bonificación del IBI que regula la Ley de Haciendas Locales se refiere a la energía solar térmica o eléctrica. La Agencia Tributaria de Madrid indica que la aerotermia no es bonificable en el IBI." },
+];
+---
+
+<ContentPage
+  name="IBI e ICIO"
+  parents={[{ name: "Ayudas", href: "/ayudas/" }]}
+  seoTitle="Bonificación del IBI por placas solares | Aerovantia"
+  description="Bonificaciones de IBI e ICIO por placas solares en municipios de Madrid y Toledo: tabla con fuentes y lo que falta por verificar en cada ordenanza."
+  eyebrow="Guía de ayudas"
+  title="Bonificaciones de IBI e ICIO por placas solares en Madrid y Toledo."
+  lede="Algunos ayuntamientos bonifican el IBI o el impuesto de obras (ICIO) por instalar placas solares. Recopilamos lo publicado y lo contrastamos con cada ordenanza."
+  faqs={faqs}
+  article={guideMeta}
+  og="/og/ayudas.png"
+>
+  <h2>La respuesta corta</h2>
+  <p>La ley permite a los ayuntamientos bonificar hasta el 50 % de la cuota del IBI a las viviendas que instalan energía solar, y hasta el 95 % del ICIO. Cada ayuntamiento decide si la aplica, cuánto y durante cuántos años, y las cifras publicadas por terceros a menudo no coinciden. Por eso la referencia es siempre la ordenanza fiscal vigente.</p>
+  <h2>Tabla por municipio</h2>
+  <table class="q-lines">
+    <thead><tr><th>Municipio</th><th>Qué hemos encontrado</th></tr></thead>
+    <tbody>{municipios.map((m) => <tr><td><a href={m.href}>{m.name}</a></td><td>{m.ibi}</td></tr>)}</tbody>
+  </table>
+  <p>Fuentes consultadas: blogs de instaladores y comparadores que publican estas tablas, la Ley Reguladora de las Haciendas Locales y la Agencia Tributaria de Madrid. Cuando verifiquemos cada ordenanza, enlazaremos el documento oficial.</p>
+</ContentPage>

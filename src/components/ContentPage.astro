@@ -1,0 +1,90 @@
+---
+// Página de contenido (guías, ayudas, precios, zona, empresa) con las clases existentes:
+// cabecera simple, texto en .prose, preguntas frecuentes y franja de contacto.
+import Layout from "../layouts/Layout.astro";
+import type { Faq } from "../data/faqs";
+import { phone, whatsapp } from "../data/site";
+
+interface Props {
+  seoTitle: string;
+  description: string;
+  eyebrow: string;
+  title: string;
+  lede: string;
+  parents?: { name: string; href: string }[];
+  name: string;
+  faqs?: Faq[];
+  /** Guías: autor, revisor y fecha de actualización (schema Article). */
+  article?: { author: string; reviewer: string; updated: string };
+  /** Nodos de schema adicionales (Service…). */
+  schema?: Record<string, unknown>[];
+  og?: string;
+  noindex?: boolean;
+}
+
+const p = Astro.props;
+const path = Astro.url.pathname;
+const crumbs = [{ name: "Inicio", href: "/" }, ...(p.parents ?? []), { name: p.name, href: path }];
+const schema: Record<string, unknown>[] = [
+  ...(p.schema ?? []),
+  {
+    "@type": "BreadcrumbList",
+    itemListElement: crumbs.map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: new URL(c.href, Astro.site).href })),
+  },
+];
+if (p.faqs?.length)
+  schema.push({ "@type": "FAQPage", mainEntity: p.faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) });
+if (p.article)
+  schema.push({
+    "@type": "Article",
+    headline: p.title.replace(/\.$/, ""),
+    description: p.description,
+    dateModified: p.article.updated,
+    author: { "@type": "Person", name: p.article.author },
+    publisher: { "@id": new URL("/#empresa", Astro.site).href },
+    mainEntityOfPage: new URL(path, Astro.site).href,
+  });
+---
+
+<Layout title={p.seoTitle} description={p.description} schema={schema} og={p.og} noindex={p.noindex}>
+  <main>
+    <section class="page-hero plain">
+      <div class="wrap">
+        <nav class="crumbs" aria-label="Ruta">
+          {crumbs.map((c, i) => i < crumbs.length - 1 ? <><a href={c.href}>{c.name}</a><span aria-hidden="true">/</span></> : <span>{c.name}</span>)}
+        </nav>
+        <p class="eyebrow">{p.eyebrow}</p>
+        <h1>{p.title}</h1>
+        <p class="lede">{p.lede}</p>
+        {p.article && <p class="crumbs">Autor: {p.article.author} · Revisión técnica: {p.article.reviewer} · Actualizado: {p.article.updated}</p>}
+      </div>
+    </section>
+    <section>
+      <div class="wrap prose">
+        <slot />
+      </div>
+    </section>
+    <slot name="after" />
+    {p.faqs?.length ? (
+      <section id="faq">
+        <div class="wrap">
+          <div class="sec-head"><p class="eyebrow">Preguntas frecuentes</p><h2>Lo que nos suelen preguntar.</h2></div>
+          <div class="faq">{p.faqs.map((f) => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}</div>
+        </div>
+      </section>
+    ) : null}
+    <section class="cta-band">
+      <div class="wrap">
+        <div class="sec-head" style="margin:0">
+          <h2>¿Lo vemos en tu casa?</h2>
+          <p>Estudio gratuito: te llamamos en menos de 24 h laborables y te damos una propuesta por escrito tras la visita.</p>
+        </div>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="/#contacto">Pedir estudio gratuito</a>
+          <a class="btn btn-ghost" href={`tel:${phone.tel}`}>Llamar al {phone.display}</a>
+          <a class="btn btn-ghost" href={whatsapp.href} target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

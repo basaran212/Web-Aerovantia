@@ -1,0 +1,33 @@
+---
+import ContentPage from "../components/ContentPage.astro";
+import config from "../data/config.json";
+
+const pc = config.primerosClientes;
+const faqs = [
+  { q: "¿Tengo que dejar una opinión positiva?", a: "No. Te pedimos tu opinión sincera cuando la instalación esté en marcha, sea la que sea." },
+  { q: "¿Las fotos saldrán con mi dirección?", a: "No. Publicamos el municipio, los equipos y las fotos de la instalación, nunca tu dirección ni datos personales, y solo con tu permiso por escrito." },
+  { q: "¿Cambia algo en la instalación?", a: "No. Los equipos, los instaladores y el proceso son los mismos. Lo que cambia es la condición especial del programa." },
+];
+---
+
+<ContentPage
+  name="Primeros clientes"
+  seoTitle="Programa Primeros clientes de Aerovantia"
+  description="Condiciones especiales para las primeras instalaciones de aerotermia y placas solares de Aerovantia, a cambio de fotos de la obra y tu opinión."
+  eyebrow="Programa Primeros clientes"
+  title="Primeros clientes."
+  lede="Somos una marca nueva y todavía no tenemos instalaciones propias terminadas que enseñarte. Por eso ofrecemos una condición especial a las primeras instalaciones."
+  faqs={faqs}
+>
+  <h2>Qué ofrecemos</h2>
+  <p>{pc.condicion}, para las primeras {pc.plazasTotales} instalaciones.</p>
+  <p class="note">Plazas disponibles hoy: <strong>{pc.plazasDisponibles}</strong>. El contador lo actualizamos a mano cuando se firma una instalación.</p>
+  <h2>Qué te pedimos a cambio</h2>
+  <ul>
+    <li>Permiso para fotografiar la instalación y publicarla con el municipio y los equipos.</li>
+    <li>Tu opinión sincera cuando la instalación lleve un tiempo funcionando.</li>
+  </ul>
+  <h2>Cómo apuntarte</h2>
+  <p>Pide tu estudio gratuito y marca "Primeros clientes" en el formulario. El estudio y la propuesta son los mismos que para cualquier cliente.</p>
+  <p><a class="btn btn-primary" href="/#contacto">Pedir estudio gratuito</a></p>
+</ContentPage>

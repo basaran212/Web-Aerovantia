@@ -1,0 +1,32 @@
+---
+import ContentPage from "../../components/ContentPage.astro";
+import energy from "../../data/energy.json";
+---
+
+<ContentPage
+  name="Ayudas"
+  seoTitle="Ayudas para aerotermia y placas solares | Aerovantia"
+  description="Deducción del 40 % en el IRPF, Certificados de Ahorro Energético (CAE) y bonificaciones municipales de IBI e ICIO: requisitos y cómo las tramitamos."
+  eyebrow="Ayudas"
+  title="Ayudas para aerotermia y placas solares."
+  lede="Te decimos qué ayudas aplican a tu caso y las tramitamos nosotros. Si tu caso no cumple los requisitos de alguna, te lo decimos en la visita."
+  og="/og/ayudas.png"
+>
+  <p class="note"><strong data-countdown={energy.irpf.fin}>Quedan pocos días</strong> para hacer la obra con la deducción del 40 % en el IRPF (31-12-2026).</p>
+  <div class="cards">
+    <a class="card" href="/ayudas/deduccion-irpf/" style="text-decoration:none"><h3>Deducción del 40 % en el IRPF</h3><p>Puedes aplicarla si la obra reduce un 30 % el consumo no renovable o lleva la casa a calificación A o B. Hasta 3.000 €.</p><span class="more">Ver requisitos <span aria-hidden="true">→</span></span></a>
+    <a class="card" href="/ayudas/cae/" style="text-decoration:none"><h3>CAE</h3><p>Al cambiar una caldera de combustión por aerotermia, el ahorro puede convertirse en un pago.</p><span class="more">Cómo funcionan <span aria-hidden="true">→</span></span></a>
+    <a class="card" href="/ayudas/bonificacion-ibi-icio/" style="text-decoration:none"><h3>IBI e ICIO</h3><p>Bonificaciones municipales por instalar energía solar. Tabla por municipio con sus fuentes.</p><span class="more">Ver municipios <span aria-hidden="true">→</span></span></a>
+  </div>
+  <h2>Guías</h2>
+  <ul>
+    <li><a href="/guias/certificado-energetico/">El certificado energético para la deducción: cuándo y cuánto cuesta</a></li>
+    <li><a href="/guias/aerotermia-vs-gas-natural/">Aerotermia frente a gas natural: costes anuales</a></li>
+  </ul>
+  <script>
+    document.querySelectorAll<HTMLElement>("[data-countdown]").forEach((el) => {
+      const days = Math.ceil((new Date(el.dataset.countdown + "T23:59:59+01:00").getTime() - Date.now()) / 864e5);
+      el.textContent = days > 0 ? `Quedan ${days} días` : "El plazo de la prórroga actual ha terminado";
+    });
+  </script>
+</ContentPage>

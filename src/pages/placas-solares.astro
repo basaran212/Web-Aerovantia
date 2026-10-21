@@ -1,49 +1,68 @@
 ---
 import ServicePage from "../components/ServicePage.astro";
+import ZoneLinks from "../components/ZoneLinks.astro";
+import { eurRange, solarConfigs } from "../data/derived";
+import energy from "../data/energy.json";
+import { solarFaqs } from "../data/faqs";
+import prices from "../data/prices.json";
 import exteriorNight from "../assets/img/exterior-night.jpg";
 import exteriorNoon from "../assets/img/exterior-noon.jpg";
 import solarRoof from "../assets/img/solar-roof.jpg";
+
+const [y0, y1] = energy.solar.kWhPorKWp.madrid;
+const six = solarConfigs().find((c) => c.kwp === "6")!;
+const faqs = [
+  ...solarFaqs,
+  { q: "¿Cuánto cuestan?", a: `Una instalación de 6 kWp en tejado de teja sale por ${eurRange(six.b0.lo, six.b0.hi)} sin batería y por ${eurRange(six.b5.lo, six.b5.hi)} con batería de 5 kWh, IVA incluido (precios orientativos de ${prices.actualizadoTexto}). El precio de tu instalación se fija en la propuesta escrita tras la visita.` },
+];
 ---
 
 <ServicePage
   image={solarRoof}
-  imageAlt="Vista aérea de una cubierta plana con doce placas solares"
-  gallery={[{ img: exteriorNoon, alt: "Chalet con placas solares a mediodía" }, { img: exteriorNight, alt: "El chalet de noche cargando el coche eléctrico" }]}
+  imageAlt="Recreación ilustrativa con IA: vista aérea de una cubierta plana con doce placas solares"
+  gallery={[{ img: exteriorNoon, alt: "Recreación ilustrativa con IA: chalet con placas solares a mediodía" }, { img: exteriorNight, alt: "Recreación ilustrativa con IA: chalet de noche con el coche eléctrico cargando" }]}
   hue="#E3B23C"
   calc="solar"
-  seoTitle="Placas solares en Toledo y Madrid | Aerovantia"
-  description="Placas solares con batería y cargador de coche eléctrico en Toledo y Madrid, calculadas con tu consumo real y con las bonificaciones tramitadas."
+  og="/og/placas-solares.png"
+  seoTitle="Placas solares para chalets en Madrid y Toledo | Aerovantia"
+  description="Placas solares, baterías y cargador de coche eléctrico en Madrid y Toledo, calculados con tu consumo y tu tejado. Estudio gratuito y bonificaciones revisadas."
   eyebrow="Solar + batería + recarga"
-  title="Placas solares en Toledo y Madrid."
-  lede="Tu propia energía, de día y de noche. Placas de alta eficiencia, batería y cargador del coche, calculados con tu consumo real. Lo que producen alimenta la casa, carga la batería y el sobrante se compensa en tu factura."
+  title="Placas solares en Madrid y Toledo."
+  lede="Tu propia energía, calculada con tu consumo y tu tejado. Paneles, batería y cargador del coche si te compensan. Lo que producen alimenta la casa, carga la batería y el sobrante se compensa en tu factura."
   facts={[
-    { value: "1.550–1.620", label: "kWh al año por cada kWp instalado en la zona" },
-    { value: "10 kWh", label: "de batería para usar de noche la energía del día" },
+    { value: `${y0.toLocaleString("es-ES")}–${y1.toLocaleString("es-ES")}`, label: "kWh al año por kWp con orientación sur en Madrid (PVGIS)" },
+    { value: "9", label: "orientaciones de tejado en la calculadora, del sur al norte" },
     { value: "IBI · ICIO", label: "bonificaciones municipales que revisamos por ti" },
     { value: "VE", label: "recarga del coche en casa, en horas solares o valle" },
   ]}
   includesTitle="Dimensionada con tus facturas, no a ojo."
-  includesText="Partimos de tu consumo de los últimos 12 meses, la orientación de la cubierta y lo que vas a añadir: aerotermia, coche eléctrico o piscina."
+  includesText="Partimos de tu consumo de los últimos 12 meses, la orientación y el espacio de tu cubierta y lo que vas a añadir: aerotermia, coche eléctrico o piscina."
   includes={[
     "Estudio de consumo y de cubierta con simulación de producción",
-    "Paneles N-type de alta eficiencia",
-    "Inversor Huawei, SolarEdge o Fronius",
-    "Batería BYD o Tesla Powerwall (opcional)",
-    "Cargador de vehículo eléctrico Wallbox (opcional)",
+    "Paneles de alta eficiencia de fabricantes de primer nivel",
+    "Inversor y estructura adaptada a teja, chapa, pizarra o cubierta plana",
+    "Batería (opcional), si con tu perfil de consumo compensa",
+    "Cargador de vehículo eléctrico (opcional)",
     "Legalización del autoconsumo con compensación de excedentes",
     "Monitorización desde el móvil y tramitación de bonificaciones",
   ]}
   cardsTitle="Más energía tuya, menos factura."
   cards={[
-    { title: "Con aerotermia", text: "En un chalet, combinar placas y aerotermia es lo que más ahorra: la casa calienta y enfría con la electricidad que produce." },
-    { title: "Batería y coche", text: "La batería guarda lo que sobra a mediodía para la noche, y el cargador prioriza la energía solar o las horas valle." },
-    { title: "Instalación limpia", text: "Cableado oculto, estructura adaptada a tu cubierta y un único responsable de proyecto de la visita a la puesta en marcha." },
+    { title: "Con aerotermia", text: "En un chalet, combinar placas y aerotermia suele ser lo que más ahorra: la casa calienta y enfría con parte de la electricidad que produce." },
+    { title: "Batería y coche", text: "La batería guarda lo que sobra a mediodía para la tarde y la noche, y el cargador puede priorizar la energía solar o las horas valle." },
+    { title: "Un solo responsable", text: "Cableado ordenado, estructura adaptada a tu cubierta y un único responsable de proyecto de la visita a la puesta en marcha." },
   ]}
-  faqs={[
-    { q: "¿Cuántas placas necesito?", a: "Depende de tu consumo y de tu cubierta. Para un chalet con una factura media, suelen salir entre 8 y 16 paneles. La calculadora de la portada te da una primera estimación." },
-    { q: "¿Compensa poner batería?", a: "Si pasas poco tiempo en casa durante el día, o si tienes aerotermia o coche eléctrico, normalmente sí: sube mucho el porcentaje de energía que consumes de tus placas." },
-    { q: "¿Qué pasa con la energía que no uso?", a: "Se vierte a la red y tu comercializadora te la descuenta en la factura mediante la compensación simplificada de excedentes." },
-    { q: "¿Necesito licencia?", a: "Según el municipio, una comunicación previa o licencia de obra menor. La tramitamos nosotros, junto con la legalización de la instalación." },
-    { q: "¿Qué mantenimiento tienen?", a: "Muy poco: una revisión periódica y, si hace falta, limpieza de los paneles. Con la monitorización vemos si algo deja de rendir." },
-  ]}
-/>
+  faqs={faqs}
+>
+  <section>
+    <div class="wrap">
+      <div class="sec-head"><p class="eyebrow">Precio orientativo</p><h2>Cuánto cuesta una instalación tipo.</h2><p class="lede">Teja orientada al sur, IVA incluido, precios de {prices.actualizadoTexto}. El tipo de cubierta, la orientación y la batería cambian el resultado.</p></div>
+      <table class="q-lines">
+        <thead><tr><th>Potencia</th><th>Sin batería</th><th>Con batería 5 kWh</th></tr></thead>
+        <tbody>{solarConfigs().map((c) => <tr><td>{c.kwp} kWp</td><td>{eurRange(c.b0.lo, c.b0.hi)}</td><td>{eurRange(c.b5.lo, c.b5.hi)}</td></tr>)}</tbody>
+      </table>
+      <p class="disclaimer" style="margin-top:16px">Todas las configuraciones en <a href="/placas-solares/precio/">precio de las placas solares</a>. ¿Dudas con la batería? <a href="/placas-solares/baterias/">Batería solar: cuándo compensa</a>. Calcula la tuya en la <a href="/calculadoras/placas-solares/">calculadora de placas solares</a> y revisa las <a href="/ayudas/bonificacion-ibi-icio/">bonificaciones de IBI e ICIO</a>.</p>
+    </div>
+  </section>
+  <ZoneLinks title="Placas solares en tu municipio." />
+</ServicePage>

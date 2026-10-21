@@ -1,0 +1,62 @@
+---
+import ServicePage from "../components/ServicePage.astro";
+import { chargerConfigs, eurRange } from "../data/derived";
+import prices from "../data/prices.json";
+import exteriorNight from "../assets/img/exterior-night.jpg";
+import exteriorNoon from "../assets/img/exterior-noon.jpg";
+
+const configs = chargerConfigs();
+const faqs = [
+  { q: "¿7,4 kW o 11 kW?", a: "Con suministro monofásico, el máximo es 7,4 kW, y es lo que admiten muchos coches en corriente alterna. 11 kW exige suministro trifásico y, a menudo, ampliar la potencia contratada. Comprueba primero cuánto admite tu coche." },
+  { q: "¿Cuánto cuesta?", a: `Entre ${eurRange(configs[0].q.lo, configs[0].q.hi)} para un 7,4 kW con el cuadro cerca, IVA incluido (precios de ${prices.actualizadoTexto}). La distancia al cuadro y el paso a trifásico son lo que más cambia el precio.` },
+  { q: "¿Puedo cargar el coche con mis placas?", a: "Sí. Muchos cargadores pueden priorizar el excedente solar, así que el coche carga con lo que producen las placas a mediodía y, si hace falta, con la red en horas valle." },
+  { q: "¿Necesito subir la potencia contratada?", a: "Depende de lo que tengas contratado y de lo que más consuma tu casa. Un cargador con gestión dinámica de carga reduce la potencia del coche cuando la casa consume más. Lo revisamos en la visita." },
+];
+---
+
+<ServicePage
+  image={exteriorNight}
+  imageAlt="Recreación ilustrativa con IA: chalet de noche con un coche eléctrico cargando en la entrada"
+  gallery={[{ img: exteriorNoon, alt: "Recreación ilustrativa con IA: chalet con placas solares a mediodía" }]}
+  hue="var(--cold)"
+  og="/og/cargador-coche-electrico.png"
+  name="Cargador de coche eléctrico"
+  seoTitle="Cargador de coche eléctrico para chalet | Aerovantia"
+  description="Instalación de cargador de coche eléctrico en chalets y adosados de Madrid y Toledo: 7,4 kW o 11 kW, con placas solares si las tienes. Legalización incluida."
+  eyebrow="Cargador de coche eléctrico"
+  title="Cargador de coche eléctrico para tu casa."
+  lede="Un punto de recarga en tu garaje o en tu entrada, con la potencia que admite tu coche y, si tienes placas, cargando con tu propia energía."
+  facts={[
+    { value: "7,4 kW", label: "máximo con suministro monofásico" },
+    { value: "11 kW", label: "con suministro trifásico" },
+    { value: "Solar", label: "carga con el excedente de tus placas, si las tienes" },
+    { value: "Boletín", label: "legalización de la instalación incluida" },
+  ]}
+  includesTitle="Qué incluye la instalación."
+  includesText="Revisamos tu cuadro, tu potencia contratada y el recorrido de la línea antes de proponerte el cargador."
+  includes={[
+    "Punto de recarga de 7,4 kW o 11 kW de fabricantes de primer nivel",
+    "Línea desde el cuadro y protecciones",
+    "Gestión dinámica de la carga, si hace falta",
+    "Integración con las placas solares, si las tienes",
+    "Legalización (boletín)",
+  ]}
+  cardsTitle="Bien pensado desde el principio."
+  cards={[
+    { title: "Con tus placas", text: "Si vas a poner placas, conviene calcularlas con el consumo del coche. Lo hacemos en el mismo estudio." },
+    { title: "Sin subir la potencia de más", text: "Con gestión dinámica, el coche usa la potencia que deja libre la casa y no tienes que contratar de más." },
+    { title: "Precio claro", text: "Lo que más cambia el precio es la distancia al cuadro. Lo medimos en la visita y queda en la propuesta." },
+  ]}
+  faqs={faqs}
+>
+  <section>
+    <div class="wrap">
+      <div class="sec-head"><p class="eyebrow">Precio orientativo</p><h2>Cuánto cuesta instalar un cargador.</h2><p class="lede">IVA incluido, precios de {prices.actualizadoTexto}.</p></div>
+      <table class="q-lines">
+        <thead><tr><th>Instalación</th><th>Rango orientativo</th></tr></thead>
+        <tbody>{configs.map((c) => <tr><td>{c.label}</td><td>{eurRange(c.q.lo, c.q.hi)}</td></tr>)}</tbody>
+      </table>
+      <p class="disclaimer" style="margin-top:16px">No incluye el paso a trifásico ni el aumento de potencia contratada, si hicieran falta. ¿Vas a poner placas? <a href="/placas-solares/">Placas solares</a> y <a href="/calculadoras/placas-solares/">calculadora</a>, con la opción de coche eléctrico.</p>
+    </div>
+  </section>
+</ServicePage>

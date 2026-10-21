@@ -12,7 +12,10 @@
     "preview": "astro preview",
     "astro": "astro",
     "test": "node --test tests/*.test.mjs",
-    "deploy": "astro build && wrangler deploy"
+    "deploy": "astro build && node scripts/check-pending.mjs && wrangler deploy",
+    "check:pendientes": "node scripts/check-pending.mjs",
+    "report:precios": "node scripts/report-precios.mjs",
+    "deploy:preview": "astro build && wrangler deploy --name web-aerovantia-preview"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

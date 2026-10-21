@@ -7,7 +7,7 @@ import { company, legal, services } from "../data/site";
     <div>
       <a class="logo" href="/">AEROVANTIA<span>.</span></a>
       <p style="margin-top:12px;max-width:42ch">
-        Reformas, obra nueva, interiorismo, aerotermia y placas solares en Toledo y Madrid desde {company.foundedYear}.
+        Aerotermia, placas solares, baterías, cargadores de coche eléctrico y reformas con la energía integrada en la Comunidad de Madrid y la provincia de Toledo.
       </p>
       <p style="margin-top:12px">
         {company.phones.map((p, i) => <>{i > 0 && " · "}<a href={`tel:${p.tel}`}>{p.display}</a></>)}<br />
@@ -18,14 +18,18 @@ import { company, legal, services } from "../data/site";
     </div>
     <div>
       <strong>Servicios</strong>
-      <ul>{services.map((s) => <li><a href={s.href}>{s.label}</a></li>)}</ul>
+      <ul>{services.map((s) => <li><a href={s.href}>{s.label}</a></li>)}<li><a href="/cargador-coche-electrico/">Cargador de coche eléctrico</a></li><li><a href="/interiorismo/">Interiorismo</a></li></ul>
     </div>
     <div>
       <strong>Aerovantia</strong>
       <ul>
-        <li><a href="/#calculadoras">Calculadoras</a></li>
-        <li><a href="/#ayudas">Ayudas y subvenciones</a></li>
-        <li><a href="/#zona">Zona de trabajo</a></li>
+        <li><a href="/calculadoras/">Calculadoras</a></li>
+        <li><a href="/ayudas/">Ayudas y subvenciones</a></li>
+        <li><a href="/zona/madrid/">Zona de trabajo: Madrid</a></li>
+        <li><a href="/zona/toledo/">Zona de trabajo: Toledo</a></li>
+        <li><a href="/guias/">Guías</a></li>
+        <li><a href="/como-trabajamos/">Cómo trabajamos</a></li>
+        <li><a href="/quienes-somos/">Quiénes somos</a></li>
         <li><a href="/#contacto">Contacto</a></li>
       </ul>
     </div>

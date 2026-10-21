@@ -1,0 +1,22 @@
+---
+import ContentPage from "../../components/ContentPage.astro";
+import prices from "../../data/prices.json";
+---
+
+<ContentPage
+  name="Calculadoras"
+  seoTitle="Calculadoras de aerotermia y placas solares | Aerovantia"
+  description="Calculadoras con precios orientativos de Madrid y Toledo: aerotermia, placas solares con batería y reformas. Rangos con IVA y las hipótesis a la vista."
+  eyebrow={`Precios de ${prices.actualizadoTexto}`}
+  title="Calculadoras."
+  lede="Rangos orientativos con IVA y con las hipótesis visibles. El precio de tu instalación es el de la propuesta por escrito tras la visita."
+  og="/og/calculadoras.png"
+>
+  <div class="cards">
+    <a class="card" href="/calculadoras/aerotermia/" style="text-decoration:none"><h3>Aerotermia</h3><p>Precio, ahorro frente a tu caldera y retorno, según tus radiadores y tu aislamiento.</p><span class="more">Calcular <span aria-hidden="true">→</span></span></a>
+    <a class="card" href="/calculadoras/placas-solares/" style="text-decoration:none"><h3>Placas solares</h3><p>Cubierta, orientación, sombras y batería: producción, precio y ahorro.</p><span class="more">Calcular <span aria-hidden="true">→</span></span></a>
+    <a class="card" href="/calculadoras/reformas/" style="text-decoration:none"><h3>Reformas</h3><p>Rango de referencia del mercado para cocinas, baños y reformas integrales.</p><span class="more">Calcular <span aria-hidden="true">→</span></span></a>
+  </div>
+  <h2>Cómo calculamos</h2>
+  <p>Todas las calculadoras usan los mismos precios que las páginas de precio y las mismas hipótesis energéticas, con sus fuentes. Si con tus datos la inversión tarda en recuperarse, la calculadora te lo dice.</p>
+</ContentPage>

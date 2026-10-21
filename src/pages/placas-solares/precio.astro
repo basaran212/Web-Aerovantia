@@ -1,0 +1,43 @@
+---
+import ContentPage from "../../components/ContentPage.astro";
+import { eurRange, solarConfigs } from "../../data/derived";
+import prices from "../../data/prices.json";
+import { quoteSolar } from "../../scripts/pricing.js";
+
+const rows = solarConfigs();
+const roofs = Object.entries(prices.solar.roofs).map(([k, r]) => ({ k, label: r.label, q: quoteSolar({ bill: 150, zone: "madrid", roof: k, orient: "S", tilt: 30, area: 200, battery: 0, kwp: 6 }) }));
+const faqs = [
+  { q: "¿Por qué varía tanto con el tejado?", a: "Por la estructura y el montaje. La cubierta plana necesita estructura inclinada y más espacio entre filas; la pizarra exige más mano de obra; la chapa suele ser la más sencilla." },
+  { q: "¿Y si mi tejado es de uralita?", a: "El fibrocemento suele contener amianto y no se puede perforar. Hay que retirarlo con una empresa autorizada (RERA) y poner una cubierta nueva antes. Esa parte se presupuesta aparte." },
+  { q: "¿Los precios incluyen las bonificaciones?", a: "No. Las bonificaciones de IBI o ICIO y la deducción del IRPF, si te aplican, se descuentan después." },
+];
+---
+
+<ContentPage
+  name="Precio"
+  parents={[{ name: "Placas solares", href: "/placas-solares/" }]}
+  seoTitle="Precio de las placas solares en 2026 | Aerovantia"
+  description={`Precio orientativo de las placas solares de 3 a 10 kWp, con y sin batería, y según el tipo de cubierta, IVA incluido, actualizado en ${prices.actualizadoTexto}.`}
+  eyebrow={`Precios orientativos actualizados en ${prices.actualizadoTexto}`}
+  title="Precio de las placas solares."
+  lede="Cuánto cuesta una instalación según la potencia, la batería y el tipo de cubierta. Son los mismos precios que usa la calculadora."
+  faqs={faqs}
+  og="/og/placas-solares.png"
+>
+  <h2>Precio por potencia y batería</h2>
+  <p>Tejado de teja orientado al sur. Paneles, inversor, estructura, instalación y legalización. IVA incluido.</p>
+  <table class="q-lines">
+    <thead><tr><th>Potencia</th><th>Sin batería</th><th>Batería 5 kWh</th><th>Batería 10 kWh</th></tr></thead>
+    <tbody>{rows.map((r) => <tr><td>{r.kwp} kWp</td><td>{eurRange(r.b0.lo, r.b0.hi)}</td><td>{eurRange(r.b5.lo, r.b5.hi)}</td><td>{eurRange(r.b10.lo, r.b10.hi)}</td></tr>)}</tbody>
+  </table>
+  <h2>Precio según la cubierta (6 kWp, sin batería)</h2>
+  <table class="q-lines">
+    <thead><tr><th>Cubierta</th><th>Rango orientativo</th></tr></thead>
+    <tbody>{roofs.map((r) => <tr><td>{r.label}{r.k === "uralita" ? " (sin la retirada del amianto)" : ""}</td><td>{eurRange(r.q.lo, r.q.hi)}</td></tr>)}</tbody>
+  </table>
+  <h2>Qué incluye</h2>
+  <ul>{prices.solar.incluye.map((i) => <li>{i}</li>)}</ul>
+  <h2>Qué no incluye</h2>
+  <ul>{prices.solar.noIncluye.map((i) => <li>{i}</li>)}</ul>
+  <p>Calcula la tuya con tu tejado y tu factura en la <a href="/calculadoras/placas-solares/">calculadora de placas solares</a>. ¿Batería sí o no? <a href="/placas-solares/baterias/">Batería solar: cuándo compensa</a>.</p>
+</ContentPage>

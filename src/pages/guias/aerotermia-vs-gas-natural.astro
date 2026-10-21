@@ -1,0 +1,51 @@
+---
+import ContentPage from "../../components/ContentPage.astro";
+import { guideMeta } from "../../data/authors";
+import { eurRange } from "../../data/derived";
+import energy from "../../data/energy.json";
+import { aeroSavings, quoteAero } from "../../scripts/pricing.js";
+
+// Casa tipo: 1.800 €/año de gas (calefacción y agua caliente).
+const rows = [
+  { label: "Caldera estándar, radiadores", s: aeroSavings({ fuel: "gas", spend: 1800, zone: "madrid", emitter: "keep", boiler: "estandar" }) },
+  { label: "Caldera estándar, suelo radiante", s: aeroSavings({ fuel: "gas", spend: 1800, zone: "madrid", emitter: "floor", boiler: "estandar" }) },
+  { label: "Caldera de condensación, radiadores", s: aeroSavings({ fuel: "gas", spend: 1800, zone: "madrid", emitter: "keep", boiler: "condensacion" }) },
+  { label: "Caldera de condensación, suelo radiante", s: aeroSavings({ fuel: "gas", spend: 1800, zone: "madrid", emitter: "floor", boiler: "condensacion" }) },
+];
+const toledo = aeroSavings({ fuel: "gas", spend: 1800, zone: "toledo", emitter: "keep", boiler: "estandar" });
+const inv = quoteAero({ fuel: "gas", spend: 1800, m2: 150, zone: "madrid", emitter: "keep", irpf: false });
+const faqs = [
+  { q: "Entonces, ¿me compensa si tengo gas natural?", a: "Depende de tu caldera y de tus radiadores. Con una caldera de condensación reciente y radiadores, el ahorro es pequeño y la inversión tarda mucho en recuperarse. Con una caldera antigua, suelo radiante o si vas a reformar, cambia el cálculo." },
+  { q: "¿Y si sube el gas?", a: "No lo usamos para calcular el ahorro. Si quieres ver un escenario con el gas más caro, te lo enseñamos aparte y rotulado, nunca mezclado con el cálculo base." },
+];
+---
+
+<ContentPage
+  name="Aerotermia vs gas natural"
+  parents={[{ name: "Guías", href: "/guias/" }]}
+  seoTitle="Aerotermia o caldera de gas: costes reales | Aerovantia"
+  description="Costes anuales de la aerotermia frente a una caldera de gas natural en Madrid y Toledo, con precios de la TUR y rendimientos realistas."
+  eyebrow="Guía de aerotermia"
+  title="Aerotermia frente a gas natural: costes anuales en Madrid y Toledo."
+  lede="Frente a gas natural, la aerotermia ahorra menos que frente a gasóleo o propano. Te enseñamos los números con precios actuales y cuándo no compensa."
+  faqs={faqs}
+  article={guideMeta}
+  og="/og/aerotermia.png"
+>
+  <h2>La respuesta corta</h2>
+  <p>Con una caldera de gas antigua y suelo radiante, la aerotermia puede reducir mucho el gasto. Con una caldera de condensación reciente y radiadores, el ahorro es pequeño. En una casa que gasta 1.800 € al año en gas, la diferencia va de unas decenas a unos cientos de euros según el caso.</p>
+  <h2>Coste anual para una casa que gasta 1.800 € de gas</h2>
+  <table class="q-lines">
+    <thead><tr><th>Situación actual (Madrid)</th><th>Coste con aerotermia</th><th>Ahorro al año</th></tr></thead>
+    <tbody>{rows.map((r) => <tr><td>{r.label}</td><td>{eurRange(r.s.cost[0], r.s.cost[1])}</td><td>{eurRange(r.s.save[0], r.s.save[1])}</td></tr>)}</tbody>
+  </table>
+  <p>En la provincia de Toledo, con inviernos algo más suaves, el ahorro con caldera estándar y radiadores queda en {eurRange(toledo.save[0], toledo.save[1])} al año. La inversión orientativa para 150 m² con radiadores es de {eurRange(inv.lo, inv.hi)}.</p>
+  <h2>Hipótesis</h2>
+  <ul>
+    <li>Gas natural: {energy.combustibles.gas.precio} €/kWh con impuestos y {energy.combustibles.gas.fijoAnual} € al año de término fijo, que dejas de pagar si das de baja el gas. Fuente: {energy.combustibles.gas.fuente}. {energy.combustibles.gas.pendiente}</li>
+    <li>Electricidad: {energy.electricidad.precio} €/kWh. {energy.electricidad.pendiente}</li>
+    <li>Rendimiento de la caldera: {energy.calderas.estandar.rendimiento * 100} % estándar y {energy.calderas.condensacion.rendimiento * 100} % condensación. {energy.calderas.pendiente}</li>
+    <li>Rendimiento de la aerotermia (SCOP) según el emisor. {energy.scop.pendiente}</li>
+  </ul>
+  <p>Haz tu cálculo en la <a href="/calculadoras/aerotermia/">calculadora de aerotermia</a> eligiendo "Caldera de gas natural" y tu tipo de caldera. ¿Radiadores? <a href="/aerotermia/con-radiadores/">Aerotermia con radiadores</a>.</p>
+</ContentPage>

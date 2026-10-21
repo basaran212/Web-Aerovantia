@@ -1,0 +1,31 @@
+---
+import ContentPage from "../../components/ContentPage.astro";
+
+const faqs = [
+  { q: "¿Cuánto se cobra?", a: "Depende del ahorro de energía acreditado y del precio al que se venda el certificado en cada momento. Te lo calculamos en la propuesta para tu caso, sin dar por hecha una cifra." },
+  { q: "¿Es compatible con la deducción del IRPF?", a: "En principio son ayudas distintas. Te explicamos en la visita cómo encajan en tu caso; para dudas fiscales concretas, consulta a tu asesor." },
+];
+---
+
+<ContentPage
+  name="CAE"
+  parents={[{ name: "Ayudas", href: "/ayudas/" }]}
+  seoTitle="CAE por cambiar la caldera por aerotermia | Aerovantia"
+  description="Qué son los Certificados de Ahorro Energético (CAE), cuándo puedes obtenerlos al cambiar tu caldera por aerotermia y qué hace falta para tramitarlos."
+  eyebrow="Ayudas"
+  title="Certificados de Ahorro Energético (CAE) por aerotermia."
+  lede="Al sustituir una caldera de combustión por una bomba de calor, el ahorro de energía puede certificarse y convertirse en un pago. Te explicamos cómo funciona."
+  faqs={faqs}
+  og="/og/ayudas.png"
+>
+  <h2>Qué son</h2>
+  <p>El Sistema de Certificados de Ahorro Energético permite que el ahorro conseguido con una actuación se certifique y se venda a las empresas obligadas. La sustitución de una caldera de combustión por una bomba de calor en una vivienda tiene una ficha específica en el catálogo del Ministerio para la Transición Ecológica (RES060).</p>
+  <h2>Qué hace falta</h2>
+  <ul>
+    <li>Sustituir una caldera de combustión (gasóleo, propano o gas) por una bomba de calor.</li>
+    <li>Documentar la instalación antes y después según la ficha.</li>
+    <li>Ceder el ahorro a un sujeto delegado que lo certifica y lo vende.</li>
+  </ul>
+  <p>El importe depende del ahorro calculado con la ficha y del precio del mercado de CAE en el momento de la cesión. [PENDIENTE: verificar el texto vigente de la ficha RES060 y los coeficientes del RDL 7/2026 en el MITECO]</p>
+  <p>Relacionado: <a href="/aerotermia/">aerotermia</a> · <a href="/ayudas/deduccion-irpf/">deducción del 40 % en el IRPF</a>.</p>
+</ContentPage>

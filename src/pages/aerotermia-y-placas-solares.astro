@@ -1,0 +1,67 @@
+---
+import ServicePage from "../components/ServicePage.astro";
+import ZoneLinks from "../components/ZoneLinks.astro";
+import { eurRange } from "../data/derived";
+import { comboFaqs } from "../data/faqs";
+import prices from "../data/prices.json";
+import { quoteAero, quoteSolar } from "../scripts/pricing.js";
+import exteriorDusk from "../assets/img/exterior-dusk.jpg";
+import exteriorNoon from "../assets/img/exterior-noon.jpg";
+import heatpump from "../assets/img/heatpump.jpg";
+
+// Ejemplo: chalet de 180 m² con gasóleo y radiadores, 120 €/mes de luz antes de la aerotermia.
+const aero = quoteAero({ fuel: "gasoleo", spend: 2400, m2: 180, zone: "madrid", emitter: "keep", irpf: false });
+const solar = quoteSolar({ bill: 120, zone: "madrid", roof: "teja", orient: "S", tilt: 30, area: 60, battery: 5, aero: true });
+---
+
+<ServicePage
+  image={exteriorNoon}
+  imageAlt="Recreación ilustrativa con IA: chalet con placas solares en la cubierta y unidad de aerotermia a mediodía"
+  gallery={[{ img: heatpump, alt: "Recreación ilustrativa con IA: unidad exterior de aerotermia junto a la fachada" }, { img: exteriorDusk, alt: "Recreación ilustrativa con IA: chalet al atardecer" }]}
+  hue="var(--cold)"
+  calc="solar"
+  og="/og/aerotermia-y-placas-solares.png"
+  seoTitle="Aerotermia y placas solares juntas | Aerovantia"
+  description="Aerotermia y placas solares calculadas juntas para tu chalet en Madrid o Toledo: la bomba de calor usa parte de la energía de tu tejado. Estudio gratuito."
+  eyebrow="Aerotermia + Solar"
+  title="Aerotermia y placas solares, calculadas juntas."
+  lede="La aerotermia funciona con electricidad y las placas la producen. Si las estudiamos juntas, dimensionamos las placas con el consumo que tendrás después, no con el de hoy, y aprovechas más energía de tu tejado."
+  facts={[
+    { value: "1 estudio", label: "para las dos instalaciones, con el consumo futuro" },
+    { value: "1 responsable", label: "de proyecto desde la visita hasta la puesta en marcha" },
+    { value: "40 %", label: "de deducción en el IRPF si cumples los requisitos (base máxima de 7.500 € por declaración)" },
+    { value: "Verano", label: "el aire acondicionado coincide con las horas de más producción" },
+  ]}
+  includesTitle="Lo que incluye el estudio conjunto."
+  includesText="Calculamos la carga térmica de la casa, el consumo eléctrico que tendrá la aerotermia y la producción de tu tejado hora a hora, y te damos una sola propuesta."
+  includes={[
+    "Bomba de calor R290 dimensionada con cálculo de cargas",
+    "Placas solares dimensionadas con el consumo de la aerotermia incluido",
+    "Batería, si con tu perfil compensa",
+    "Programación para que el agua caliente se caliente en horas solares",
+    "Legalización de las dos instalaciones",
+    "Certificado energético antes y después y gestión de la deducción IRPF",
+  ]}
+  cardsTitle="Por qué tiene sentido estudiarlas juntas."
+  cards={[
+    { title: "Placas bien dimensionadas", text: "Si pones placas y después aerotermia, las placas se quedan cortas. Calculadas juntas, cubren una parte mayor del consumo nuevo." },
+    { title: "Agua caliente con el sol", text: "El depósito de agua caliente puede calentarse a mediodía, cuando las placas producen más. Es la parte del consumo que más se aprovecha." },
+    { title: "Sin promesas de factura cero", text: "En invierno las placas producen menos justo cuando más calefacción necesitas. Te enseñamos el reparto mes a mes." },
+  ]}
+  faqs={comboFaqs}
+>
+  <section>
+    <div class="wrap">
+      <div class="sec-head"><p class="eyebrow">Ejemplo orientativo</p><h2>Un chalet de 180 m² con gasóleo.</h2><p class="lede">Radiadores existentes, 2.400 € al año de gasóleo y 120 €/mes de luz. Precios de {prices.actualizadoTexto}, IVA incluido.</p></div>
+      <table class="q-lines">
+        <thead><tr><th>Instalación</th><th>Inversión orientativa</th><th>Ahorro estimado al año</th></tr></thead>
+        <tbody>
+          <tr><td>Aerotermia {aero.kw} kW</td><td>{eurRange(aero.lo, aero.hi)}</td><td>{eurRange(aero.save[0], aero.save[1])}</td></tr>
+          <tr><td>Placas {solar.kwp.toLocaleString("es-ES")} kWp + batería 5 kWh</td><td>{eurRange(solar.lo, solar.hi)}</td><td>{eurRange(solar.save[0], solar.save[1])}</td></tr>
+        </tbody>
+      </table>
+      <p class="disclaimer" style="margin-top:16px">Cada caso es distinto: el ahorro depende de los radiadores, del aislamiento y de tu tejado. Calcula las dos partes en la <a href="/calculadoras/aerotermia/">calculadora de aerotermia</a> (con tu sistema actual) y en la <a href="/calculadoras/placas-solares/">de placas solares</a> (marcando "También instalo aerotermia"). Requisitos de la <a href="/ayudas/deduccion-irpf/">deducción del 40 %</a>.</p>
+    </div>
+  </section>
+  <ZoneLinks title="Aerotermia y placas solares en tu municipio." />
+</ServicePage>

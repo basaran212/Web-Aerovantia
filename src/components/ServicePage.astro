@@ -3,12 +3,11 @@ import type { ImageMetadata } from "astro";
 import { Picture } from "astro:assets";
 
 import Layout from "../layouts/Layout.astro";
+import config from "../data/config.json";
+import type { Faq } from "../data/faqs";
 import { phone, services, whatsapp } from "../data/site";
 
-export interface Faq {
-  q: string;
-  a: string;
-}
+export type { Faq };
 
 interface Props {
   /** Color de acento de la página (variable CSS o color). */
@@ -18,8 +17,8 @@ interface Props {
   eyebrow: string;
   title: string;
   lede: string;
-  /** Pestaña de la calculadora de la portada a la que lleva el segundo botón. */
-  calc?: "aero" | "solar" | "ref" | "obra";
+  /** Calculadora a la que lleva el segundo botón. */
+  calc?: "aero" | "solar" | "ref";
   facts: { value: string; label: string }[];
   includesTitle: string;
   includesText: string;
@@ -31,19 +30,32 @@ interface Props {
   image: ImageMetadata;
   imageAlt: string;
   gallery: { img: ImageMetadata; alt: string }[];
+  /** Nombre corto para la miga de pan y el schema. */
+  name?: string;
+  /** Migas intermedias entre Inicio y esta página. */
+  parents?: { name: string; href: string }[];
+  og?: string;
 }
 
 const p = Astro.props;
 const path = Astro.url.pathname;
-const name = services.find((s) => s.href === path)?.label ?? p.eyebrow;
+const name = p.name ?? services.find((s) => s.href === path)?.label ?? p.eyebrow;
+const parents = p.parents ?? [];
+const calcHref = { aero: "/calculadoras/aerotermia/", solar: "/calculadoras/placas-solares/", ref: "/calculadoras/reformas/" };
+const pc = config.primerosClientes;
+const crumbs = [{ name: "Inicio", href: "/" }, ...parents, { name, href: path }];
 
 const schema = [
   {
     "@type": "Service",
-    name: p.title,
+    name: p.title.replace(/\.$/, ""),
     serviceType: name,
     description: p.description,
     provider: { "@id": new URL("/#empresa", Astro.site).href },
+    areaServed: [
+      { "@type": "AdministrativeArea", name: "Comunidad de Madrid" },
+      { "@type": "AdministrativeArea", name: "Provincia de Toledo" },
+    ],
     url: new URL(path, Astro.site).href,
   },
   {
@@ -56,26 +68,27 @@ const schema = [
   },
   {
     "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Inicio", item: Astro.site?.href },
-      { "@type": "ListItem", position: 2, name, item: new URL(path, Astro.site).href },
-    ],
+    itemListElement: crumbs.map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: new URL(c.href, Astro.site).href })),
   },
 ];
+const others = [...services, { href: "/ayudas/", label: "Ayudas" }].filter((s) => s.href !== path);
 ---
 
-<Layout title={p.seoTitle} description={p.description} schema={schema}>
+<Layout title={p.seoTitle} description={p.description} schema={schema} og={p.og}>
   <main style={`--hue:${p.hue}`}>
     <section class="page-hero">
       <Picture src={p.image} alt={p.imageAlt} formats={["avif", "webp"]} widths={[828, 1280, 1920]} sizes="100vw" loading="eager" fetchpriority="high" decoding="async" />
+      <span class="ai-tag">Imagen ilustrativa generada con IA</span>
       <div class="wrap">
-        <nav class="crumbs" aria-label="Ruta"><a href="/">Inicio</a><span aria-hidden="true">/</span><span>{name}</span></nav>
+        <nav class="crumbs" aria-label="Ruta">
+          {crumbs.map((c, i) => i < crumbs.length - 1 ? <><a href={c.href}>{c.name}</a><span aria-hidden="true">/</span></> : <span>{c.name}</span>)}
+        </nav>
         <p class="eyebrow">{p.eyebrow}</p>
         <h1 class="grad">{p.title}</h1>
         <p class="lede">{p.lede}</p>
         <div class="hero-ctas">
           <a class="btn btn-primary" href="/#contacto">Pedir estudio gratuito</a>
-          {p.calc && <a class="btn btn-ghost" href={`/?calc=${p.calc}#calculadoras`}>Calcular mi proyecto</a>}
+          {p.calc && <a class="btn btn-ghost" href={calcHref[p.calc]}>Calcular mi proyecto</a>}
           <a class="btn btn-ghost" href={`tel:${phone.tel}`}>Llamar al {phone.display}</a>
         </div>
       </div>
@@ -99,7 +112,10 @@ const schema = [
     <section style="padding-top:0">
       <div class="wrap gallery">
         {p.gallery.map((g) => (
-          <Picture class="reveal" src={g.img} alt={g.alt} formats={["avif", "webp"]} widths={[640, 1280]} sizes="(min-width: 768px) 60vw, 100vw" loading="lazy" decoding="async" />
+          <div class="ai-wrap">
+            <Picture class="reveal" src={g.img} alt={g.alt} formats={["avif", "webp"]} widths={[640, 1280]} sizes="(min-width: 768px) 60vw, 100vw" loading="lazy" decoding="async" />
+            <span class="ai-tag">Imagen ilustrativa generada con IA</span>
+          </div>
         ))}
       </div>
     </section>
@@ -112,6 +128,8 @@ const schema = [
         </div>
       </div>
     </section>
+
+    <slot />
 
     <section id="faq">
       <div class="wrap">
@@ -126,7 +144,7 @@ const schema = [
       <div class="wrap">
         <div class="sec-head" style="margin:0">
           <h2>Estudio gratuito y sin compromiso.</h2>
-          <p>Visitamos tu casa, revisamos tu proyecto y te damos un precio cerrado con las ayudas calculadas.</p>
+          <p>Visitamos tu casa, revisamos tus facturas y te damos una propuesta por escrito con las ayudas que te aplican. Programa <a href="/primeros-clientes/">Primeros clientes</a>: {pc.condicion}.</p>
         </div>
         <div class="hero-ctas">
           <a class="btn btn-primary" href="/#contacto" >Pedir estudio gratuito</a>
@@ -138,9 +156,9 @@ const schema = [
 
     <section>
       <div class="wrap">
-        <div class="sec-head"><p class="eyebrow">Otros servicios</p><h2>Reformas, obra nueva y energía, en una sola obra.</h2></div>
+        <div class="sec-head"><p class="eyebrow">Otros servicios</p><h2>Energía y reformas, con un solo responsable.</h2></div>
         <div class="cards">
-          {services.filter((s) => s.href !== path).map((s) => (
+          {others.map((s) => (
             <a class="card" href={s.href} style="text-decoration:none"><h3>{s.label}</h3><span class="more">Ver {s.label.toLowerCase()} <span aria-hidden="true">→</span></span></a>
           ))}
         </div>

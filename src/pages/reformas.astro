@@ -1,0 +1,62 @@
+---
+import ServicePage from "../components/ServicePage.astro";
+import { eurRange } from "../data/derived";
+import { reformFaqs } from "../data/faqs";
+import prices from "../data/prices.json";
+import { quoteReforma } from "../scripts/pricing.js";
+import bath from "../assets/img/bath.jpg";
+import kitchen from "../assets/img/kitchen.jpg";
+import kitchenBefore from "../assets/img/kitchen-before.jpg";
+
+const levels = [0, 1, 2].map((level) => ({ name: prices.levels[level], q: quoteReforma({ type: "int", level, m2: 100, units: 1 }) }));
+---
+
+<ServicePage
+  image={kitchen}
+  imageAlt="Recreación ilustrativa con IA: cocina con isla de mármol Calacatta, roble natural y lámparas de latón"
+  gallery={[{ img: bath, alt: "Recreación ilustrativa con IA: baño de travertino con ducha a ras de suelo y grifería de latón" }, { img: kitchenBefore, alt: "Recreación ilustrativa con IA: cocina de los años noventa antes de reformar" }]}
+  hue="var(--brass)"
+  calc="ref"
+  og="/og/reformas.png"
+  name="Reformas"
+  seoTitle="Reformas con aerotermia y suelo radiante en Madrid y Toledo | Aerovantia"
+  description="Reformas de cocinas, baños y viviendas en Madrid y Toledo aprovechando la obra para instalar aerotermia y suelo radiante. Precio bajo proyecto."
+  eyebrow="Reformas con la energía integrada"
+  title="Reformas con aerotermia y suelo radiante en Madrid y Toledo."
+  lede="Cocinas, baños y reformas integrales donde aprovechamos la obra para instalar aerotermia y suelo radiante, y dejar la cubierta lista para las placas. Cada reforma, bajo proyecto y con un único responsable."
+  facts={[
+    { value: "3D", label: "proyecto de interiorismo antes de empezar la obra" },
+    { value: "Bajo proyecto", label: "el precio se da tras ver la vivienda y definir calidades" },
+    { value: "Por fases", label: "calendario de obra por escrito en la propuesta" },
+    { value: "30·40·30", label: "pagos por hitos de obra" },
+  ]}
+  includesTitle="Una sola obra para la reforma y la energía."
+  includesText="Diseño, licencias, gremios y acabados coordinados por un único responsable, con la aerotermia y el suelo radiante integrados en el proyecto desde el principio."
+  includes={[
+    "Proyecto de interiorismo 3D y selección de materiales",
+    "Licencia de obra y gestión con el ayuntamiento",
+    "Redistribución, instalaciones y carpintería a medida",
+    "Cocinas con isla de piedra natural",
+    "Baños con duchas a ras de suelo y grifería termostática",
+    "Suelo radiante con aerotermia, iluminación escénica y domótica",
+    "Coordinación de la obra y limpieza final",
+  ]}
+  cardsTitle="Materiales nobles y confort sin radiadores."
+  cards={[
+    { title: "Materiales", text: "Mármol, roble natural, travertino, microcemento y latón cepillado, elegidos contigo sobre muestras reales." },
+    { title: "Energía integrada", text: "Quitamos radiadores y caldera, metemos el suelo radiante bajo la madera y preparamos la cubierta para las placas." },
+    { title: "Propuesta por escrito", text: "Render, partidas desglosadas, plazos y ayudas aplicables a la parte energética. Cualquier cambio se aprueba por escrito." },
+  ]}
+  faqs={reformFaqs}
+>
+  <section>
+    <div class="wrap">
+      <div class="sec-head"><p class="eyebrow">Referencia de mercado</p><h2>Cuánto cuesta una reforma integral.</h2><p class="lede">Rangos de referencia del mercado de Madrid y Toledo para una vivienda de 100 m², IVA incluido ({prices.actualizadoTexto}). No es un precio: en reformas, el precio se da bajo proyecto.</p></div>
+      <table class="q-lines">
+        <thead><tr><th>Nivel de acabados</th><th>Referencia por m²</th><th>100 m²</th></tr></thead>
+        <tbody>{levels.map((l) => <tr><td>{l.name}</td><td>{eurRange(l.q.perM2[0], l.q.perM2[1])}</td><td>{eurRange(l.q.lo, l.q.hi)}</td></tr>)}</tbody>
+      </table>
+      <p class="disclaimer" style="margin-top:16px">Ajusta superficie, tipo de reforma y acabados en la <a href="/calculadoras/reformas/">calculadora de reformas</a>. Diseño interior: <a href="/interiorismo/">interiorismo</a>. La parte energética puede acogerse a la <a href="/ayudas/deduccion-irpf/">deducción del 40 % en el IRPF</a> si cumple los requisitos.</p>
+    </div>
+  </section>
+</ServicePage>

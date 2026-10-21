@@ -2,7 +2,8 @@
 // Los datos sin confirmar van como [PENDIENTE: ...]; el despliegue a producción falla mientras quede alguno.
 export const company = {
   name: "Aerovantia",
-  legalName: "Euforico Equilibrio S.L.",
+  legalName: "Eufórico Equilibrio S.L.",
+  legalNamePendiente: "[PENDIENTE: confirmar «Eufórico» con tilde tal como figura en el Registro Mercantil]",
   cif: "B45917622",
   locality: "Olías del Rey",
   region: "Toledo",
@@ -33,9 +34,12 @@ export const services = [
 ];
 
 export const nav = [
-  ...services,
+  { href: "/aerotermia/", label: "Aerotermia" },
+  { href: "/placas-solares/", label: "Placas solares" },
+  { href: "/aerotermia-y-placas-solares/", label: "Aerotermia + Solar" },
+  { href: "/reformas/", label: "Reformas" },
   { href: "/ayudas/", label: "Ayudas" },
-  { href: "/#calculadoras", label: "Calculadoras" },
+  { href: "/calculadoras/", label: "Calculadoras" },
   { href: "/#contacto", label: "Contacto" },
 ];
 

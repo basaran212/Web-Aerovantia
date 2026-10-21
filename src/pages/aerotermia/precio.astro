@@ -1,0 +1,36 @@
+---
+import ContentPage from "../../components/ContentPage.astro";
+import { aeroConfigs, eurRange } from "../../data/derived";
+import prices from "../../data/prices.json";
+
+const rows = aeroConfigs();
+const faqs = [
+  { q: "¿Por qué un rango y no un precio?", a: "Porque el precio final depende de lo que veamos en la visita: el recorrido de las tuberías, el estado de los radiadores, dónde va la unidad exterior. El rango es lo que suele costar; la propuesta por escrito fija tu precio." },
+  { q: "¿El precio incluye la deducción del IRPF?", a: "No. Los precios son sin descontar ayudas. Si tu caso cumple los requisitos, la deducción del 40 % se aplica después en tu declaración de la renta." },
+  { q: "¿Qué cambia más el precio?", a: "El sistema de emisión. Aprovechar tus radiadores es lo más barato; poner suelo radiante nuevo es lo más caro, pero también lo que mejor rinde." },
+];
+---
+
+<ContentPage
+  name="Precio"
+  parents={[{ name: "Aerotermia", href: "/aerotermia/" }]}
+  seoTitle="Precio de la aerotermia en 2026 | Aerovantia"
+  description={`Precio orientativo de la aerotermia en Madrid y Toledo por potencia y emisor (radiadores o suelo radiante), IVA incluido. Actualizado en ${prices.actualizadoTexto}.`}
+  eyebrow={`Precios orientativos actualizados en ${prices.actualizadoTexto}`}
+  title="Precio de la aerotermia."
+  lede="Cuánto cuesta una instalación de aerotermia según la potencia y cómo se reparte el calor en tu casa. Son los mismos precios que usa la calculadora."
+  faqs={faqs}
+  og="/og/aerotermia.png"
+>
+  <h2>Precio por configuración tipo</h2>
+  <p>Bomba de calor monobloc R290 con depósito de agua caliente, instalación, legalización y puesta en marcha. IVA incluido. Ejemplo con caldera de gas (la retirada de un depósito de gasóleo o propano suma unos cientos de euros).</p>
+  <table class="q-lines">
+    <thead><tr><th>Vivienda</th><th>Con tus radiadores</th><th>Radiadores baja temp.</th><th>Suelo radiante nuevo</th></tr></thead>
+    <tbody>{rows.map((r) => <tr><td>{r.kw} kW · {r.label}</td><td>{eurRange(r.keep.lo, r.keep.hi)}</td><td>{eurRange(r.radiators.lo, r.radiators.hi)}</td><td>{eurRange(r.floor.lo, r.floor.hi)}</td></tr>)}</tbody>
+  </table>
+  <h2>Qué incluye</h2>
+  <ul>{prices.aero.incluye.map((i) => <li>{i}</li>)}</ul>
+  <h2>Qué no incluye</h2>
+  <ul>{prices.aero.noIncluye.map((i) => <li>{i}</li>)}</ul>
+  <p>Calcula el tuyo con tu superficie, tu aislamiento y tu sistema actual en la <a href="/calculadoras/aerotermia/">calculadora de aerotermia</a>. Revisión de precios cada 3 meses. Las ayudas, aparte: <a href="/ayudas/deduccion-irpf/">deducción del 40 %</a> y <a href="/ayudas/cae/">CAE</a>.</p>
+</ContentPage>

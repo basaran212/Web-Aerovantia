@@ -1,0 +1,25 @@
+---
+import ContentPage from "../../components/ContentPage.astro";
+
+const guides = [
+  { href: "/ayudas/deduccion-irpf/", title: "Deducción del 40 % en el IRPF: requisitos y pasos", text: "Qué hace falta, en qué orden y hasta cuándo." },
+  { href: "/guias/certificado-energetico/", title: "El certificado energético para la deducción", text: "Cuándo pedirlo, quién lo emite y cuánto cuesta." },
+  { href: "/aerotermia/con-radiadores/", title: "Aerotermia con radiadores: cuándo funciona", text: "Rendimiento según el emisor y cómo saber si tus radiadores valen." },
+  { href: "/guias/aerotermia-vs-gas-natural/", title: "Aerotermia frente a gas natural", text: "Costes anuales en Madrid y Toledo, y cuándo no compensa." },
+  { href: "/placas-solares/baterias/", title: "Batería solar: cuándo compensa", text: "Autoconsumo con y sin batería según tu perfil." },
+  { href: "/ayudas/bonificacion-ibi-icio/", title: "Bonificaciones de IBI e ICIO por municipio", text: "Lo publicado en Madrid y Toledo, con fuentes." },
+];
+---
+
+<ContentPage
+  name="Guías"
+  seoTitle="Guías de aerotermia, placas solares y ayudas | Aerovantia"
+  description="Guías claras sobre aerotermia, placas solares, baterías y ayudas en Madrid y Toledo: requisitos, costes reales y cuándo compensa."
+  eyebrow="Guías"
+  title="Guías."
+  lede="Respuestas directas, con tablas y fuentes, para decidir con datos. Sin exageraciones."
+>
+  <div class="cards">
+    {guides.map((g) => <a class="card" href={g.href} style="text-decoration:none"><h3>{g.title}</h3><p>{g.text}</p><span class="more">Leer <span aria-hidden="true">→</span></span></a>)}
+  </div>
+</ContentPage>

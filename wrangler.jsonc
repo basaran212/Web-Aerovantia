@@ -1,10 +1,14 @@
 {
-  // Web estática servida por Cloudflare Workers (sin código de Worker): solo los archivos de dist/.
+  // Web estática servida por Cloudflare Workers. worker/index.js añade las redirecciones 301 y el
+  // noindex fuera de aerovantia.es. Producción: pnpm deploy. Preview: pnpm deploy:preview.
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "web-aerovantia",
+  "main": "worker/index.js",
   "compatibility_date": "2026-10-01",
   "assets": {
     "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": true,
     "not_found_handling": "404-page",
     "html_handling": "force-trailing-slash"
   }
