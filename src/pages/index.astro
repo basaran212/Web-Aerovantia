@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { company } from "../data/site";
+import { company, whatsapp } from "../data/site";
 
 const faqs = [
   { q: "¿Hacéis reformas, obra nueva e interiorismo, o solo instalaciones?", a: "Las tres cosas. Hacemos reformas integrales, obra nueva e interiorismo, y además integramos la aerotermia, el suelo radiante y las placas solares en la misma obra, con un único responsable y un único presupuesto." },
@@ -297,6 +297,7 @@ const schema = [
         <div class="sec-head" style="margin:0"><p class="eyebrow">Estudio gratuito</p><h2>Pide tu estudio gratuito.</h2><p class="lede">Déjanos tus datos y te llamamos en menos de 24 h laborables para concertar la visita. O, si lo prefieres, llámanos ahora al <a href={`tel:${company.phones[0].tel}`}>{company.phones[0].display}</a>.</p></div>
         <div class="contact-points">
           <div><span class="k">Teléfonos</span><span class="v">{company.phones.map((p, i) => <>{i > 0 && " · "}<a href={`tel:${p.tel}`}>{p.display}</a></>)}</span></div>
+          <div><span class="k">WhatsApp</span><span class="v"><a href={whatsapp.href} target="_blank" rel="noopener">{whatsapp.display}</a></span></div>
           <div><span class="k">Email</span><span class="v"><a href={`mailto:${company.email}`}>{company.email}</a></span></div>
           <div><span class="k">Oficina</span><span class="v">{company.address}</span></div>
         </div>

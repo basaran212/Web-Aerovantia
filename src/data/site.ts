@@ -19,6 +19,12 @@ export const company = {
 
 export const phone = company.phones[0];
 
+/** Número con WhatsApp y mensaje inicial del chat. */
+export const whatsapp = {
+  display: company.phones[0].display,
+  href: `https://wa.me/${company.phones[0].tel.replace("+", "")}?text=${encodeURIComponent("Hola, quiero pedir un estudio gratuito para mi casa.")}`,
+};
+
 export const services = [
   { href: "/reformas-de-lujo/", label: "Reformas" },
   { href: "/obra-nueva/", label: "Obra nueva" },

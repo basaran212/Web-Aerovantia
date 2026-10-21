@@ -362,7 +362,7 @@ $('leadForm').addEventListener('submit',async e=>{e.preventDefault();
     if(btn.disabled)return;btn.disabled=true;
     try{const r=await fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});if(!r.ok)throw new Error(r.status);
       ok.textContent='Gracias, '+first+'. Te llamamos en menos de 24 h laborables.';$('leadForm').reset()}
-    catch(_){err.textContent='No se ha podido enviar. Llámanos al 689 042 717 o escribe a '+LEAD_EMAIL+'.';err.hidden=false;btn.disabled=false;return}
+    catch(_){err.textContent='No se ha podido enviar. Llámanos o escríbenos por WhatsApp al 689 042 717, o a '+LEAD_EMAIL+'.';err.hidden=false;btn.disabled=false;return}
   }else{
     const lines=['Nombre: '+name,'Teléfono: '+phone,'Municipio: '+town,'Me interesa: '+(payload.interest.join(', ')||'—')];
     if(calcShared)lines.push('Mi cálculo: '+calcShared.tipo+' — '+calcShared.resumen);

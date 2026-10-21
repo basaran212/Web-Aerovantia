@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { phone, services } from "../data/site";
+import { phone, services, whatsapp } from "../data/site";
 
 export interface Faq {
   q: string;
@@ -115,6 +115,7 @@ const schema = [
         <div class="hero-ctas">
           <a class="btn btn-primary" href="/#contacto" style="background:#F3F6F6;color:#0E1C22">Pedir estudio gratuito</a>
           <a class="btn btn-ghost" href={`tel:${phone.tel}`} style="color:#F3F6F6;border-color:rgba(243,246,246,.4)">Llamar al {phone.display}</a>
+          <a class="btn btn-ghost" href={whatsapp.href} target="_blank" rel="noopener" style="color:#F3F6F6;border-color:rgba(243,246,246,.4)">WhatsApp</a>
         </div>
       </div>
     </section>
