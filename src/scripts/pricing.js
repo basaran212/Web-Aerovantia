@@ -1,7 +1,7 @@
 // Tarifas y fórmulas de las calculadoras y del presupuesto automático.
 //
 // Todos los importes son precios finales para el cliente, IVA incluido, calibrados con
-// referencias públicas de mercado de 2026 para Toledo y el sur de Madrid (ver README).
+// referencias públicas de mercado de 2026 para Toledo y Madrid (ver README).
 // Revisad estas cifras con vuestros costes reales: son las que la web muestra como "desde".
 
 export const PRICING = {

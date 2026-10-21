@@ -43,7 +43,7 @@ export const legal = [
 ];
 
 export const areas = {
-  "Madrid sur y oeste": [
+  "Comunidad de Madrid": [
     "Boadilla del Monte", "Villaviciosa de Odón", "Villanueva de la Cañada", "Brunete",
     "Alcorcón", "Móstoles", "Arroyomolinos", "Navalcarnero", "Fuenlabrada", "Getafe",
     "Leganés", "Parla", "Griñón", "Valdemoro",

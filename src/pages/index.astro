@@ -19,7 +19,7 @@ import solarRoof from "../assets/img/solar-roof.jpg";
 
 const faqs = [
   { q: "¿Hacéis reformas, obra nueva e interiorismo, o solo instalaciones?", a: "Las tres cosas. Hacemos reformas integrales, obra nueva e interiorismo, y además integramos la aerotermia, el suelo radiante y las placas solares en la misma obra, con un único responsable y un único presupuesto." },
-  { q: "¿En qué zonas trabajáis?", a: "Tenemos la oficina en Olías del Rey (Toledo) y trabajamos en Toledo, La Sagra (Illescas, Seseña, Yuncos, Esquivias…) y el sur y oeste de Madrid (Getafe, Leganés, Móstoles, Boadilla, Villaviciosa de Odón…). Si tu municipio no está en la lista, pregúntanos." },
+  { q: "¿En qué zonas trabajáis?", a: "Tenemos la oficina en Olías del Rey (Toledo) y trabajamos en Toledo, La Sagra (Illescas, Seseña, Yuncos, Esquivias…) y la Comunidad de Madrid (Getafe, Leganés, Móstoles, Boadilla, Villaviciosa de Odón…). Si tu municipio no está en la lista, pregúntanos." },
   { q: "¿Cuánto cuesta el estudio?", a: "Nada. La visita técnica y la propuesta con precio cerrado son gratuitas y sin compromiso." },
   { q: "¿La aerotermia funciona con mis radiadores?", a: "Con radiadores de baja temperatura o sobredimensionados, sí. Con radiadores convencionales a veces hay que cambiar algunos. Si reformas, lo ideal es suelo radiante." },
   { q: "¿Cuánto dura una reforma integral?", a: "Entre 3 y 6 meses según superficie y nivel de acabados. Te damos un calendario por fases y penalizaciones por retraso en el contrato." },
@@ -36,7 +36,7 @@ const schema = [
   },
 ];
 
-const tagline = "Una sola empresa para construir, reformar y hacer eficiente tu casa. Con precio cerrado y las ayudas tramitadas.";
+const tagline = "Reformamos tu casa y la hacemos eficiente. Un solo equipo, un precio cerrado y la factura de la luz al mínimo.";
 
 const services = [
   { href: "/reformas-de-lujo/", tag: "Reformas integrales", title: "Reformas de lujo, llave en mano", text: "Cocinas, baños y distribución con materiales nobles, proyecto 3D y dirección de obra propia.", img: kitchen, alt: "Cocina reformada con isla de mármol, madera de roble y lámparas de latón" },
@@ -134,7 +134,7 @@ const materials = [
       <div class="sec-head reveal">
         <p class="eyebrow">Presupuesto al instante</p>
         <h2>Calcula el precio de tu obra en 30 segundos.</h2>
-        <p class="lede">Precios reales de mercado en Toledo y Madrid sur, IVA incluido. Elige tu proyecto, ajusta los datos y descarga tu presupuesto orientativo al momento.</p>
+        <p class="lede">Precios reales de mercado en Toledo y Madrid, IVA incluido. Elige tu proyecto, ajusta los datos y descarga tu presupuesto orientativo al momento.</p>
       </div>
       <div class="tabs" role="tablist">
         <button class="tab" role="tab" id="t-ref" data-k="ref" aria-selected="true" aria-controls="p-ref">Reformas e interiorismo</button>
@@ -211,7 +211,7 @@ const materials = [
           <div class="field"><label for="a-emit">Cómo se reparte el calor</label>
             <select id="a-emit"><option value="keep" selected>Mantengo mis radiadores</option><option value="radiators">Radiadores nuevos de baja temperatura</option><option value="floor">Suelo radiante nuevo</option></select></div>
           <div class="field"><label for="a-zone">Zona</label>
-            <select id="a-zone"><option value="C4" selected>Toledo y La Sagra</option><option value="D3">Madrid sur y oeste</option></select></div>
+            <select id="a-zone"><option value="C4" selected>Toledo y La Sagra</option><option value="D3">Comunidad de Madrid</option></select></div>
           <label class="chk" for="a-irpf"><input type="checkbox" id="a-irpf" checked> Vivienda habitual o alquilada (deducción IRPF del 40&nbsp;%)</label>
         </form>
         <div class="result" aria-live="polite">
@@ -235,7 +235,7 @@ const materials = [
           <div class="field"><label for="s-bill">Factura de luz media al mes: <span class="range-val" id="s-bill-v"></span></label>
             <input type="range" id="s-bill" min="40" max="450" step="5" value="120"></div>
           <div class="field"><label for="s-zone">Zona</label>
-            <select id="s-zone"><option value="C4" selected>Toledo y La Sagra</option><option value="D3">Madrid sur y oeste</option></select></div>
+            <select id="s-zone"><option value="C4" selected>Toledo y La Sagra</option><option value="D3">Comunidad de Madrid</option></select></div>
           <div class="field"><label for="s-roof">Orientación de la cubierta</label>
             <select id="s-roof"><option value="1" selected>Sur o cubierta plana</option><option value="0.9">Sureste / suroeste</option><option value="0.8">Este / oeste</option></select></div>
           <div class="field"><label for="s-bat">Batería</label>
@@ -257,7 +257,7 @@ const materials = [
           <div class="quote-ctas"><button class="btn btn-primary" type="button" data-quote="solar">Ver mi presupuesto</button><a class="btn btn-ghost" href="#contacto" data-from="solar">Reservar visita gratis</a></div>
         </div>
       </div>
-      <p class="disclaimer" style="margin-top:28px">Estimaciones orientativas con precios de mercado de 2026 para Toledo y el sur de Madrid, IVA incluido. No incluyen mobiliario suelto ni partidas no indicadas. El precio definitivo y cerrado se entrega por escrito tras la visita técnica gratuita.</p>
+      <p class="disclaimer" style="margin-top:28px">Estimaciones orientativas con precios de mercado de 2026 para Toledo y Madrid, IVA incluido. No incluyen mobiliario suelto ni partidas no indicadas. El precio definitivo y cerrado se entrega por escrito tras la visita técnica gratuita.</p>
     </div>
   </section>
 
@@ -321,9 +321,9 @@ const materials = [
 
   <section id="zona">
     <div class="wrap">
-      <div class="sec-head reveal"><p class="eyebrow">Zona de trabajo</p><h2>Reformas y aerotermia en Toledo y el sur de Madrid.</h2><p class="lede">Con oficina en Olías del Rey (Toledo), trabajamos en toda La Sagra, Toledo y el sur y oeste de Madrid. Si tu municipio no aparece, pregúntanos.</p></div>
+      <div class="sec-head reveal"><p class="eyebrow">Zona de trabajo</p><h2>Reformas y aerotermia en Toledo y Madrid.</h2><p class="lede">Con oficina en Olías del Rey (Toledo), trabajamos en toda la provincia de Toledo, La Sagra y la Comunidad de Madrid. Si tu municipio no aparece, pregúntanos.</p></div>
       <div class="zones">
-        <div><h3>Madrid sur y oeste</h3><ul><li>Boadilla del Monte</li><li>Villaviciosa de Odón</li><li>Villanueva de la Cañada</li><li>Brunete</li><li>Alcorcón</li><li>Móstoles</li><li>Arroyomolinos</li><li>Navalcarnero</li><li>Fuenlabrada</li><li>Getafe</li><li>Leganés</li><li>Parla</li><li>Griñón</li><li>Valdemoro</li></ul></div>
+        <div><h3>Comunidad de Madrid</h3><ul><li>Boadilla del Monte</li><li>Villaviciosa de Odón</li><li>Villanueva de la Cañada</li><li>Brunete</li><li>Alcorcón</li><li>Móstoles</li><li>Arroyomolinos</li><li>Navalcarnero</li><li>Fuenlabrada</li><li>Getafe</li><li>Leganés</li><li>Parla</li><li>Griñón</li><li>Valdemoro</li></ul></div>
         <div><h3>Toledo y La Sagra</h3><ul><li>Seseña</li><li>Illescas</li><li>Yeles</li><li>Esquivias</li><li>Ugena</li><li>Yuncos</li><li>Numancia de la Sagra</li><li>Cabañas de la Sagra</li><li>Bargas</li><li>Olías del Rey</li><li>Toledo</li><li>Torrijos</li></ul></div>
       </div>
     </div>

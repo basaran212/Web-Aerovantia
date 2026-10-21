@@ -177,7 +177,7 @@ nav.menu a[aria-current="page"]{color:var(--ink);background:rgba(242,237,228,.08
 .swatches{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:48px}
 @media (min-width:640px){.swatches{grid-template-columns:repeat(5,1fr)}}
 .sw{display:grid;gap:8px}
-.sw img{aspect-ratio:3/4;width:100%;object-fit:cover;border-radius:var(--r-lg)}
+.sw img{aspect-ratio:3/4;width:100%;height:auto;object-fit:cover;border-radius:var(--r-lg)}
 .sw span{font-size:14px;line-height:20px;color:var(--muted)}
 .sw b{display:block;color:var(--ink);font-weight:600}
 
@@ -368,3 +368,57 @@ footer strong{color:var(--ink);font-weight:600}
 .stop br{display:none}
 @media (min-width:768px){.stop br{display:inline}}
 [id]{scroll-margin-top:96px}
+
+/* ===== Móvil ===== */
+html{-webkit-tap-highlight-color:transparent}
+@media (max-width:767px){
+  /* Cabecera más baja y pegada arriba para dejar sitio al contenido */
+  header.top{inset:max(8px,env(safe-area-inset-top,0px)) 0 auto;padding-inline:12px}
+  .top .pill{padding:4px 4px 4px 20px}
+  .burger{width:36px;height:36px}
+  .burger span{left:10px}.burger span:first-child{top:14px}.burger span:last-child{top:20px}
+  .burger[aria-expanded="true"] span:first-child,.burger[aria-expanded="true"] span:last-child{top:17px}
+  #mnav{justify-content:flex-start;padding-top:88px;overflow-y:auto}
+  #mnav a{font-size:24px;line-height:32px}
+
+  /* Portada: sin indicadores que tapen el titular */
+  .world .live,.world .hint{display:none}
+  .stop{padding-block:88px calc(104px + env(safe-area-inset-bottom,0px))}
+  .stop .inner{gap:12px}
+  .stop p.body{font-size:16px;line-height:24px}
+  .stop .hero-ctas{flex-direction:column}
+  .stop .hero-ctas .btn{width:100%}
+  .stop .proof{font-size:12px;line-height:16px}
+
+  section{padding-block:56px}
+  .sec-head{margin-bottom:32px;gap:12px}
+  .lede{font-size:16px;line-height:24px}
+  .tagline{padding-block:72px}
+  .tagline p{font-size:28px;line-height:34px}
+  .deadline .btn{width:100%}
+
+  /* Servicios y reformas */
+  .tile{min-height:300px}
+  .ba{aspect-ratio:4/3}
+  .ref-grid{gap:32px}
+  .swatches{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin-inline:-16px;padding-inline:16px;scrollbar-width:none;margin-top:32px}
+  .swatches::-webkit-scrollbar,.tabs::-webkit-scrollbar{display:none}
+  .sw{flex:0 0 42%;scroll-snap-align:start}
+  .sw img{aspect-ratio:4/5}
+
+  /* Calculadoras */
+  .tabs{width:auto;margin-inline:-4px;scroll-snap-type:x proximity}
+  .tab{scroll-snap-align:start}
+  .calc-grid{padding:20px}
+  .result .btn,.quote-ctas .btn{width:100%}
+
+  .aid,.card{padding:24px}
+  .zones li{font-size:13px}
+  details{padding:20px 0}
+  summary{font-size:16px;line-height:24px}
+  form.lead .btn{width:100%}
+  footer{padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))}
+  .page-hero{min-height:64vh;padding-block:120px 48px}
+  .page-hero.plain{padding-block:120px 32px}
+  .page-hero .hero-ctas .btn{flex:1 1 100%}
+}
