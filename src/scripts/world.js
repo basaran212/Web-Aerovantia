@@ -156,10 +156,20 @@ export function initWorld(world, { reduceMotion, onScroll }) {
     } catch {
       clip.src = src;
     }
+    clip.muted = true;
+    clip.playsInline = true;
     clip.preload = "auto";
+    clip.load();
+    // En iPhone, Safari no descarga los datos del vídeo hasta que se le pide reproducirlo: se reproduce
+    // en silencio y oculto (el clip no se ve hasta que está listo) y se para en cuanto hay fotogramas.
+    // Si no carga en 15 s (modo de bajo consumo, red lenta), se quedan las imágenes y sigue con el siguiente.
     const ok = await new Promise((resolve) => {
-      clip.addEventListener("loadeddata", () => resolve(true), { once: true });
-      clip.addEventListener("error", () => resolve(false), { once: true });
+      let timer;
+      const done = (v) => { clearTimeout(timer); resolve(v); };
+      clip.addEventListener("loadeddata", () => done(true), { once: true });
+      clip.addEventListener("error", () => done(false), { once: true });
+      timer = setTimeout(() => done(clip.readyState >= 2), 15000);
+      clip.play().catch(() => {});
     });
     if (ok) {
       // Safari no pinta fotogramas buscados hasta que el vídeo se ha reproducido una vez.
