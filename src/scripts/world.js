@@ -130,12 +130,16 @@ export function initWorld(world, { reduceMotion, onScroll }) {
   // Carga de uno en uno: el clip del tramo actual y después el más cercano, primero el que viene delante.
   const distance = (i) => (i === active ? -1 : i > w ? i - w : w - (i + 1) + 0.5);
   const queue = clips.map((_, i) => i);
+  // H.264 (MP4) para Safari, Chrome y Edge; VP9 (WebM) para los navegadores que no traen H.264.
+  const probe = document.createElement("video");
+  const useMp4 = probe.canPlayType('video/mp4; codecs="avc1.640028"') !== "";
+  const sourceOf = (clip) => (useMp4 ? clip.dataset.src : clip.dataset.src.replace(/\.mp4$/, ".webm"));
   const loadNext = async () => {
     queue.sort((a, b) => distance(a) - distance(b));
     const i = queue.shift();
     if (i === undefined) return;
     const clip = clips[i];
-    const src = clip.dataset.src;
+    const src = sourceOf(clip);
     // El clip entero en memoria: así el scrub no espera a la red.
     try {
       const res = await fetch(src);

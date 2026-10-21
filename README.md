@@ -26,6 +26,31 @@ pnpm preview   # sirve dist/ en local
 
 Las fuentes (Archivo e IBM Plex Mono) se sirven desde la propia web: no hay conexiones a Google ni a otros terceros, y la web no usa cookies.
 
+## Paseo de la portada (scroll world)
+
+La portada es un paseo por un chalet que avanza y retrocede con el scroll: seis paradas
+(`src/data/paseo.ts`) y cinco clips (`public/video/paseo-1…5`), donde cada clip va de la imagen de
+una parada a la de la siguiente. `src/scripts/world.js` traduce el scroll a la posición del paseo y
+fija el fotograma del clip; no hay reproducción. Debajo de cada clip está su primer fotograma
+(`src/assets/paseo/`), así que la carga no se nota. Cada clip va en MP4 (H.264) y WebM (VP9), y el
+navegador usa el que soporta. Con movimiento reducido o ahorro de datos solo se ven las imágenes.
+
+Imágenes y vídeos generados con IA en Higgsfield: Qwen Image 3 (2K) para las imágenes, con
+ediciones de la misma casa para que todas las vistas coincidan, y Kling 3.0 Pro con primer y último
+fotograma para los clips. Codificación para scrub:
+
+```sh
+ffmpeg -i clip.mp4 -an -vf "scale=1920:-2" -c:v libx264 -preset slow -crf 27 -g 6 -keyint_min 6 \
+  -sc_threshold 0 -pix_fmt yuv420p -color_primaries bt709 -color_trc iec61966-2-1 -colorspace bt709 \
+  -color_range tv -movflags +faststart+write_colr public/video/paseo-1.mp4
+ffmpeg -i clip.mp4 -an -vf "scale=1920:-2" -c:v libvpx-vp9 -b:v 0 -crf 36 -g 6 -keyint_min 6 \
+  -row-mt 1 -pix_fmt yuv420p public/video/paseo-1.webm
+```
+
+Diseño basado en las skills [landing-page-design](https://github.com/elayadesign/ai-design-skills)
+y [scroll-world](https://github.com/oso95/scroll-world), y en la técnica de
+[mcp-higgsfield-landing](https://github.com/midudev/mcp-higgsfield-landing).
+
 ## Calculadoras y presupuesto automático
 
 Las tarifas y fórmulas están en `src/scripts/pricing.js` (objeto `PRICING`). La web muestra
@@ -55,6 +80,5 @@ Si está vacía, el formulario valida los datos pero no envía nada.
 
 ## Pendiente antes de publicar
 
-- Datos de inscripción en el Registro Mercantil (marcador en `src/data/site.ts`).
 - Revisión de las páginas legales por un asesor.
 - Conectar el formulario (ver arriba).

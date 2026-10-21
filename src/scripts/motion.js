@@ -22,7 +22,7 @@ const schedule = () => {
 };
 
 if (!reduceMotion) {
-  const lenis = new Lenis({ anchors: true, lerp: 0.1 });
+  const lenis = new Lenis({ anchors: { offset: -96 }, lerp: 0.1 });
   lenis.on("scroll", schedule);
   const raf = (t) => {
     lenis.raf(t);
