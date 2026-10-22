@@ -19,6 +19,7 @@ const guides = [
   title="Guías."
   lede="Respuestas directas, con tablas y fuentes, para decidir con datos. Sin exageraciones."
 >
+  <h2>Todas las guías</h2>
   <div class="cards">
     {guides.map((g) => <a class="card" href={g.href} style="text-decoration:none"><h3>{g.title}</h3><p>{g.text}</p><span class="more">Leer <span aria-hidden="true">→</span></span></a>)}
   </div>

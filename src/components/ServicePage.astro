@@ -74,7 +74,7 @@ const schema = [
 const others = [...services, { href: "/ayudas/", label: "Ayudas" }].filter((s) => s.href !== path);
 ---
 
-<Layout title={p.seoTitle} description={p.description} schema={schema} og={p.og}>
+<Layout title={p.seoTitle} description={p.description} schema={schema} og={p.og} darkTop>
   <main style={`--hue:${p.hue}`}>
     <section class="page-hero">
       <Picture src={p.image} alt={p.imageAlt} formats={["avif", "webp"]} widths={[828, 1280, 1920]} sizes="100vw" loading="eager" fetchpriority="high" decoding="async" />

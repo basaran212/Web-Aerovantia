@@ -1,20 +1,29 @@
 ---
-import { nav, phone } from "../data/site";
+import { nav, navSecondary, phone } from "../data/site";
 
+interface Props {
+  /** La página empieza con el hero o con una cabecera con foto: la cabecera arranca en oscuro. */
+  dark?: boolean;
+}
+const { dark = false } = Astro.props;
 const path = Astro.url.pathname;
+// Las páginas de energía, ayudas y calculadoras cuelgan de "Eficiencia energética" en el menú.
+const energy = ["/aerotermia", "/placas-solares", "/cargador-coche-electrico", "/ayudas", "/calculadoras", "/guias"];
+const section = energy.some((e) => path.startsWith(e)) ? "/eficiencia-energetica/" : ["/interiorismo/", "/reformas/"].includes(path) ? "/reformas/" : path;
+const current = (href: string) => (section === href || (href !== "/" && section.startsWith(href)) ? "page" : undefined);
 ---
 
-<header class="top">
+<header class:list={["top", { "on-dark": dark }]} data-header>
   <div class="pill">
     <a class="logo" href="/" aria-label="Aerovantia, inicio">AEROVANTIA<span>.</span></a>
     <nav class="menu" aria-label="Principal">
       {nav.map((item) => (
-        <a href={item.href} aria-current={path === item.href ? "page" : undefined}>{item.label}</a>
+        <a href={item.href} aria-current={current(item.href)}>{item.label}</a>
       ))}
     </nav>
     <div class="top-actions">
       <a class="tel" href={`tel:${phone.tel}`} aria-label={`Llamar al ${phone.display}`}>{phone.display}</a>
-      <a class="btn btn-primary" href="/#contacto">Estudio gratuito</a>
+      <a class="btn btn-primary" href="/#contacto">Solicitar estudio</a>
       <button class="burger" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Abrir menú">
         <span></span><span></span>
       </button>
@@ -24,13 +33,17 @@ const path = Astro.url.pathname;
 <nav id="mnav" aria-label="Menú" inert>
   <a href="/">Inicio</a>
   {nav.map((item) => (
-    <a href={item.href} aria-current={path === item.href ? "page" : undefined}>{item.label}</a>
+    <a href={item.href} aria-current={current(item.href)}>{item.label}</a>
   ))}
-  <a class="btn btn-primary" href="/#contacto">Pedir estudio gratuito</a>
+  <div class="mnav-sub">
+    {navSecondary.map((item) => <a href={item.href}>{item.label}</a>)}
+  </div>
+  <a class="btn btn-primary" href="/#contacto">Solicitar estudio</a>
   <a class="btn btn-ghost" href={`tel:${phone.tel}`}>Llamar al {phone.display}</a>
 </nav>
 
 <script>
+  const header = document.querySelector<HTMLElement>("[data-header]");
   const burger = document.querySelector<HTMLButtonElement>(".burger");
   const menu = document.getElementById("mnav");
   const setOpen = (open: boolean) => {
@@ -40,8 +53,25 @@ const path = Astro.url.pathname;
     menu.classList.toggle("open", open);
     menu.inert = !open;
     document.documentElement.style.overflow = open ? "hidden" : "";
+    header?.classList.toggle("menu-open", open);
+    if (open) menu.querySelector<HTMLElement>("a")?.focus();
   };
   burger?.addEventListener("click", () => setOpen(burger.getAttribute("aria-expanded") !== "true"));
   menu?.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setOpen(false)));
-  addEventListener("keydown", (e) => e.key === "Escape" && setOpen(false));
+  addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && burger?.getAttribute("aria-expanded") === "true") { setOpen(false); burger.focus(); }
+  });
+
+  // Cristal oscuro mientras la cabecera está sobre el hero o una cabecera con foto; claro en el resto.
+  const darkZones = [...document.querySelectorAll<HTMLElement>(".world, .page-hero:not(.plain), .feature")];
+  if (header && darkZones.length) {
+    const update = () => {
+      if (header.classList.contains("menu-open")) return header.classList.remove("on-dark");
+      const y = header.getBoundingClientRect().top + 28;
+      header.classList.toggle("on-dark", darkZones.some((z) => { const r = z.getBoundingClientRect(); return r.top <= y && r.bottom >= y; }));
+    };
+    addEventListener("scroll", update, { passive: true });
+    addEventListener("resize", update);
+    update();
+  }
 </script>

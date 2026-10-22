@@ -7,9 +7,9 @@ import ScrollWorld from "../components/ScrollWorld.astro";
 import config from "../data/config.json";
 import { homeFaqs as faqs } from "../data/faqs";
 import { municipios } from "../data/municipios";
+import { projectHref, projects } from "../data/proyectos";
 import { areas, company, whatsapp } from "../data/site";
 import exteriorNoon from "../assets/img/exterior-noon.jpg";
-import heatpump from "../assets/img/heatpump.jpg";
 import kitchenBefore from "../assets/img/kitchen-before.jpg";
 import kitchen from "../assets/img/kitchen.jpg";
 import living from "../assets/img/living.jpg";
@@ -18,7 +18,7 @@ import matMarble from "../assets/img/mat-marble.jpg";
 import matMicro from "../assets/img/mat-micro.jpg";
 import matOak from "../assets/img/mat-oak.jpg";
 import matTrav from "../assets/img/mat-trav.jpg";
-import solarRoof from "../assets/img/solar-roof.jpg";
+import newbuild from "../assets/img/newbuild.jpg";
 
 const schema = [
   {
@@ -27,14 +27,19 @@ const schema = [
   },
 ];
 
-const tagline = "Aerotermia y placas solares estudiadas con tus facturas. Una propuesta por escrito, las ayudas explicadas y un solo responsable.";
+const statement = "Tu vivienda puede ser mucho más.";
 
-const services = [
-  { href: "/aerotermia/", tag: "Aerotermia", title: "Calefacción, frío y agua caliente", text: "Bomba de calor que sustituye tu caldera. Ahorro estimado según el sistema que tengas hoy.", img: heatpump, alt: "Recreación ilustrativa con IA: unidad exterior de aerotermia junto a la fachada blanca de una casa" },
-  { href: "/placas-solares/", tag: "Placas solares", title: "Produce tu propia energía", text: "Paneles, batería y cargador del coche, calculados con tu consumo real.", img: solarRoof, alt: "Recreación ilustrativa con IA: vista aérea de una cubierta con placas solares y piscina" },
-  { href: "/aerotermia-y-placas-solares/", tag: "Aerotermia + Solar", title: "La casa que calienta con su tejado", text: "Las dos calculadas juntas, con el consumo que tendrás después.", img: exteriorNoon, alt: "Recreación ilustrativa con IA: chalet con placas solares en la cubierta a mediodía" },
-  { href: "/reformas/", tag: "Reformas con energía", title: "Reforma con la energía integrada", text: "Cocinas, baños y reformas integrales con aerotermia y suelo radiante, bajo proyecto.", img: kitchen, alt: "Recreación ilustrativa con IA: cocina con isla de mármol, madera de roble y lámparas de latón" },
-  { href: "/interiorismo/", tag: "Interiorismo", title: "Diseño interior con proyecto 3D", text: "Distribución, materiales, iluminación y mobiliario a medida.", img: living, alt: "Recreación ilustrativa con IA: salón con sofá de lino, mesa de travertino y luz cálida de tarde" },
+const pillars = [
+  { k: "Diseño", title: "Espacios pensados para tu forma de vivir.", text: "Distribución, materiales, luz y mobiliario a medida. Ves tu casa terminada en 3D antes de empezar.", img: living, alt: "Recreación ilustrativa con IA: salón con sofá de lino, mesa de travertino y luz cálida de tarde", href: "/interiorismo/", link: "Interiorismo" },
+  { k: "Construcción", title: "Cada detalle importa.", text: "Reformas integrales y obra nueva con un responsable de proyecto y una red de empresas y profesionales especializados.", img: newbuild, alt: "Recreación ilustrativa con IA: estructura de un chalet en construcción", href: "/obra-nueva/", link: "Construcción" },
+  { k: "Eficiencia", title: "La mejor tecnología es la que mejora tu vida sin hacerse notar.", text: "Aerotermia, energía solar y climatización integradas en la casa, calculadas con tus facturas.", img: exteriorNoon, alt: "Recreación ilustrativa con IA: chalet con placas solares en la cubierta a mediodía", href: "/eficiencia-energetica/", link: "Eficiencia energética" },
+];
+
+const tech = [
+  { k: "Aerotermia", title: "Calor y frío del aire", text: "Calefacción, aire acondicionado y agua caliente con un solo equipo, sin combustión ni humos.", href: "/aerotermia/" },
+  { k: "Energía solar", title: "Tu tejado trabaja", text: "Las placas cubren parte del consumo de la casa y, con batería, también por la tarde.", href: "/placas-solares/" },
+  { k: "Climatización inteligente", title: "La casa a la temperatura justa", text: "Suelo radiante, control por estancias y agua caliente en las horas de sol.", href: "/aerotermia-y-placas-solares/" },
+  { k: "Aislamiento", title: "La energía que no se escapa", text: "Si reformas, mejoramos ventanas y aislamiento para que la casa necesite menos.", href: "/reformas/" },
 ];
 
 const materials = [
@@ -45,58 +50,69 @@ const materials = [
   { img: matBrass, name: "Latón cepillado", use: "Grifería y detalles", alt: "Recreación ilustrativa con IA: textura de latón cepillado" },
 ];
 
+const method = [
+  { title: "Estudio", text: "Visitamos tu casa o tu parcela, revisamos facturas e instalaciones y escuchamos qué necesitas." },
+  { title: "Diseño y planificación", text: "Distribución, materiales y sistemas energéticos, con renders cuando el proyecto lo pide." },
+  { title: "Presupuesto detallado", text: "Propuesta por escrito con partidas desglosadas, plazos y las ayudas que te aplican." },
+  { title: "Coordinación de profesionales", text: "Organizamos a las empresas y profesionales especializados de nuestra red, cada uno en su fase." },
+  { title: "Ejecución supervisada", text: "Tu responsable de proyecto supervisa la obra y te informa en cada hito." },
+  { title: "Entrega y seguimiento", text: "Puesta en marcha, legalización, documentación y seguimiento después de la entrega." },
+];
+
 const pc = config.primerosClientes;
 const landing = (name: string) => municipios.find((m) => m.name === name);
 ---
 
-<Layout schema={schema}>
+<Layout schema={schema} darkTop>
 <main>
   <ScrollWorld />
 
-  <div class="deadline">
+  <section class="manifesto" id="manifiesto" aria-label="Manifiesto">
     <div class="wrap">
-      <div class="date">Hasta 31.12.2026</div>
-      <p><strong>Deducción del 40&nbsp;% en el IRPF</strong>, si la instalación reduce al menos un 30&nbsp;% el consumo de energía no renovable o la vivienda llega a calificación A o B. Hace falta certificado energético antes y después.</p>
-      <a class="btn btn-ghost" href="/ayudas/deduccion-irpf/">Ver requisitos</a>
-    </div>
-  </div>
-
-  <section class="tagline" aria-label="Lo que hacemos">
-    <div class="wrap">
-      <p data-words>{tagline.split(" ").map((w) => <><span data-word>{w}</span>{" "}</>)}</p>
+      <p class="statement" data-words>{statement.split(" ").map((w) => <><span data-word>{w}</span>{" "}</>)}</p>
+      <p class="sub reveal">Más diseño. Más confort. Más eficiencia. Una forma diferente de construir y transformar espacios.</p>
     </div>
   </section>
 
   <section id="servicios" style="padding-top:0">
-    <div class="wrap">
-      <div class="sec-head reveal">
-        <p class="eyebrow">Qué hacemos</p>
-        <h2>Aerotermia, placas solares y reformas con la energía integrada.</h2>
-        <p class="lede">Estudio, propuesta, diseño y ayudas, con un único responsable. La instalación la realizan instaladores habilitados RITE y gases fluorados.</p>
-      </div>
-      <div class="bento">
-        {services.map((s, i) => (
-          <a class="tile reveal" href={s.href}>
-            <Picture src={s.img} alt={s.alt} formats={["avif", "webp"]} widths={[640, 960, 1440]} sizes={i === 0 ? "(min-width: 768px) 66vw, 100vw" : "(min-width: 768px) 33vw, 100vw"} loading="lazy" decoding="async" />
+    <div class="wrap pillars">
+      {pillars.map((p) => (
+        <article class="pillar reveal">
+          <div class="pillar-media">
+            <Picture src={p.img} alt={p.alt} formats={["avif", "webp"]} widths={[640, 960, 1440]} sizes="(min-width: 900px) 56vw, 100vw" loading="lazy" decoding="async" />
             <span class="ai-tag">Imagen ilustrativa generada con IA</span>
-            <div class="body">
-              <span class="tag">{s.tag}</span>
-              <h3>{s.title}</h3>
-              <p>{s.text}</p>
-              <span class="more">Ver {s.tag.toLowerCase()} <span aria-hidden="true">→</span></span>
-            </div>
-          </a>
-        ))}
+          </div>
+          <div class="pillar-text">
+            <p class="eyebrow">{p.k}</p>
+            <h3>{p.title}</h3>
+            <p>{p.text}</p>
+            <a class="text-link" href={p.href}>{p.link} <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="feature" id="reformas" aria-label="Reformas integrales">
+    <Picture src={kitchen} alt="Recreación ilustrativa con IA: cocina con isla de mármol, roble natural y lámparas de latón" formats={["avif", "webp"]} widths={[828, 1280, 1920]} sizes="100vw" loading="lazy" decoding="async" />
+    <span class="ai-tag">Imagen ilustrativa generada con IA</span>
+    <div class="wrap">
+      <p class="eyebrow">Reformas integrales</p>
+      <h2>Transformamos espacios. Elevamos tu manera de vivir.</h2>
+      <p>Reformas integrales de viviendas, cocinas y baños con un solo responsable, bajo proyecto. Y, ya que abrimos suelos y paredes, dejamos la casa lista para gastar menos energía.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="/reformas/">Ver reformas integrales</a>
+        <a class="btn btn-ghost" href="/calculadoras/reformas/">Calcular mi reforma</a>
       </div>
     </div>
   </section>
 
-  <section id="reformas" class="calc">
+  <section class="after-feature" aria-label="Antes y después">
     <div class="wrap">
       <div class="sec-head reveal">
-        <p class="eyebrow">Reformas con energía e interiorismo</p>
+        <p class="eyebrow">Antes y después</p>
         <h2>De casa anticuada a casa eficiente.</h2>
-        <p class="lede">Recreación del tipo de transformación que proyectamos. Si reformas, quitamos radiadores y caldera, metemos suelo radiante bajo la madera y dejamos la casa lista para producir su propia energía.</p>
+        <p class="lede">Recreación del tipo de transformación que proyectamos. Desliza para comparar.</p>
       </div>
       <div class="ref-grid">
         <div class="ba reveal" data-ba>
@@ -109,9 +125,9 @@ const landing = (name: string) => municipios.find((m) => m.name === name);
         </div>
         <div class="ref-points">
           <div><h3>Reforma integral</h3><p>Distribución, instalaciones, carpintería y acabados, bajo proyecto y con un único responsable.</p></div>
-          <div><h3>Cocinas y baños</h3><p>Islas de piedra natural, duchas a ras de suelo y grifería termostática, con el agua caliente de la aerotermia.</p></div>
+          <div><h3>Cocinas y baños</h3><p>Piedra natural, duchas a ras de suelo y grifería termostática, con el agua caliente de la aerotermia.</p></div>
           <div><h3>Interiorismo</h3><p>Proyecto 3D, selección de materiales, iluminación y mobiliario a medida. <a href="/interiorismo/">Ver interiorismo</a>.</p></div>
-          <div><h3>Energía integrada</h3><p>Suelo radiante, aerotermia y preinstalación de placas: confort sin radiadores y menos factura. <a href="/reformas/">Ver reformas</a>.</p></div>
+          <div><h3>Energía integrada</h3><p>Suelo radiante, aerotermia y preinstalación de placas. <a href="/reformas/">Ver reformas</a>.</p></div>
         </div>
       </div>
       <div class="swatches" aria-label="Materiales">
@@ -128,56 +144,104 @@ const landing = (name: string) => municipios.find((m) => m.name === name);
     </div>
   </section>
 
-  <section id="calculadoras">
+  <section id="tecnologia" class="calc" aria-label="Tecnología">
+    <div class="wrap">
+      <div class="sec-head tech-head reveal">
+        <p class="eyebrow">Eficiencia energética</p>
+        <h2>El confort que sientes. La tecnología que no ves.</h2>
+        <p class="lede">Primero, una casa a la temperatura justa todo el año. Después, los equipos que lo hacen posible, escondidos en la obra.</p>
+      </div>
+      <div class="tech-grid">
+        {tech.map((t) => (
+          <div class="tech-item reveal">
+            <span class="k">{t.k}</span>
+            <h3>{t.title}</h3>
+            <p>{t.text}</p>
+            <a class="text-link" href={t.href}>Saber más <span aria-hidden="true">→</span></a>
+          </div>
+        ))}
+      </div>
+      <div class="deadline" style="margin-top:72px;border-radius:var(--r-xl)">
+        <div class="wrap" style="padding-inline:24px">
+          <div class="date">Hasta 31.12.2026</div>
+          <p><strong>Deducción del 40&nbsp;% en el IRPF</strong>, si la instalación reduce al menos un 30&nbsp;% el consumo de energía no renovable o la vivienda llega a calificación A o B. Hace falta certificado energético antes y después. También revisamos los <a href="/ayudas/cae/">CAE</a> y las <a href="/ayudas/bonificacion-ibi-icio/">bonificaciones de IBI e ICIO</a>.</p>
+          <a class="btn btn-ghost" href="/ayudas/deduccion-irpf/">Ver requisitos</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="calculadoras" aria-label="Configura tu proyecto">
     <div class="wrap">
       <div class="sec-head reveal">
-        <p class="eyebrow">Presupuesto orientativo</p>
-        <h2>Calcula el precio de tu instalación en un minuto.</h2>
-        <p class="lede">Rangos orientativos con IVA y con las hipótesis a la vista. Elige tu proyecto y ajusta los datos. <a href="/calculadoras/">Ver todas las calculadoras</a>.</p>
+        <p class="eyebrow">Configura tu proyecto</p>
+        <h2>Unas preguntas. Un rango claro.</h2>
+        <p class="lede">Responde paso a paso y verás un rango orientativo con IVA y las hipótesis a la vista. El precio de tu proyecto es el de la propuesta por escrito. <a href="/calculadoras/">Todas las calculadoras</a>.</p>
       </div>
       <Calculators />
     </div>
   </section>
 
-  <section id="ayudas">
+  <section id="proceso" class="calc" aria-label="Nuestro método">
     <div class="wrap">
-      <div class="sec-head reveal"><p class="eyebrow">Ayudas</p><h2>Te decimos qué ayudas te aplican y las tramitamos.</h2><p class="lede">En el estudio revisamos los requisitos de tu caso. Si no cumples alguno, te lo decimos en la visita. <a href="/ayudas/">Ver todas las ayudas</a>.</p></div>
-      <div class="aid-grid">
-        <div class="aid reveal"><div class="pct">40 %</div><h3>Deducción en el IRPF</h3><p>Puedes aplicarla si cumples los requisitos: reducir un 30&nbsp;% el consumo no renovable o llegar a calificación A o B. Base máxima de 7.500 € (deducción de hasta 3.000 €). Hasta el 31-12-2026.</p><a class="more" href="/ayudas/deduccion-irpf/">Ver requisitos <span aria-hidden="true">→</span></a></div>
-        <div class="aid reveal"><div class="pct">CAE</div><h3>Certificados de Ahorro Energético</h3><p>Al sustituir una caldera de combustión por aerotermia, el ahorro puede convertirse en un pago. El importe depende del ahorro acreditado.</p><a class="more" href="/ayudas/cae/">Ver cómo funcionan <span aria-hidden="true">→</span></a></div>
-        <div class="aid reveal"><div class="pct">IBI · ICIO</div><h3>Bonificaciones municipales</h3><p>Algunos ayuntamientos bonifican el IBI o el impuesto de obras por instalar energía solar. Revisamos el tuyo.</p><a class="more" href="/ayudas/bonificacion-ibi-icio/">Ver bonificaciones <span aria-hidden="true">→</span></a></div>
+      <div class="sec-head reveal">
+        <p class="eyebrow">Nuestro método</p>
+        <h2>Una dirección. Muchos especialistas.</h2>
+        <p class="lede">Aerovantia coordina cada proyecto con supervisión técnica y una red de empresas y profesionales especializados. Tienes un único responsable, que responde del proyecto según lo que firmamos.</p>
       </div>
-    </div>
-  </section>
-
-  <section id="proceso">
-    <div class="wrap">
-      <div class="sec-head reveal"><p class="eyebrow">Cómo trabajamos</p><h2>Simple para ti. Ordenado por detrás.</h2><p class="lede"><a href="/como-trabajamos/">Ver el proceso completo</a>.</p></div>
-      <div class="steps">
-        <div class="step"><h3>Te llamamos</h3><p class="when">En menos de 24 h laborables</p><p>Hablamos de tu casa y concertamos la visita.</p></div>
-        <div class="step"><h3>Propuesta por escrito</h3><p class="when">5–10 días tras la visita</p><p>Equipos, partidas desglosadas, ahorro estimado y ayudas que te aplican.</p></div>
-        <div class="step"><h3>Instalación</h3><p class="when">Según el calendario de la propuesta</p><p>Instaladores habilitados RITE y gases fluorados, coordinados por tu responsable de proyecto.</p></div>
-        <div class="step"><h3>Legalización y ayudas</h3><p class="when">Incluido</p><p>Certificados, boletines, licencias y expediente de ayudas.</p></div>
-        <div class="step"><h3>Puesta en marcha</h3><p class="when">Contigo</p><p>Revisamos el funcionamiento y te explicamos el mantenimiento.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="guar calc">
-    <div class="wrap">
-      <div class="sec-head"><p class="eyebrow">Compromisos</p><h2>Lo que firmamos contigo.</h2></div>
-      <div class="guar-grid">
+      <ol class="method" style="padding:0;margin:0">
+        {method.map((m) => <li class="reveal"><h3>{m.title}</h3><p>{m.text}</p></li>)}
+      </ol>
+      <div class="guar-grid" style="margin-top:72px">
         <div><h3>Precio fijado en la propuesta</h3><p>El precio de la instalación queda fijado en la propuesta que firmas. Cualquier cambio se aprueba por escrito.</p></div>
         <div><h3>Un único interlocutor</h3><p>Un responsable de proyecto desde la visita hasta la puesta en marcha.</p></div>
         <div><h3>Instaladores habilitados</h3><p>Instalación realizada por instaladores habilitados RITE y gases fluorados.</p></div>
         <div><h3>Garantías</h3><p>La garantía del fabricante del equipo y la garantía legal de la instalación{config.garantiaPropia ? `, más ${config.garantiaPropia}` : ""}.</p></div>
+      </div>
+      <p class="method-note"><a class="text-link" href="/como-trabajamos/">Cómo trabajamos, en detalle <span aria-hidden="true">→</span></a></p>
+    </div>
+  </section>
+
+  <section id="proyectos" aria-label="Proyectos">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Proyectos</p>
+        <h2>Ideas que proyectamos.</h2>
+        <p class="lede">Somos una marca nueva: estas son visualizaciones conceptuales, no obras realizadas. Las primeras obras llegarán con el programa <a href="/primeros-clientes/">Primeros clientes</a>.</p>
+      </div>
+      <div class="proj-grid three">
+        {projects.map((p) => (
+          <a class="proj reveal" href={projectHref(p)}>
+            <div class="proj-media">
+              <Picture src={p.cover} alt={p.coverAlt} formats={["avif", "webp"]} widths={[480, 720, 960]} sizes="(min-width: 1100px) 33vw, (min-width: 768px) 50vw, 100vw" loading="lazy" decoding="async" />
+              <span class="ai-tag">Visualización conceptual · IA</span>
+            </div>
+            <span class="type">Visualización conceptual</span>
+            <h3>{p.title}</h3>
+            <p>{p.summary}</p>
+          </a>
+        ))}
+      </div>
+      <p class="method-note"><a class="text-link" href="/proyectos/">Ver todos los proyectos <span aria-hidden="true">→</span></a></p>
+    </div>
+  </section>
+
+  <section class="cta-band" id="primeros-clientes">
+    <div class="wrap">
+      <div class="sec-head" style="margin:0">
+        <p class="eyebrow">Programa Primeros clientes</p>
+        <h2>Las primeras obras, con condiciones especiales.</h2>
+        <p>{pc.condicion} para las primeras {pc.plazasTotales} instalaciones, a cambio de permiso para fotografiar la obra y de tu opinión cuando esté en marcha. Plazas disponibles: {pc.plazasDisponibles}.</p>
+      </div>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="/primeros-clientes/">Ver condiciones</a>
       </div>
     </div>
   </section>
 
   <section id="zona">
     <div class="wrap">
-      <div class="sec-head reveal"><p class="eyebrow">Zona de trabajo</p><h2>Aerotermia y placas solares en Madrid y Toledo.</h2><p class="lede">Con oficina en Olías del Rey (Toledo), trabajamos en la Comunidad de Madrid y en la provincia de Toledo. Si tu municipio no aparece, pregúntanos.</p></div>
+      <div class="sec-head reveal"><p class="eyebrow">Zona de trabajo</p><h2>Madrid y Toledo.</h2><p class="lede">Con oficina en Olías del Rey (Toledo), trabajamos en la Comunidad de Madrid y en la provincia de Toledo. Si tu municipio no aparece, pregúntanos.</p></div>
       <div class="zones">
         {Object.entries(areas).map(([name, towns], i) => (
           <div>
@@ -189,7 +253,7 @@ const landing = (name: string) => municipios.find((m) => m.name === name);
     </div>
   </section>
 
-  <section id="faq">
+  <section id="faq" class="calc">
     <div class="wrap">
       <div class="sec-head"><p class="eyebrow">Preguntas frecuentes</p><h2>Lo que nos preguntan antes de decidir.</h2></div>
       <div class="faq">
@@ -198,23 +262,10 @@ const landing = (name: string) => municipios.find((m) => m.name === name);
     </div>
   </section>
 
-  <section class="cta-band" id="primeros-clientes">
-    <div class="wrap">
-      <div class="sec-head" style="margin:0">
-        <p class="eyebrow">Programa Primeros clientes</p>
-        <h2>Las primeras instalaciones, con condiciones especiales.</h2>
-        <p>{pc.condicion} para las primeras {pc.plazasTotales} instalaciones, a cambio de permiso para fotografiar la obra y de tu opinión cuando esté en marcha. Plazas disponibles: {pc.plazasDisponibles}.</p>
-      </div>
-      <div class="hero-ctas">
-        <a class="btn btn-primary" href="/primeros-clientes/">Ver condiciones</a>
-      </div>
-    </div>
-  </section>
-
-  <section id="contacto">
+  <section id="contacto" class="closing">
     <div class="wrap contact-grid">
       <div>
-        <div class="sec-head" style="margin:0"><p class="eyebrow">Estudio gratuito</p><h2>Pide tu estudio gratuito.</h2><p class="lede">Déjanos tus datos y te llamamos en menos de 24 h laborables para concertar la visita. O, si lo prefieres, llámanos ahora al <a href={`tel:${company.phones[0].tel}`}>{company.phones[0].display}</a>.</p></div>
+        <div class="sec-head" style="margin:0"><p class="eyebrow">Contacto</p><h2>Tu próximo espacio empieza con una conversación.</h2><p class="lede">Cuéntanos tu proyecto y te llamamos en menos de 24 h laborables para concertar la visita. O llámanos al <a href={`tel:${company.phones[0].tel}`}>{company.phones[0].display}</a>.</p></div>
         <div class="contact-points">
           <div><span class="k">Teléfonos</span><span class="v">{company.phones.map((p, i) => <>{i > 0 && " · "}<a href={`tel:${p.tel}`}>{p.display}</a></>)}</span></div>
           <div><span class="k">WhatsApp</span><span class="v"><a href={whatsapp.href} target="_blank" rel="noopener">{whatsapp.display}</a></span></div>
@@ -228,25 +279,35 @@ const landing = (name: string) => municipios.find((m) => m.name === name);
           <div class="field"><label for="f-name">Nombre</label><input type="text" id="f-name" autocomplete="name" required></div>
           <div class="field"><label for="f-phone">Teléfono</label><input type="tel" id="f-phone" autocomplete="tel" inputmode="tel" required></div>
         </div>
-        <div class="field"><label for="f-town">Municipio</label><input type="text" id="f-town" autocomplete="address-level2" required></div>
-        <fieldset>
-          <legend style="font-size:.88rem;font-weight:600">Me interesa</legend>
-          <div class="pills">
-            <label><input type="checkbox" id="i-aero"> Aerotermia</label>
-            <label><input type="checkbox" id="i-pv"> Placas solares</label>
-            <label><input type="checkbox" id="i-combo"> Aerotermia + Solar</label>
-            <label><input type="checkbox" id="i-bat"> Batería</label>
-            <label><input type="checkbox" id="i-ev"> Cargador VE</label>
-            <label><input type="checkbox" id="i-ref"> Reforma</label>
-            <label><input type="checkbox" id="i-new"> Obra nueva</label>
-            <label><input type="checkbox" id="i-int"> Interiorismo</label>
-            <label><input type="checkbox" id="i-first"> Primeros clientes</label>
-          </div>
-        </fieldset>
+        <div class="two">
+          <div class="field"><label for="f-type">Tipo de proyecto</label>
+            <select id="f-type" required>
+              <option value="">Elige una opción</option>
+              <option>Reforma integral</option>
+              <option>Cocina o baño</option>
+              <option>Obra nueva</option>
+              <option>Aerotermia</option>
+              <option>Placas solares</option>
+              <option>Aerotermia + Solar</option>
+              <option>Cargador de coche eléctrico</option>
+              <option>Interiorismo</option>
+              <option>Otro</option>
+            </select></div>
+          <div class="field"><label for="f-town">Ubicación (municipio)</label><input type="text" id="f-town" autocomplete="address-level2" required></div>
+        </div>
+        <div class="two">
+          <div class="field"><label for="f-m2">Superficie aproximada</label>
+            <select id="f-m2"><option value="">Prefiero no decirlo</option><option>Menos de 80 m²</option><option>80–150 m²</option><option>150–250 m²</option><option>250–400 m²</option><option>Más de 400 m²</option></select></div>
+          <div class="field"><label for="f-budget">Presupuesto estimado</label>
+            <select id="f-budget"><option value="">Aún no lo sé</option><option>Menos de 15.000 €</option><option>15.000–50.000 €</option><option>50.000–150.000 €</option><option>150.000–400.000 €</option><option>Más de 400.000 €</option></select></div>
+        </div>
+        <div class="field"><label for="f-when">¿Cuándo te gustaría empezar?</label>
+          <select id="f-when"><option value="">Aún no lo sé</option><option>Lo antes posible</option><option>En los próximos 3 meses</option><option>En los próximos 6 meses</option><option>En 2027</option><option>Solo me estoy informando</option></select></div>
+        <label class="chk" for="i-first"><input type="checkbox" id="i-first"> <span>Quiero ser de los primeros clientes (<a href="/primeros-clientes/">condiciones</a>).</span></label>
         <label class="chk" for="f-rgpd"><input type="checkbox" id="f-rgpd" required> <span>He leído la <a href="/privacidad/">política de privacidad</a> y acepto que Aerovantia me contacte para preparar el estudio.</span></label>
         <label class="chk" for="f-mkt"><input type="checkbox" id="f-mkt"> <span>Quiero recibir información comercial de Aerovantia (opcional).</span></label>
         <p class="err" id="f-err" hidden></p>
-        <button class="btn btn-primary" type="submit">Solicitar estudio gratuito</button>
+        <button class="btn btn-primary" type="submit">Hablemos de tu proyecto</button>
         <div class="ok-msg" id="f-ok" hidden></div>
       </form>
     </div>

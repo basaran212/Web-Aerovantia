@@ -1,0 +1,31 @@
+---
+import ContentPage from "../components/ContentPage.astro";
+import { savingsSpan } from "../data/derived";
+
+const span = savingsSpan();
+const items = [
+  { href: "/aerotermia/", title: "Aerotermia", text: "Calefacción, aire acondicionado y agua caliente con una bomba de calor. Sustituye calderas de gasóleo, propano o gas." },
+  { href: "/placas-solares/", title: "Placas solares", text: "Energía de tu tejado para la casa, con batería si te compensa." },
+  { href: "/aerotermia-y-placas-solares/", title: "Aerotermia + Solar", text: "Las dos calculadas juntas, con el consumo que tendrás después." },
+  { href: "/cargador-coche-electrico/", title: "Cargador de coche eléctrico", text: "Recarga en casa, con el excedente solar si tienes placas." },
+  { href: "/ayudas/", title: "Ayudas", text: "Deducción del 40 % en el IRPF, CAE y bonificaciones municipales, con sus requisitos." },
+  { href: "/calculadoras/", title: "Calculadoras", text: "Precio, ahorro y retorno en rango, con las hipótesis a la vista." },
+];
+---
+
+<ContentPage
+  name="Eficiencia energética"
+  seoTitle="Eficiencia energética: aerotermia y solar | Aerovantia"
+  description="Aerotermia, placas solares, baterías, recarga del coche y ayudas para viviendas de Madrid y Toledo, integradas en la casa y calculadas con tus facturas."
+  eyebrow="Eficiencia energética"
+  title="El confort que sientes. La tecnología que no ves."
+  lede="Una casa a la temperatura justa todo el año, con menos energía. Estudiamos tu vivienda y tus facturas y te decimos qué te compensa y qué no."
+  og="/og/aerotermia-y-placas-solares.png"
+>
+  <h2>Qué hacemos</h2>
+  <div class="cards">
+    {items.map((i) => <a class="card" href={i.href} style="text-decoration:none"><h3>{i.title}</h3><p>{i.text}</p><span class="more">Ver {i.title.toLowerCase()} <span aria-hidden="true">→</span></span></a>)}
+  </div>
+  <h2>Cuánto se puede ahorrar</h2>
+  <p>Con aerotermia, el ahorro estimado en climatización y agua caliente está entre un {span.others[0]} y un {span.others[1]} % frente a gasóleo, propano o calefacción eléctrica, y entre un {span.gas[0]} y un {span.gas[1]} % frente a gas natural, según cómo se reparte el calor y el aislamiento. Las hipótesis y sus fuentes están en la <a href="/calculadoras/aerotermia/">calculadora de aerotermia</a>.</p>
+</ContentPage>

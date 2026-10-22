@@ -37,21 +37,21 @@ const zoneOptions = [
   {show("aero") && (
     <div class="calc-grid" role="tabpanel" id="p-aero" aria-labelledby={tabs.length > 1 ? "t-aero" : undefined} hidden={first !== "aero"}>
       <form class="fields" onsubmit="return false">
-        <div class="field"><label for="a-fuel">Sistema actual</label>
+        <div class="field" data-step="1" data-step-title="Tu sistema actual"><label for="a-fuel">Sistema actual</label>
           <select id="a-fuel"><option value="gasoleo" selected>Caldera de gasóleo</option><option value="propano">Caldera de propano</option><option value="gas">Caldera de gas natural</option><option value="elec">Radiadores o acumuladores eléctricos</option></select></div>
-        <div class="field" id="a-boiler-f"><label for="a-boiler">Tipo de caldera</label>
+        <div class="field" data-step="1" id="a-boiler-f"><label for="a-boiler">Tipo de caldera</label>
           <select id="a-boiler"><option value="estandar" selected>Estándar o de más de 15 años (o no lo sé)</option><option value="bajaTemperatura">Baja temperatura</option><option value="condensacion">Condensación</option></select></div>
-        <div class="field"><label for="a-spend">Gasto anual en calefacción y agua caliente: <span class="range-val" id="a-spend-v"></span></label>
+        <div class="field" data-step="2" data-step-title="Lo que gastas hoy"><label for="a-spend">Gasto anual en calefacción y agua caliente: <span class="range-val" id="a-spend-v"></span></label>
           <input type="range" id="a-spend" min="800" max="6000" step="100" value="2400"><small>Suma de facturas o llenados de depósito de 12 meses.</small></div>
-        <div class="field"><label for="a-m2">Superficie calefactada: <span class="range-val" id="a-m2-v"></span></label>
+        <div class="field" data-step="3" data-step-title="Tu casa"><label for="a-m2">Superficie calefactada: <span class="range-val" id="a-m2-v"></span></label>
           <input type="range" id="a-m2" min="60" max="450" step="10" value="180"></div>
-        <div class="field"><label for="a-ins">Aislamiento de la casa</label>
+        <div class="field" data-step="3"><label for="a-ins">Aislamiento de la casa</label>
           <select id="a-ins"><option value="good">Bueno (construida después de 2007 o rehabilitada)</option><option value="mid" selected>Medio (1980–2007, ventanas de doble cristal)</option><option value="poor">Bajo (antes de 1980, sin aislar)</option></select></div>
-        <div class="field"><label for="a-emit">Cómo se reparte el calor</label>
+        <div class="field" data-step="4" data-step-title="Cómo se reparte el calor"><label for="a-emit">Cómo se reparte el calor</label>
           <select id="a-emit"><option value="keep" selected>Mantengo mis radiadores</option><option value="radiators">Radiadores nuevos de baja temperatura</option><option value="floor">Suelo radiante nuevo</option></select></div>
-        <div class="field"><label for="a-zone">Zona</label>
+        <div class="field" data-step="5" data-step-title="Últimos datos"><label for="a-zone">Zona</label>
           <select id="a-zone">{zoneOptions.map((o) => <option value={o.v} selected={o.v === zone}>{o.label}</option>)}</select></div>
-        <label class="chk" for="a-irpf"><input type="checkbox" id="a-irpf" checked> Vivienda habitual o alquilada (deducción IRPF del 40&nbsp;%, si tu caso cumple los requisitos)</label>
+        <label class="chk" data-step="5" for="a-irpf"><input type="checkbox" id="a-irpf" checked> Vivienda habitual o alquilada (deducción IRPF del 40&nbsp;%, si tu caso cumple los requisitos)</label>
       </form>
       <div class="result" aria-live="polite">
         <div><p class="eyebrow">Inversión orientativa · IVA incluido</p><div class="big" id="a-from">—</div><p class="range-line" id="a-range"></p></div>
@@ -75,32 +75,32 @@ const zoneOptions = [
   {show("solar") && (
     <div class="calc-grid" role="tabpanel" id="p-solar" aria-labelledby={tabs.length > 1 ? "t-solar" : undefined} hidden={first !== "solar"}>
       <form class="fields" onsubmit="return false">
-        <div class="field"><label for="s-bill">Factura de luz media al mes: <span class="range-val" id="s-bill-v"></span></label>
+        <div class="field" data-step="1" data-step-title="Tu consumo"><label for="s-bill">Factura de luz media al mes: <span class="range-val" id="s-bill-v"></span></label>
           <input type="range" id="s-bill" min="40" max="450" step="5" value="120"></div>
-        <div class="field"><label for="s-zone">Zona</label>
+        <div class="field" data-step="2" data-step-title="Dónde está la casa"><label for="s-zone">Zona</label>
           <select id="s-zone">{zoneOptions.map((o) => <option value={o.v} selected={o.v === zone}>{o.label}</option>)}</select></div>
-        <div class="field"><label for="s-profile">¿Cuándo usáis más la luz?</label>
+        <div class="field" data-step="2"><label for="s-profile">¿Cuándo usáis más la luz?</label>
           <select id="s-profile"><option value="dia" selected>Hay alguien en casa durante el día</option><option value="fuera">Casi todo el consumo es por la tarde y la noche</option></select></div>
-        <div class="field"><label for="s-type">Tipo de cubierta</label>
+        <div class="field" data-step="3" data-step-title="Tu tejado"><label for="s-type">Tipo de cubierta</label>
           <select id="s-type"><option value="teja" selected>Tejado de teja</option><option value="chapa">Chapa o panel sándwich</option><option value="pizarra">Pizarra</option><option value="plana">Cubierta plana o azotea</option><option value="uralita">Fibrocemento (uralita)</option></select></div>
-        <div class="field" id="s-orient-f"><label for="s-orient">Orientación del tejado</label>
+        <div class="field" data-step="3" id="s-orient-f"><label for="s-orient">Orientación del tejado</label>
           <select id="s-orient"><option value="S" selected>Sur</option><option value="SE">Sureste</option><option value="SO">Suroeste</option><option value="EO">Este-oeste (tejado a dos aguas)</option><option value="E">Este</option><option value="O">Oeste</option><option value="NE">Noreste</option><option value="NO">Noroeste</option><option value="N">Norte</option></select>
           <small>Hacia dónde mira la parte del tejado donde irían los paneles.</small></div>
-        <fieldset class="field" id="s-tilt-f"><legend>Inclinación del tejado</legend>
+        <fieldset class="field" data-step="3" id="s-tilt-f"><legend>Inclinación del tejado</legend>
           <div class="seg">
             <label><input type="radio" name="s-tilt" value="15"> Suave (≈15°)</label>
             <label><input type="radio" name="s-tilt" value="30" checked> Normal (≈30°)</label>
             <label><input type="radio" name="s-tilt" value="45"> Pronunciada (≈45°)</label>
           </div></fieldset>
-        <div class="field"><label for="s-shade">Sombras sobre el tejado</label>
+        <div class="field" data-step="4" data-step-title="Sombras y espacio"><label for="s-shade">Sombras sobre el tejado</label>
           <select id="s-shade"><option value="none" selected>Sin sombras</option><option value="some">Algunas (chimenea, árbol, a primera o última hora)</option><option value="lot">Bastantes (edificios o árboles altos cerca)</option></select></div>
-        <div class="field"><label for="s-area">Superficie útil para paneles: <span class="range-val" id="s-area-v"></span></label>
+        <div class="field" data-step="4"><label for="s-area">Superficie útil para paneles: <span class="range-val" id="s-area-v"></span></label>
           <input type="range" id="s-area" min="10" max="150" step="5" value="50"><small>Sin contar chimeneas, claraboyas ni bordes.</small></div>
-        <div class="field"><label for="s-bat">Batería</label>
+        <div class="field" data-step="5" data-step-title="Batería y extras"><label for="s-bat">Batería</label>
           <select id="s-bat"><option value="0">Sin batería</option><option value="5" selected>5 kWh</option><option value="10">10 kWh</option></select></div>
-        <label class="chk" for="s-aero"><input type="checkbox" id="s-aero"> También instalo aerotermia (sube el consumo eléctrico)</label>
-        <label class="chk" for="s-ev"><input type="checkbox" id="s-ev"> Añadir cargador para coche eléctrico</label>
-        <label class="chk" for="s-irpf"><input type="checkbox" id="s-irpf"> Vivienda habitual o alquilada (deducción IRPF del 40&nbsp;%, si tu caso cumple los requisitos)</label>
+        <label class="chk" data-step="5" for="s-aero"><input type="checkbox" id="s-aero"> También instalo aerotermia (sube el consumo eléctrico)</label>
+        <label class="chk" data-step="5" for="s-ev"><input type="checkbox" id="s-ev"> Añadir cargador para coche eléctrico</label>
+        <label class="chk" data-step="5" for="s-irpf"><input type="checkbox" id="s-irpf"> Vivienda habitual o alquilada (deducción IRPF del 40&nbsp;%, si tu caso cumple los requisitos)</label>
       </form>
       <div class="result" aria-live="polite">
         <div><p class="eyebrow">Inversión orientativa · IVA incluido</p><div class="big" id="s-from" style="color:#B7861B">—</div><p class="range-line" id="s-range"></p></div>
@@ -125,27 +125,27 @@ const zoneOptions = [
   {show("ref") && (
     <div class="calc-grid" role="tabpanel" id="p-ref" aria-labelledby={tabs.length > 1 ? "t-ref" : undefined} hidden={first !== "ref"}>
       <form class="fields" onsubmit="return false">
-        <div class="field"><label for="r-type">¿Qué quieres hacer?</label>
+        <div class="field" data-step="1" data-step-title="Qué quieres hacer"><label for="r-type">¿Qué quieres hacer?</label>
           <select id="r-type"><option value="int" selected>Reforma integral de vivienda</option><option value="kit">Reforma de cocina</option><option value="bath">Reforma de baño</option><option value="design">Solo proyecto de interiorismo</option></select></div>
-        <div class="field" id="r-m2-f"><label for="r-m2">Superficie: <span class="range-val" id="r-m2-v"></span></label>
+        <div class="field" data-step="2" data-step-title="Tamaño" id="r-m2-f"><label for="r-m2">Superficie: <span class="range-val" id="r-m2-v"></span></label>
           <input type="range" id="r-m2" min="50" max="500" step="10" value="150"></div>
-        <div class="field" id="r-n-f" hidden><label for="r-n">Unidades: <span class="range-val" id="r-n-v"></span></label>
+        <div class="field" data-step="2" id="r-n-f" hidden><label for="r-n">Unidades: <span class="range-val" id="r-n-v"></span></label>
           <input type="range" id="r-n" min="1" max="5" step="1" value="1"></div>
-        <fieldset class="field" id="r-size-f" hidden><legend>Tamaño</legend>
+        <fieldset class="field" data-step="2" id="r-size-f" hidden><legend>Tamaño</legend>
           <div class="seg">
             <label><input type="radio" name="r-size" value="s"> Pequeña</label>
             <label><input type="radio" name="r-size" value="m" checked> Media</label>
             <label><input type="radio" name="r-size" value="l"> Grande</label>
           </div></fieldset>
-        <fieldset class="field"><legend>Nivel de acabados</legend>
+        <fieldset class="field" data-step="3" data-step-title="Acabados"><legend>Nivel de acabados</legend>
           <div class="seg">
             <label><input type="radio" name="r-q" value="0"> Estándar alto</label>
             <label><input type="radio" name="r-q" value="1" checked> Alta</label>
             <label><input type="radio" name="r-q" value="2"> Lujo</label>
           </div></fieldset>
-        <label class="chk" for="r-floor"><input type="checkbox" id="r-floor"> Añadir suelo radiante con aerotermia</label>
-        <label class="chk" for="r-proj"><input type="checkbox" id="r-proj" checked> Proyecto 3D, licencia y dirección de obra</label>
-        <label class="chk" for="r-dom"><input type="checkbox" id="r-dom"> Domótica e iluminación escénica</label>
+        <label class="chk" data-step="4" data-step-title="Extras" for="r-floor"><input type="checkbox" id="r-floor"> Añadir suelo radiante con aerotermia</label>
+        <label class="chk" data-step="4" for="r-proj"><input type="checkbox" id="r-proj" checked> Proyecto 3D, licencia y dirección de obra</label>
+        <label class="chk" data-step="4" for="r-dom"><input type="checkbox" id="r-dom"> Domótica e iluminación escénica</label>
       </form>
       <div class="result" aria-live="polite">
         <div><p class="eyebrow">Referencia de mercado · IVA incluido</p><div class="big brass" id="r-from">—</div><p class="range-line" id="r-range"></p></div>
@@ -163,19 +163,19 @@ const zoneOptions = [
   {show("obra") && (
     <div class="calc-grid" role="tabpanel" id="p-obra" aria-labelledby={tabs.length > 1 ? "t-obra" : undefined} hidden={first !== "obra"}>
       <form class="fields" onsubmit="return false">
-        <div class="field"><label for="o-m2">Superficie construida: <span class="range-val" id="o-m2-v"></span></label>
+        <div class="field" data-step="1" data-step-title="Superficie"><label for="o-m2">Superficie construida: <span class="range-val" id="o-m2-v"></span></label>
           <input type="range" id="o-m2" min="90" max="500" step="10" value="180"><small>Sin contar el terreno.</small></div>
-        <fieldset class="field"><legend>Nivel de calidades</legend>
+        <fieldset class="field" data-step="2" data-step-title="Calidades y zona"><legend>Nivel de calidades</legend>
           <div class="seg">
             <label><input type="radio" name="o-q" value="0"> Estándar alto</label>
             <label><input type="radio" name="o-q" value="1" checked> Alta</label>
             <label><input type="radio" name="o-q" value="2"> Lujo</label>
           </div></fieldset>
-        <div class="field"><label for="o-zone">Zona</label>
+        <div class="field" data-step="2"><label for="o-zone">Zona</label>
           <select id="o-zone">{zoneOptions.map((o) => <option value={o.v} selected={o.v === zone}>{o.label}</option>)}</select></div>
-        <label class="chk" for="o-energy"><input type="checkbox" id="o-energy" checked> Aerotermia con suelo radiante y placas solares</label>
-        <label class="chk" for="o-soft"><input type="checkbox" id="o-soft" checked> Proyecto, dirección facultativa, licencia e ICIO</label>
-        <label class="chk" for="o-pool"><input type="checkbox" id="o-pool"> Piscina</label>
+        <label class="chk" data-step="3" data-step-title="Qué incluye" for="o-energy"><input type="checkbox" id="o-energy" checked> Aerotermia con suelo radiante y placas solares</label>
+        <label class="chk" data-step="3" for="o-soft"><input type="checkbox" id="o-soft" checked> Proyecto, dirección facultativa, licencia e ICIO</label>
+        <label class="chk" data-step="3" for="o-pool"><input type="checkbox" id="o-pool"> Piscina</label>
       </form>
       <div class="result" aria-live="polite">
         <div><p class="eyebrow">Referencia de mercado · IVA incluido</p><div class="big brass" id="o-from">—</div><p class="range-line" id="o-range"></p></div>
@@ -227,4 +227,5 @@ const zoneOptions = [
 
 <script>
   import "../scripts/calc.js";
+  import "../scripts/configurator.js";
 </script>

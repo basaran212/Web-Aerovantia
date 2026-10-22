@@ -8,8 +8,8 @@ import { track } from "./track.js";
   const $ = (id) => document.getElementById(id);
   const WEBHOOK_URL = import.meta.env.PUBLIC_LEAD_WEBHOOK_URL || "";
   const LEAD_EMAIL = "info@aerovantia.es";
-  const INTEREST = { aero: "Aerotermia", pv: "Placas solares", combo: "Aerotermia + Solar", bat: "Batería", ev: "Cargador VE", ref: "Reforma", new: "Obra nueva", int: "Interiorismo", first: "Quiero ser de los primeros clientes" };
-  const INTEREST_OF = { aero: ["aero"], solar: ["pv"], ref: ["ref"], obra: ["new"] };
+  // Tipo de proyecto que se preselecciona según la calculadora usada.
+  const TYPE_OF = { aero: "Aerotermia", solar: "Placas solares", ref: "Reforma integral", obra: "Obra nueva" };
   let calc = null;
 
   // El cálculo llega de la calculadora de esta página o de otra (sessionStorage).
@@ -18,7 +18,7 @@ import { track } from "./track.js";
     if (!calc) return;
     $("f-calc").textContent = "Tu cálculo: " + calc.tipo + " — " + calc.resumen + ". Lo usaremos para preparar tu visita.";
     $("f-calc").hidden = false;
-    Object.keys(INTEREST).forEach((k) => { if ($("i-" + k)) $("i-" + k).checked = (INTEREST_OF[calc.k] || []).includes(k); });
+    if (TYPE_OF[calc.k] && !$("f-type").value) $("f-type").value = TYPE_OF[calc.k];
   }
   loadCalc();
   addEventListener("aerovantia:calc", loadCalc);
@@ -29,13 +29,16 @@ import { track } from "./track.js";
     err.hidden = true; ok.hidden = true;
     const name = $("f-name").value.trim(), phone = $("f-phone").value.replace(/\s/g, ""), town = $("f-town").value.trim();
     if (!name || !town) { err.textContent = "Indica tu nombre y municipio."; err.hidden = false; return; }
+    if (!$("f-type").value) { err.textContent = "Elige el tipo de proyecto."; err.hidden = false; return; }
     if (!/^(\+34)?[6789]\d{8}$/.test(phone)) { err.textContent = "Revisa el teléfono: 9 cifras, empezando por 6, 7, 8 o 9."; err.hidden = false; return; }
     if (!$("f-rgpd").checked) { err.textContent = "Necesitamos tu consentimiento para poder llamarte."; err.hidden = false; return; }
-    const interest = Object.keys(INTEREST).filter((k) => $("i-" + k)?.checked).map((k) => INTEREST[k]);
+    const tipo = $("f-type").value;
+    const interest = [tipo, ...($("i-first").checked ? ["Quiero ser de los primeros clientes"] : [])];
+    const project = { tipo, superficie: $("f-m2").value, presupuesto: $("f-budget").value, inicio: $("f-when").value };
     const utm = Object.fromEntries([...new URLSearchParams(location.search)].filter(([k]) => k.startsWith("utm_")));
-    const payload = { name, phone, town, interest, marketing: $("f-mkt").checked, calc, utm, page: location.href, ts: new Date().toISOString() };
+    const payload = { name, phone, town, interest, ...project, marketing: $("f-mkt").checked, calc, utm, page: location.href, ts: new Date().toISOString() };
     const first = name.split(" ")[0];
-    track("form_submit", { interes: interest.join(", ") });
+    track("form_submit", { tipo, presupuesto: project.presupuesto, inicio: project.inicio });
     if (WEBHOOK_URL) {
       if (btn.disabled) return;
       btn.disabled = true;
@@ -49,7 +52,7 @@ import { track } from "./track.js";
         err.hidden = false; btn.disabled = false; return;
       }
     } else {
-      const lines = ["Nombre: " + name, "Teléfono: " + phone, "Municipio: " + town, "Me interesa: " + (interest.join(", ") || "—")];
+      const lines = ["Nombre: " + name, "Teléfono: " + phone, "Municipio: " + town, "Proyecto: " + interest.join(", "), "Superficie: " + (project.superficie || "—"), "Presupuesto: " + (project.presupuesto || "—"), "Inicio: " + (project.inicio || "—")];
       if (calc) lines.push("Mi cálculo: " + calc.tipo + " — " + calc.resumen);
       lines.push("", "Acepto la política de privacidad para que Aerovantia me contacte.");
       location.href = "mailto:" + LEAD_EMAIL + "?subject=" + encodeURIComponent("Estudio gratuito — " + name + " (" + town + ")") + "&body=" + encodeURIComponent(lines.join("\n"));

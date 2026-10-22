@@ -227,7 +227,8 @@ import { track } from "./track.js";
 
   // El cálculo viaja al formulario de contacto (en esta página o en la portada).
   const share = (k, q) => {
-    try { sessionStorage.setItem("aerovantia_calc", JSON.stringify({ k, tipo: q.title, resumen: (q.ref ? q.ref + " · " : "") + q.summary })); } catch (_) {}
+    const resumen = (q.ref ? q.ref + " · " : "") + q.summary.replace(/\d{4,}/g, (n) => Number(n).toLocaleString("es-ES", { useGrouping: "always" }));
+    try { sessionStorage.setItem("aerovantia_calc", JSON.stringify({ k, tipo: q.title, resumen })); } catch (_) {}
     window.dispatchEvent(new Event("aerovantia:calc"));
   };
   root.querySelectorAll("[data-from]").forEach((a) => a.addEventListener("click", () => { const k = a.dataset.from; CALC[k](); share(k, quotes[k]); }));

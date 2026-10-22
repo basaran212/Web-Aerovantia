@@ -35,12 +35,24 @@ export const services = [
 ];
 
 export const nav = [
+  { href: "/proyectos/", label: "Proyectos" },
+  { href: "/reformas/", label: "Reformas" },
+  { href: "/obra-nueva/", label: "Construcción" },
+  { href: "/eficiencia-energetica/", label: "Eficiencia energética" },
+  { href: "/quienes-somos/", label: "Aerovantia" },
+];
+
+/** Accesos que no están en el menú principal: van en el menú móvil y en el pie. */
+export const navSecondary = [
   { href: "/aerotermia/", label: "Aerotermia" },
   { href: "/placas-solares/", label: "Placas solares" },
   { href: "/aerotermia-y-placas-solares/", label: "Aerotermia + Solar" },
-  { href: "/reformas/", label: "Reformas" },
-  { href: "/ayudas/", label: "Ayudas" },
   { href: "/calculadoras/", label: "Calculadoras" },
+  { href: "/ayudas/", label: "Ayudas" },
+  { href: "/guias/", label: "Guías" },
+  { href: "/como-trabajamos/", label: "Cómo trabajamos" },
+  { href: "/zona/madrid/", label: "Madrid" },
+  { href: "/zona/toledo/", label: "Toledo" },
   { href: "/#contacto", label: "Contacto" },
 ];
 
